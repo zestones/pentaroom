@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import './App.css'
-// import socketClient from 'socket.io-client'
 import io from 'socket.io-client'
 
 // require the server url

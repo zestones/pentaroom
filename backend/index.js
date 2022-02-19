@@ -1,13 +1,10 @@
-// require dotenv to use .env variables
 require('dotenv').config()
-// require server
+
 const app = require('express')()
 const http = require('http').createServer(app)
 
-// require port
 const { PORT } = process.env || 8080
 
-// require socketio
 const io = require('socket.io')(http, {
   cors: {
     origin: process.env.CORS_ORIGIN || '*',
@@ -15,10 +12,23 @@ const io = require('socket.io')(http, {
   },
 })
 
+const socketioManager = require('./socketio-manager')
+
+const listUsers = []
+
 // detect socket connection
 io.on('connection', (socket) => {
-  console.log('new client connected')
+  listUsers.push(socket)
+
+  console.log(`New user : ${socket.id}`)
+
   socket.emit('connection', null)
+
+  socket.on('launch', () => socketioManager.launch(socket, listUsers))
+
+  socket.on('disconnect', () => {
+    console.log(`Socket ${socket.id} disconnected.`)
+  })
 })
 
 // open the server

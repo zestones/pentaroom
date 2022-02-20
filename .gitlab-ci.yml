@@ -2,12 +2,14 @@ image: node:latest
 
 cache:
   paths:
-    - node_modules/
+    - frontend/node_modules/
+    - frontend/build/
 
 before_script:
-  - npm install
+  - cd frontend && npm install
 
 all_tests:
   script:
+    - cd frontend
     - npm test
     - npm run build

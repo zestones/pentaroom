@@ -1,0 +1,87 @@
+image: node:latest
+
+variables:
+  SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+  GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+
+stages:
+  - lint
+  - build
+  - tests
+  - analyze
+  - deploy
+
+Lint-Frontent:
+  stage: lint
+  before_script:
+    - cd frontend && npm install
+  script:
+    - npm run lint
+
+Build-Frontend:
+  stage: build
+  cache:
+    paths:
+      - frontend/node_modules/
+  artifacts:
+    paths:
+      - frontend/build/
+  before_script:
+    - cd frontend && npm install
+  script:
+    - npm run build
+  
+Test-Frontend:
+  stage: tests
+  cache:
+    paths:
+      - frontend/node_modules/
+  before_script:
+    - cd frontend && npm install
+  script:
+    - npm run test
+
+
+Lint-Backend:
+  stage: lint
+  before_script:
+    - cd backend && npm install
+  script:
+    - npm run lint
+
+Test-Backend:
+  stage: tests
+  cache:
+    paths:
+      - backend/node_modules/
+  before_script:
+    - cd backend && npm install
+  script:
+    - npm run test
+  
+
+sonarcloud-check:
+  image:
+    name: sonarsource/sonar-scanner-cli:latest
+    entrypoint: [""]
+  stage: analyze
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  script:
+    - sonar-scanner
+
+Front-End Deploy:
+  stage: deploy
+  before_script:
+    - cd frontend && apt-get update && apt-get install -y ncftp
+  script:
+    - ncftpput -R -v -u "${FTP_FRONT_USERNAME}" -p "${FTP_FRONT_PASSWORD}" ${FTP_HOST} ./ ./build/*
+
+Back-End Deploy:
+  stage: deploy
+  before_script:
+    - cd backend && apt-get update && apt-get install -y ncftp
+  script:
+    - ncftpput -R -v -u "${FTP_BACK_USERNAME}" -p "${FTP_BACK_PASSWORD}" ${FTP_HOST} ./ ./*

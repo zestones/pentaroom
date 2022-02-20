@@ -10,6 +10,5 @@ before_script:
 
 all_tests:
   script:
-    - cd frontend
     - npm test
     - npm run build

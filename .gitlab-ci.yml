@@ -72,6 +72,9 @@ sonarcloud-check:
 
 Front-End Deploy:
   stage: deploy
+  cache:
+    paths:
+      - frontend/build/
   before_script:
     - cd frontend && apt-get update && apt-get install -y ncftp
   script:

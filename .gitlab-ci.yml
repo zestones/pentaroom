@@ -23,6 +23,8 @@ Build-Frontend:
   cache:
     paths:
       - frontend/node_modules/
+  artifacts:
+    paths:
       - frontend/build/
   before_script:
     - cd frontend && npm install
@@ -72,13 +74,9 @@ sonarcloud-check:
 
 Front-End Deploy:
   stage: deploy
-  cache:
-    paths:
-      - frontend/build/
   before_script:
     - cd frontend && apt-get update && apt-get install -y ncftp
   script:
-    - ls
     - ncftpput -R -v -u "${FTP_FRONT_USERNAME}" -p "${FTP_FRONT_PASSWORD}" ${FTP_HOST} ./ ./build/*
 
 Back-End Deploy:

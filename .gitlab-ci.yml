@@ -8,6 +8,7 @@ stages:
   - lint
   - build
   - tests
+  - analyze
 
 Lint-Frontent:
   stage: lint
@@ -60,6 +61,7 @@ sonarcloud-check:
   image:
     name: sonarsource/sonar-scanner-cli:latest
     entrypoint: [""]
+  stage: analyze
   cache:
     key: "${CI_JOB_NAME}"
     paths:

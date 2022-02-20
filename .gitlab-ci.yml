@@ -1,19 +1,16 @@
 image: node:latest
 
 stages:
-  - tests
+  - lint
   - build
+  - tests
 
-Test-Frontend:
-  stage: tests
-  cache:
-    paths:
-      - frontend/node_modules/
+Lint-Frontent:
+  stage: lint
   before_script:
     - cd frontend && npm install
   script:
-    - npm test
-    
+    - npm run lint
 
 Build-Frontend:
   stage: build
@@ -25,6 +22,24 @@ Build-Frontend:
     - cd frontend && npm install
   script:
     - npm run build
+  
+Test-Frontend:
+  stage: tests
+  cache:
+    paths:
+      - frontend/node_modules/
+  before_script:
+    - cd frontend && npm install
+  script:
+    - npm run test
+
+
+Lint-Backend:
+  stage: lint
+  before_script:
+    - cd backend && npm install
+  script:
+    - npm run lint
 
 Test-Backend:
   stage: tests
@@ -34,4 +49,8 @@ Test-Backend:
   before_script:
     - cd backend && npm install
   script:
-    - npm test
+    - npm run test
+
+
+    
+

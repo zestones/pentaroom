@@ -78,6 +78,7 @@ Front-End Deploy:
   before_script:
     - cd frontend && apt-get update && apt-get install -y ncftp
   script:
+    - ls
     - ncftpput -R -v -u "${FTP_FRONT_USERNAME}" -p "${FTP_FRONT_PASSWORD}" ${FTP_HOST} ./ ./build/*
 
 Back-End Deploy:

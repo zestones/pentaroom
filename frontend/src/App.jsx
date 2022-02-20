@@ -1,10 +1,13 @@
 import React from 'react'
 import './App.css'
-import Canvas from './components/canvas/Canvas'
 
 function App() {
   return (
-    <Canvas />
+    <p>
+      {process.env.REACT_APP_ENDPOINT}
+      {' '}
+      - Test
+    </p>
   )
 }
 

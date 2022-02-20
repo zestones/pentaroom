@@ -1,14 +1,29 @@
 image: node:latest
 
-cache:
-  paths:
-    - frontend/node_modules/
-    - frontend/build/
+frontend:
+  cache:
+    paths:
+      - frontend/node_modules/
+      - frontend/build/
 
-before_script:
-  - cd frontend && npm install
+  before_script:
+    - cd frontend && npm install
 
-all_tests:
-  script:
-    - npm test
-    - npm run build
+  tests:
+    script:
+      - npm test
+  build:
+    script:
+      - npm run build
+
+backend:
+  cache:
+    paths:
+      - backend/node_modules/
+
+  before_script:
+    - cd backend && npm install
+
+  tests:
+    script:
+      - npm test

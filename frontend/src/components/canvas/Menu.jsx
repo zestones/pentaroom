@@ -1,5 +1,8 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { createUseStyles } from 'react-jss'
+import Button from './Button'
+import ToolBoxModal, { openModal } from './ToolBoxModal'
+
 import './Menu.css'
 
 const styles = createUseStyles({
@@ -23,61 +26,9 @@ function Menu(props) {
     setLineColor, setLineWidth, lineWidth, setTools, setEraserSize, eraserSize,
   } = props
 
-  // Get the modal
-  let modal = document.getElementById('toolBox')
-  useEffect(() => {
-    modal = document.getElementById('toolBox')
-  })
-
-  // Open the modal
-  const openModal = () => { modal.style.display = 'block' }
-
-  // Close the modal
-  const closeModal = () => { modal.style.display = 'none' }
-
-  // Close the modal when the users clicks outside the component
-  useEffect(() => {
-    function handleClickOutsideModal(e) {
-      if (e.target === modal) closeModal()
-    }
-    document.addEventListener('mousedown', handleClickOutsideModal)
-  }, [modal])
-
-  const clearCanvas = () => {
-    setTools({
-      pen: false,
-      eraser: false,
-      clearAll: true,
-      rectangle: false,
-    })
-    closeModal()
-  }
-  const setDrawRect = () => {
-    setTools((prevToolBox) => ({
-      ...prevToolBox,
-      pen: false,
-      eraser: false,
-      clearAll: false,
-      rectangle: true,
-    }))
-    closeModal()
-  }
-
   return (
     <div className={styles().menuBar}>
-      <button
-        onClick={() => {
-          setTools({
-            pen: true,
-            eraser: false,
-            clearAll: false,
-            rectangle: false,
-          })
-        }}
-        type="button"
-      >
-        Pen
-      </button>
+      <Button text="Pinceau" setTools={setTools} name="pen" />
       <input
         type="color"
         onChange={(e) => { setLineColor(e.target.value) }}
@@ -89,20 +40,7 @@ function Menu(props) {
         value={lineWidth}
         onChange={(e) => { setLineWidth(e.target.value) }}
       />
-      <button
-        onClick={() => {
-          setTools({
-            pen: false,
-            eraser: true,
-            clearAll: false,
-            rectangle: false,
-          })
-        }}
-        type="button"
-      >
-        Eraser
-
-      </button>
+      <Button text="Gomme" setTools={setTools} name="eraser" />
       <input
         type="range"
         min="10"
@@ -112,33 +50,7 @@ function Menu(props) {
       />
 
       <button type="button" onClick={openModal}>More...</button>
-
-      <div id="toolBox" className="modal">
-        <div className="toolBoxContent">
-          <div className="toolBoxHeader">
-            <span role="button" tabIndex={0} className="close" onClick={closeModal} onKeyDown={closeModal}>&times;</span>
-            <h2>Modal Header</h2>
-          </div>
-          <div className="toolBoxBody">
-            <div className={styles().tools}>
-              <button
-                onClick={setDrawRect}
-                type="button"
-              >
-                Rectangle
-              </button>
-              <button
-                onClick={clearCanvas}
-                type="button"
-              >
-                Clear Canvas
-              </button>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
+      <ToolBoxModal setTools={setTools} />
     </div>
   )
 }

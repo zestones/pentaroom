@@ -26,16 +26,21 @@ const styles = createUseStyles({
 })
 
 function Canvas() {
+  // Canvas
   const canvasRef = useRef(null)
   const contextRef = useRef(null)
 
+  // Initial value of tools
   const [lineWidth, setLineWidth] = useState(10)
   const [lineColor, setLineColor] = useState('black')
   const [eraserSize, setEraserSize] = useState(50)
+
+  // Init state of the mouse Pressed / Released
   const [isDrawingLine, setIsDrawing] = useState(false)
   const [isDrawingRect, setIsDrawingRect] = useState(false)
   const [isCleaning, setIsCleaning] = useState(false)
 
+  // define a toolBox
   const [tools, setTools] = useState({
     pen: false,
     eraser: false,
@@ -43,6 +48,7 @@ function Canvas() {
     rectangle: false,
   })
 
+  // Rectangle Object
   const [rect = {
     x: 0,
     y: 0,
@@ -68,20 +74,22 @@ function Canvas() {
     contextRef.current = context
   }, [lineWidth, lineColor, eraserSize])
 
-  /** Update the state of the <tools> */
-  const handleToolsUpdate = () => {
-    setTools({ ...tools })
-  }
-
+  /** Clear the canvas */
   const clearCanvas = () => {
     if (tools.clearAll) {
       contextRef.current.clearRect(0, 0, contextRef.current.width, contextRef.current.height)
     }
   }
+
+  /** get current position on the screen */
   const getPosition = (e) => {
+    // On mobile event ==> onTouch.. Event OffsetX/Y dont exist
+    // contextRef.current.moveTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY)
     const canv = e.target.getBoundingClientRect()
+
     const X = e.targetTouches[0].pageX - canv.left
     const Y = e.targetTouches[0].pageY - canv.top
+
     return { X, Y }
   }
   /** Start the drawing */
@@ -89,10 +97,6 @@ function Canvas() {
     contextRef.current.beginPath()
 
     const pos = getPosition(e)
-
-    /** On mobile event ==> onTouch.. Event OffsetX/Y dont exist */
-    // contextRef.current.moveTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY)
-
     contextRef.current.moveTo(pos.X, pos.Y)
 
     if (tools.pen) setIsDrawing(true)
@@ -139,41 +143,40 @@ function Canvas() {
     contextRef.current.closePath()
     if (isDrawingLine) setIsDrawing(false)
     if (isCleaning) setIsCleaning(false)
+
     if (isDrawingRect) {
-      contextRef.current.strokeRect(rect.x, rect.y, rect.width, rect.height)
       setIsDrawingRect(false)
-      setRect(null)
+      setRect({})
     }
-    handleToolsUpdate()
   }
 
   /** Clean */
   const clean = (e) => {
     if (isCleaning) {
       const pos = getPosition(e)
+      // Center the pointer in the middle of the rectangle
       contextRef.current.clearRect(
         pos.X - contextRef.current.eraser / 2,
         pos.Y - contextRef.current.eraser / 2,
         contextRef.current.eraser,
         contextRef.current.eraser,
       )
-      handleToolsUpdate()
     }
   }
-
-  const mouseMouvement = (e) => {
+  /** handle the mouse mouvement */
+  const handleMouseMouvement = (e) => {
     draw(e)
     clean(e)
   }
 
   /** Set Dimension of the canvas after the render */
   const setCanvasWidth = () => {
-    if (document.getElementById('draw') == null) { return 200 }
+    if (document.getElementById('draw') == null) return 200
     return document.getElementById('draw').offsetWidth
   }
 
   const setCanvasHeight = () => {
-    if (document.getElementById('draw') == null) { return 300 }
+    if (document.getElementById('draw') == null) return 300
     return document.getElementById('draw').offsetHeight
   }
 
@@ -184,7 +187,7 @@ function Canvas() {
         <canvas
           className={styles().test}
           onTouchStart={startDrawing}
-          onTouchMove={mouseMouvement}
+          onTouchMove={handleMouseMouvement}
           onTouchEnd={endDrawing}
           ref={canvasRef}
           width={setCanvasWidth()}
@@ -192,6 +195,7 @@ function Canvas() {
         />
         {clearCanvas()}
       </div>
+
       <Menu
         setLineColor={setLineColor}
         setLineWidth={setLineWidth}

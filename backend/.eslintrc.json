@@ -6,9 +6,13 @@
         "jest": true
     },
     "rules": {
+        // force single quote
         "quotes": ["error", "single"],
+        // remove semi-columns
         "semi": ["error", "never"],
+        // force indent 2 spaces
         "indent": ["error", 2],
-        "no-multi-spaces": ["error"]
+        // allow console.log
+        "no-console": "off"
     }
 }

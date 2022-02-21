@@ -1,9 +1,3 @@
-import React from 'react'
-import { render } from '@testing-library/react'
-import App from './App'
-
-it('should take a snapshot', () => {
-  const { asFragment } = render(<App />)
-
-  expect(asFragment(<App />)).toMatchSnapshot()
+test('adds 1 + 2 to equal 3', () => {
+  expect(1 + 2).toBe(3)
 })

@@ -1,5 +1,4 @@
 require('dotenv').config()
-
 const app = require('express')()
 const http = require('http').createServer(app)
 
@@ -14,20 +13,26 @@ const io = require('socket.io')(http, {
 
 const socketioManager = require('./socketio-manager')
 
-const listUsers = []
+const users = []
+
+function updateUsers() {
+  io.sockets.emit('updateUsers', users)
+}
 
 // detect socket connection
 io.on('connection', (socket) => {
-  listUsers.push(socket)
+  users.push(socket.id)
+
+  updateUsers()
 
   console.log(`New user : ${socket.id}`)
 
-  socket.emit('connection', null)
-
-  socket.on('launch', () => socketioManager.launch(socket, listUsers))
+  socket.on('launch', () => socketioManager.launch(socket, users))
 
   socket.on('disconnect', () => {
     console.log(`Socket ${socket.id} disconnected.`)
+    users.filter((user) => user !== socket.id)
+    updateUsers()
   })
 })
 

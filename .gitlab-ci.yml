@@ -13,6 +13,10 @@ stages:
 
 Lint-Frontent:
   stage: lint
+  only:
+    refs:
+      - main
+
   before_script:
     - cd frontend && npm install
   script:
@@ -20,6 +24,9 @@ Lint-Frontent:
 
 Build-Frontend:
   stage: build
+  only:
+    refs:
+      - main
   cache:
     paths:
       - frontend/node_modules/
@@ -33,6 +40,9 @@ Build-Frontend:
   
 Test-Frontend:
   stage: tests
+  only:
+    refs:
+      - main
   cache:
     paths:
       - frontend/node_modules/
@@ -44,6 +54,9 @@ Test-Frontend:
 
 Lint-Backend:
   stage: lint
+  only:
+    refs:
+      - main
   before_script:
     - cd backend && npm install
   script:
@@ -51,6 +64,9 @@ Lint-Backend:
 
 Test-Backend:
   stage: tests
+  only:
+    refs:
+      - main
   cache:
     paths:
       - backend/node_modules/
@@ -65,6 +81,9 @@ sonarcloud-check:
     name: sonarsource/sonar-scanner-cli:latest
     entrypoint: [""]
   stage: analyze
+  only:
+    refs:
+      - main
   cache:
     key: "${CI_JOB_NAME}"
     paths:
@@ -74,6 +93,9 @@ sonarcloud-check:
 
 Front-End Deploy:
   stage: deploy
+  only:
+    refs:
+      - main
   before_script:
     - cd frontend && apt-get update && apt-get install -y ncftp
   script:
@@ -81,6 +103,9 @@ Front-End Deploy:
 
 Back-End Deploy:
   stage: deploy
+  only:
+    refs:
+      - main
   before_script:
     - cd backend && apt-get update && apt-get install -y ncftp
   script:

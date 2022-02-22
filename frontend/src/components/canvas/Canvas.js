@@ -51,6 +51,7 @@ function Canvas() {
     clearAll: false,
     rectangle: false,
     circle: false,
+    visible: false,
   })
 
   // Rectangle Object
@@ -69,7 +70,7 @@ function Canvas() {
     endAngle: 2 * Math.PI,
   })
 
-  /** Init/Update values depending  */
+  /** Init/Update values */
   useEffect(() => {
     const canvas = canvasRef.current
     const context = canvas.getContext('2d')
@@ -248,6 +249,7 @@ function Canvas() {
       <Header />
       <div id="draw" className={styles().drawArea}>
         <canvas
+          id="myCanvas"
           className={styles().test}
           onTouchStart={startDrawing}
           onTouchMove={handleMouseMouvement}
@@ -269,6 +271,7 @@ function Canvas() {
         setTools={setTools}
         setEraserSize={setEraserSize}
         eraser={eraserSize}
+        tools={tools}
       />
     </div>
   )

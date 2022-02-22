@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { createUseStyles } from 'react-jss'
 import Button from './Button'
 import ToolBoxModal, { openModal } from './ToolBoxModal'
-
+import PenOption from './Tools/PenOption'
+import EraserOption from './Tools/EraserOption'
 import './Menu.css'
 
 const styles = createUseStyles({
@@ -23,32 +24,56 @@ const styles = createUseStyles({
 
 function Menu(props) {
   const {
-    setLineColor, setLineWidth, lineWidth, setTools, setEraserSize, eraserSize,
+    setLineColor, setLineWidth, lineWidth, setTools, setEraserSize, eraserSize, tools,
   } = props
 
-  return (
-    <div className={styles().menuBar}>
-      <Button text="Pinceau" setTools={setTools} name="pen" />
-      <input
-        type="color"
-        onChange={(e) => { setLineColor(e.target.value) }}
-      />
-      <input
-        type="range"
-        min="0"
-        max="50"
-        value={lineWidth}
-        onChange={(e) => { setLineWidth(e.target.value) }}
-      />
-      <Button text="Gomme" setTools={setTools} name="eraser" />
-      <input
-        type="range"
-        min="10"
-        max="100"
-        value={eraserSize}
-        onChange={(e) => { setEraserSize(e.target.value) }}
-      />
+  // Get the canvas
+  let canvas = document.getElementById('myCanvas')
 
+  // init the canvas
+  useEffect(() => {
+    canvas = document.getElementById('myCanvas')
+  })
+
+  // Close the pen Option when the canvas is clicked
+  useEffect(() => {
+    function handleClickOutsideToolBoxMenu(e) {
+      if (e.target === canvas) {
+        setTools((prevTools) => ({
+          ...prevTools,
+          visible: false,
+        }))
+      }
+    }
+    document.addEventListener('pointerdown', handleClickOutsideToolBoxMenu)
+  }, [canvas])
+
+  return (
+    <div id="toolBar" className={styles().menuBar}>
+      {
+        (tools.visible)
+          ? (
+            <>
+              <PenOption
+                setLineColor={setLineColor}
+                setLineWidth={setLineWidth}
+                lineWidth={lineWidth}
+                state={tools.pen}
+              />
+              <EraserOption
+                setEraserSize={setEraserSize}
+                eraserSize={eraserSize}
+                state={tools.eraser}
+              />
+            </>
+          )
+          : (
+            <>
+              <Button text="Pinceau" setTools={setTools} name="pen" />
+              <Button text="Gomme" setTools={setTools} name="eraser" />
+            </>
+          )
+      }
       <button type="button" onClick={openModal}>More...</button>
       <ToolBoxModal setTools={setTools} />
     </div>

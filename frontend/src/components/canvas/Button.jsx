@@ -11,17 +11,25 @@ function Button(props) {
   // Update active tool
   const updateTools = (e) => {
     // Set every tool to false
-    setTools({
+    setTools((prevTools) => ({
+      ...prevTools,
       pen: false,
       eraser: false,
       clearAll: false,
       rectangle: false,
       circle: false,
-    })
+    }))
 
     // Then activate the wanted tool
     setTools({ [e.target.name]: true })
     closeModal()
+
+    if (e.target.name !== 'clearAll' && e.target.name !== 'rectangle' && e.target.name !== 'circle') {
+      setTools((prevTools) => ({
+        ...prevTools,
+        visible: true,
+      }))
+    }
   }
 
   return (

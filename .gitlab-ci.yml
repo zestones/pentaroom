@@ -106,7 +106,6 @@ Back-End Deploy:
   only:
     refs:
       - main
-  before_script:
-    - cd backend && apt-get update && apt-get install -y ncftp
   script:
-    - ncftpput -R -v -u "${FTP_BACK_USERNAME}" -p "${FTP_BACK_PASSWORD}" ${FTP_HOST} ./ ./*
+    - git remote add heroku https://heroku:${HEROKU_API_KEY}@git.heroku.com/pentaroom.git
+    - git subtree push --prefix backend heroku main

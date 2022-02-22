@@ -1,15 +1,21 @@
 require('dotenv').config()
-const app = require('express')()
-const http = require('http').createServer(app)
 
-const { PORT } = process.env || 8080
+const express = require('express')
+const { createServer } = require('http')
+const { Server } = require('socket.io')
 
-const io = require('socket.io')(http, {
+const app = express()
+const httpServer = createServer(app)
+const io = new Server(httpServer, {
   cors: {
-    origin: process.env.CORS_ORIGIN || '*',
-    methods: ['GET', 'POST'],
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
   },
 })
+
+const { PORT } = process.env || 8080
 
 const socketioManager = require('./socketio-manager')
 
@@ -37,6 +43,6 @@ io.on('connection', (socket) => {
 })
 
 // open the server
-http.listen(PORT, () => {
+httpServer.listen(PORT, () => {
   console.log(`listening on *:${PORT}`)
 })

@@ -39,6 +39,7 @@ function Canvas() {
   const [isDrawingLine, setIsDrawing] = useState(false)
   const [isDrawingRect, setIsDrawingRect] = useState(false)
   const [isCleaning, setIsCleaning] = useState(false)
+  const [isDrawingCircle, setisDrawingCircle] = useState(false)
 
   // define a toolBox
   const [tools, setTools] = useState({
@@ -46,6 +47,7 @@ function Canvas() {
     eraser: false,
     clearAll: false,
     rectangle: false,
+    circle: false,
   })
 
   // Rectangle Object
@@ -55,6 +57,14 @@ function Canvas() {
     width: 0,
     height: 0,
   }, setRect] = useState({})
+
+  // Rectangle Object
+  const [circle, setCircle] = useState({
+    x: 0,
+    y: 0,
+    radius: 0,
+    endAngle: 2 * Math.PI,
+  })
 
   /** Init/Update values depending  */
   useEffect(() => {
@@ -68,9 +78,6 @@ function Canvas() {
     context.lineWidth = lineWidth
     context.eraser = eraserSize
 
-    context.width = document.getElementById('draw').offsetWidth
-    context.height = document.getElementById('draw').offsetHeight
-
     contextRef.current = context
   }, [lineWidth, lineColor, eraserSize])
 
@@ -82,21 +89,27 @@ function Canvas() {
   }
 
   /** get current position on the screen */
-  const getPosition = (e) => {
-    // On mobile event ==> onTouch.. Event OffsetX/Y dont exist
-    // contextRef.current.moveTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY)
-    const canv = e.target.getBoundingClientRect()
+  const getPositionOnEvent = (e) => {
+    let X
+    let Y
 
-    const X = e.targetTouches[0].pageX - canv.left
-    const Y = e.targetTouches[0].pageY - canv.top
-
+    // handle touch Event and Mouse Event
+    if (e.nativeEvent instanceof TouchEvent) {
+      const canv = e.target.getBoundingClientRect()
+      X = e.targetTouches[0].pageX - canv.left
+      Y = e.targetTouches[0].pageY - canv.top
+    } else {
+      X = e.nativeEvent.offsetX
+      Y = e.nativeEvent.offsetY
+    }
     return { X, Y }
   }
+
   /** Start the drawing */
   const startDrawing = (e) => {
     contextRef.current.beginPath()
 
-    const pos = getPosition(e)
+    const pos = getPositionOnEvent(e)
     contextRef.current.moveTo(pos.X, pos.Y)
 
     if (tools.pen) setIsDrawing(true)
@@ -111,10 +124,21 @@ function Canvas() {
 
       setIsDrawingRect(true)
     }
+
+    if (tools.circle) {
+      setCircle((prevCircle) => ({
+        ...prevCircle,
+        x: pos.X,
+        y: pos.Y,
+      }))
+
+      setisDrawingCircle(true)
+    }
   }
+
   /** Draw */
   const draw = (e) => {
-    const pos = getPosition(e)
+    const pos = getPositionOnEvent(e)
 
     if (isDrawingLine) {
       contextRef.current.lineTo(pos.X, pos.Y)
@@ -136,6 +160,25 @@ function Canvas() {
       // remove the inner rect
       contextRef.current.clearRect(rect.x, rect.y, rect.width, rect.height)
     }
+
+    if (isDrawingCircle) {
+      // calculate the circle radius
+      const r = Math.sqrt((pos.X - circle.x) ** 2 + (pos.Y - circle.y) ** 2)
+      // update the object
+      setCircle((prevCircle) => ({
+        ...prevCircle,
+        radius: r,
+      }))
+
+      // draw the circle
+      contextRef.current.arc(circle.x, circle.y, circle.radius, 0, circle.endAngle)
+      contextRef.current.stroke()
+
+      // remove the inner circle
+      contextRef.current.fillStyle = 'white'
+      contextRef.current.arc(circle.x, circle.y, circle.radius, 0, circle.endAngle)
+      contextRef.current.fill()
+    }
   }
 
   /** End the drawing */
@@ -148,12 +191,20 @@ function Canvas() {
       setIsDrawingRect(false)
       setRect({})
     }
+    if (isDrawingCircle) {
+      setisDrawingCircle(false)
+      setCircle({})
+      setCircle((prevCircle) => ({
+        ...prevCircle,
+        endAngle: 2 * Math.PI,
+      }))
+    }
   }
 
-  /** Clean */
+  /** Clean the screen with the eraser */
   const clean = (e) => {
     if (isCleaning) {
-      const pos = getPosition(e)
+      const pos = getPositionOnEvent(e)
       // Center the pointer in the middle of the rectangle
       contextRef.current.clearRect(
         pos.X - contextRef.current.eraser / 2,
@@ -163,21 +214,23 @@ function Canvas() {
       )
     }
   }
+
   /** handle the mouse mouvement */
   const handleMouseMouvement = (e) => {
     draw(e)
     clean(e)
   }
 
-  /** Set Dimension of the canvas after the render */
-  const setCanvasWidth = () => {
+  /** get Canavs Height */
+  const getCanvasHeight = () => {
     if (document.getElementById('draw') == null) return 200
-    return document.getElementById('draw').offsetWidth
+    return document.getElementById('draw').clientHeight
   }
 
-  const setCanvasHeight = () => {
-    if (document.getElementById('draw') == null) return 300
-    return document.getElementById('draw').offsetHeight
+  /** get canvas Width */
+  const getCanvasWidth = () => {
+    if (document.getElementById('draw') == null) return 200
+    return document.getElementById('draw').clientWidth
   }
 
   return (
@@ -189,9 +242,12 @@ function Canvas() {
           onTouchStart={startDrawing}
           onTouchMove={handleMouseMouvement}
           onTouchEnd={endDrawing}
+          onMouseDown={startDrawing}
+          onMouseMove={handleMouseMouvement}
+          onMouseUp={endDrawing}
           ref={canvasRef}
-          width={setCanvasWidth()}
-          height={setCanvasHeight()}
+          width={getCanvasWidth()}
+          height={getCanvasHeight()}
         />
         {clearCanvas()}
       </div>

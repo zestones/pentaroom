@@ -39,6 +39,7 @@ function ToolBoxModal(props) {
           <div className="">
             <Button text="Rectangle" setTools={setTools} name="rectangle" />
             <Button text="Clear Canvas" setTools={setTools} name="clearAll" />
+            <Button text="circle" setTools={setTools} name="circle" />
           </div>
         </div>
       </div>

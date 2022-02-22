@@ -18,6 +18,7 @@ function Button(props) {
       rectangle: false,
       circle: false,
     })
+
     // Then activate the wanted tool
     setTools({ [e.target.name]: true })
     closeModal()

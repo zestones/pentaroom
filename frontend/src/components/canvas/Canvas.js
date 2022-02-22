@@ -30,6 +30,9 @@ function Canvas() {
   const canvasRef = useRef(null)
   const contextRef = useRef(null)
 
+  let canvasArea = document.getElementById('draw')
+  const [canvasDim, setCanvasDim] = useState({})
+
   // Initial value of tools
   const [lineWidth, setLineWidth] = useState(10)
   const [lineColor, setLineColor] = useState('black')
@@ -78,13 +81,20 @@ function Canvas() {
     context.lineWidth = lineWidth
     context.eraser = eraserSize
 
+    canvasArea = document.getElementById('draw')
+    setCanvasDim({ width: canvasArea.offsetWidth, height: canvasArea.offsetHeight })
+
     contextRef.current = context
   }, [lineWidth, lineColor, eraserSize])
 
   /** Clear the canvas */
   const clearCanvas = () => {
     if (tools.clearAll) {
-      contextRef.current.clearRect(0, 0, contextRef.current.width, contextRef.current.height)
+      contextRef.current.clearRect(0, 0, canvasDim.width, canvasDim.height)
+      setTools((prevTools) => ({
+        ...prevTools,
+        clearAll: false,
+      }))
     }
   }
 
@@ -223,14 +233,14 @@ function Canvas() {
 
   /** get Canavs Height */
   const getCanvasHeight = () => {
-    if (document.getElementById('draw') == null) return 200
-    return document.getElementById('draw').clientHeight
+    if (canvasDim == null) return 200
+    return canvasDim.height
   }
 
   /** get canvas Width */
   const getCanvasWidth = () => {
-    if (document.getElementById('draw') == null) return 200
-    return document.getElementById('draw').clientWidth
+    if (canvasDim == null) return 200
+    return canvasDim.width
   }
 
   return (

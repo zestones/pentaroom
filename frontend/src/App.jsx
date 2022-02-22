@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import './App.css'
 import io from 'socket.io-client'
+import PropTypes from 'prop-types'
 
-// require the server url
 const SERVER = process.env.REACT_APP_ENDPOINT || 'http://127.0.0.1:8080'
 
-function App() {
+function App(props) {
+  App.propTypes = {
+    userRole: PropTypes.node.isRequired,
+  }
+  const { userRole } = props
   const [socket, setSocket] = useState(null)
   const [connected, setConnected] = useState(false)
   const [error, setError] = useState({ isActive: false, message: '' })
@@ -36,7 +40,12 @@ function App() {
   return (
 
     <div className="App">
-      <h1>Socket IO avec React</h1>
+      <h1>
+        Socket IO avec React (role:
+        {' '}
+        { userRole }
+        )
+      </h1>
       <h2>
         Status:
         {' '}

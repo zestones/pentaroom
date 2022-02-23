@@ -13,12 +13,10 @@ const http = require('http')
 const PORT = process.env.PORT || 8080
 const app = express()
 const server = http.createServer(app)
-const io = socketIo(server, {
-  cors: {
-    origin: 'http://localhost:3000',
-  },
-}) // in case server and client run on different urls
-
+const io = require('socket.io')(server, {
+  cors: true,
+  origins: ['*', '*:*'],
+})
 const socketioManager = require('./socketio-manager')
 
 const users = []

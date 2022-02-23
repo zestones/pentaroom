@@ -105,7 +105,7 @@ function Canvas() {
     let Y
 
     // handle touch Event and Mouse Event
-    if (e.nativeEvent instanceof TouchEvent) {
+    if (window.TouchEvent && e.nativeEvent instanceof TouchEvent) {
       const canv = e.target.getBoundingClientRect()
       X = e.targetTouches[0].pageX - canv.left
       Y = e.targetTouches[0].pageY - canv.top

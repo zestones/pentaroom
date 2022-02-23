@@ -3,6 +3,9 @@ import './App.css'
 import io from 'socket.io-client'
 import PropTypes from 'prop-types'
 
+import Canvas from './components/canvas/Canvas'
+import Container from './components/Container'
+
 const SERVER = process.env.REACT_APP_ENDPOINT || 'http://127.0.0.1:8080'
 
 function App(props) {
@@ -38,32 +41,35 @@ function App(props) {
   }
 
   return (
-
-    <div className="App">
-      <h1>
-        Socket IO avec React (role:
-        {' '}
-        { userRole }
-        )
-      </h1>
-      <h2>
-        Status:
-        {' '}
-        {getStatusStr()}
-        {' '}
-      </h2>
-      <div className="users">
-        <h2>Liste des users : </h2>
-        <ul>
-          {users.map((user) => (
-            <li>{user}</li>
-          ))}
-        </ul>
+    <>
+      <Container>
+        <Canvas />
+      </Container>
+      <div className="App">
+        <h1>
+          Socket IO avec React (role:
+          {' '}
+          { userRole }
+          )
+        </h1>
+        <h2>
+          Status:
+          {' '}
+          {getStatusStr()}
+          {' '}
+        </h2>
+        <div className="users">
+          <h2>Liste des users : </h2>
+          <ul>
+            {users.map((user) => (
+              <li>{user}</li>
+            ))}
+          </ul>
+        </div>
+        <button type="button" onClick={launchGame}>Launch game</button>
+        {error.isActive && <div className="error">{error.message}</div>}
       </div>
-      <button type="button" onClick={launchGame}>Launch game</button>
-      {error.isActive && <div className="error">{error.message}</div>}
-    </div>
+    </>
   )
 }
-
 export default App

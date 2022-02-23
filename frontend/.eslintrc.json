@@ -29,6 +29,7 @@
         // allow console.log
         "no-console": "off",
         // allow .js files
-        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+        "react/prop-types": "off"
     }
 }

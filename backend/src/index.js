@@ -1,20 +1,10 @@
 require('dotenv').config()
 
-const cors = require('cors')
-const express = require('express')
-const { createServer } = require('http')
-const { Server } = require('socket.io')
-
-const app = express()
-app.use(cors())
-const httpServer = createServer(app)
-const io = new Server(httpServer, {
-  cors: {
-    origin: '*',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    preflightContinue: false,
-    optionsSuccessStatus: 204,
-  },
+const app = require('express')()
+const server = require('http').createServer(app)
+const io = require('socket.io')(server, {
+  cors: true,
+  origins: ['*', '*:*'],
 })
 
 const { PORT } = process.env || 8080
@@ -45,6 +35,6 @@ io.on('connection', (socket) => {
 })
 
 // open the server
-httpServer.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`listening on *:${PORT}`)
 })

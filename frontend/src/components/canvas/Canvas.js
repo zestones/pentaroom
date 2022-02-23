@@ -6,15 +6,6 @@ import Header from './Header'
 
 /** Canvas Styles */
 const styles = createUseStyles({
-  canvas: {
-    backgroundColor: 'grey',
-    width: '100vw',
-    height: '100vh',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-  },
   drawArea: {
     width: '80%',
     height: '75%',
@@ -245,7 +236,7 @@ function Canvas() {
   }
 
   return (
-    <div className={styles().canvas}>
+    <>
       <Header />
       <div id="draw" className={styles().drawArea}>
         <canvas
@@ -273,7 +264,7 @@ function Canvas() {
         eraser={eraserSize}
         tools={tools}
       />
-    </div>
+    </>
   )
 }
 

@@ -8,7 +8,7 @@ const app = express()
 const server = http.createServer(app)
 const io = require('socket.io')(server, {
   cors: true,
-  origins: ['*', '*:*'],
+  origins: ['*', '*:*', 'http://pentaroomio.jkhq4735.odns.fr', 'http://pentaroomio.jkhq4735.odns.fr:*', 'pentaroomio.jkhq4735.odns.fr', 'pentaroomio.jkhq4735.odns.fr:*'],
 })
 const socketioManager = require('./socketio-manager')
 

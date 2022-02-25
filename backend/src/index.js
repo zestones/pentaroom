@@ -12,10 +12,12 @@ const io = require('socket.io')(server, {
   origins: ['*', '*:*', 'http://pentaroomio.jkhq4735.odns.fr', 'http://pentaroomio.jkhq4735.odns.fr:*'],
 })
 
+// get socket io manager
 const SocketIOManager = require('./SocketIOManager')
 
 const socketManager = new SocketIOManager(io)
 
+// init the socket connexion
 socketManager.init()
 
 // open the server

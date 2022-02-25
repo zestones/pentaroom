@@ -5,8 +5,8 @@ import PropTypes from 'prop-types'
 
 import Canvas from './components/canvas/Canvas'
 import Container from './components/Container'
-import ListUsers from './components/listUsers/ListUsers'
-import UserInfos from './components/userInfos/UserInfos'
+
+import Drawer from './components/drawer/Drawer'
 
 const SERVER = process.env.REACT_APP_ENDPOINT || 'http://127.0.0.1:8080'
 
@@ -41,8 +41,8 @@ function App(props) {
       <Container>
         <Canvas />
       </Container>
-      <UserInfos userRole={userRole} isConnected={isConnected} />
-      <ListUsers users={users} />
+
+      <Drawer userRole={userRole} isConnected={isConnected} users={users} />
     </div>
   )
 }

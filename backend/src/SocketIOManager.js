@@ -23,6 +23,10 @@ class SocketIOManager {
     console.log(`New user : ${socket.id}`)
 
     socket.on('disconnect', () => this.deconnection(socket))
+    socket.on('new-message', (data) => {
+      console.log(`new message ${data}`)
+      this.io.emit('new-message', data)
+    })
   }
 
   /**
@@ -39,7 +43,7 @@ class SocketIOManager {
    * Send a message to connected users containing an updated liste of all users
    */
   globalEmitUsers() {
-    this.io.sockets.emit('updateUsers', this.users)
+    this.io.sockets.emit('update-users', this.users)
   }
 }
 

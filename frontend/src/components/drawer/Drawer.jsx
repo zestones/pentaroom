@@ -5,7 +5,9 @@ import Button from '@mui/material/Button'
 import ListUsers from '../listUsers/ListUsers'
 import UserInfos from '../userInfos/UserInfos'
 
-function Drawer({ userRole, isConnected, users }) {
+function Drawer({
+  userRole, isConnected, users, children,
+}) {
   const [isOpen, setOpen] = useState(false)
 
   const toggleDrawer = (open) => (event) => {
@@ -45,11 +47,10 @@ function Drawer({ userRole, isConnected, users }) {
             width: '500px',
           }}
           role="presentation"
-          onClick={toggleDrawer(false)}
-          onKeyDown={toggleDrawer(false)}
         >
           <UserInfos userRole={userRole} isConnected={isConnected} />
           <ListUsers users={users} />
+          {children}
         </Box>
       </SwipeableDrawer>
     </div>

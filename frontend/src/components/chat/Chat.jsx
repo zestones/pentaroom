@@ -105,17 +105,14 @@ function Chat({ messages, sendMessage }) {
       <Paper elevation={5} className={classes.paper}>
         <div className={classes.messageContainer}>
           <ol className={classes.ol}>
-            {messages.map((message) => {
-              console.log(`hello ${message.id}`)
-              return (
-                <li
-                  key={message.id}
-                  className={clsx(classes.message, message.isOwner ? classes.owner : classes.guest)}
-                >
-                  <span>{message.body}</span>
-                </li>
-              )
-            })}
+            {messages.map((message) => (
+              <li
+                key={message.id}
+                className={clsx(classes.message, message.isOwner ? classes.owner : classes.guest)}
+              >
+                <span>{message.body}</span>
+              </li>
+            ))}
           </ol>
           <div ref={messageRef} />
         </div>

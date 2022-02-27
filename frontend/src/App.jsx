@@ -44,21 +44,14 @@ function App(props) {
     if (!socket) return
     socket.on(events.connect, () => setConnected(true))
     socket.on(events.disconnect, () => setConnected(false))
-    socket.on(events.updateUsers, (listUsers) => {
-      console.log('new list of users')
-      console.log(listUsers)
-      setUsers(listUsers)
-    })
+    socket.on(events.updateUsers, (listUsers) => setUsers(listUsers))
     socket.on(events.newMessage, (message) => {
-      const incomingMessage = {
+      setMessages((oldMessages) => [...oldMessages, {
         ...message,
         isOwner: message.senderId === socket.id,
-      }
-      // send the new message to the others in the same room.
-      const newMessages = [...messages, incomingMessage]
-      setMessages(newMessages)
+      }])
     })
-  }, [socket, messages, setUsers])
+  }, [socket])
 
   // send the messagee along with a sender id
   const sendMessage = (messageBody) => {

@@ -16,27 +16,29 @@ class SocketIOManager {
    * @param {any} socket : the socket object symbolizing the user
    */
   connection(socket) {
+    console.log(`+ : ${socket.id}`)
     this.users.push({ id: socket.id })
-
     this.globalEmitUsers()
-
-    console.log(`New user : ${socket.id}`)
-
-    socket.on('disconnect', () => this.deconnection(socket))
-    socket.on('new-message', (data) => {
-      console.log(`new message ${data}`)
-      this.io.emit('new-message', data)
-    })
+    socket.on('disconnect', () => this.disconnection(socket))
+    socket.on('new-message', (message) => this.globalEmitMessage(message))
   }
 
   /**
-   * Call on every deconnection from an external device already connected
+   * Call on every disconnection from an external device already connected
    * @param {any} socket : the socket object symbolizing the user
    */
-  deconnection(socket) {
-    console.log(`Socket ${socket.id} disconnected.`)
-    this.users.filter((user) => user.id !== socket.id)
+  disconnection(socket) {
+    console.log(`- : ${socket.id}`)
+    this.users = this.users.filter((user) => user.id !== socket.id)
     this.globalEmitUsers()
+  }
+
+  /**
+   * Send a message to connected users containing the new message received
+   * @param {any} message : the new message received
+   */
+  globalEmitMessage(message) {
+    this.io.emit('new-message', message)
   }
 
   /**

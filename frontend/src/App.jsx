@@ -34,15 +34,21 @@ function App(props) {
 
   // initialize the socket IO connection
   useEffect(() => {
-    setSocket(io(SERVER))
-  }, [])
+    const newSocket = io(SERVER)
+    setSocket(newSocket)
+    return () => newSocket.close()
+  }, [setSocket])
 
   // Socket IO Client Manager
   useEffect(() => {
     if (!socket) return
     socket.on(events.connect, () => setConnected(true))
     socket.on(events.disconnect, () => setConnected(false))
-    socket.on(events.updateUsers, (listUsers) => setUsers(listUsers))
+    socket.on(events.updateUsers, (listUsers) => {
+      console.log('new list of users')
+      console.log(listUsers)
+      setUsers(listUsers)
+    })
     socket.on(events.newMessage, (message) => {
       const incomingMessage = {
         ...message,
@@ -52,7 +58,7 @@ function App(props) {
       const newMessages = [...messages, incomingMessage]
       setMessages(newMessages)
     })
-  }, [socket, messages])
+  }, [socket, messages, setUsers])
 
   // send the messagee along with a sender id
   const sendMessage = (messageBody) => {

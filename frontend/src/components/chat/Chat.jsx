@@ -11,7 +11,7 @@ const useStyles = makeStyles({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#263238',
-    height: '600px',
+    flexGrow: '1',
   },
   paper: {
     width: '100%',

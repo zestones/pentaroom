@@ -7,18 +7,21 @@ import ListUsers from '../listUsers/ListUsers'
 import UserInfos from '../userInfos/UserInfos'
 
 const useStyles = makeStyles({
-  mybutton: {
+  button: {
     position: 'absolute',
     bottom: '25px',
     right: '25px',
   },
   box: {
     width: '500px',
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
   },
 })
 
 function Drawer({
-  username, userRole, isConnected, users, children,
+  userID, username, userRole, isConnected, users, children,
 }) {
   const classes = useStyles()
 
@@ -40,7 +43,7 @@ function Drawer({
     <div>
       <Button
         variant="contained"
-        className={classes.mybutton}
+        className={classes.button}
         onClick={toggleDrawer(true)}
       >
         Chat
@@ -57,7 +60,7 @@ function Drawer({
           role="presentation"
         >
           <UserInfos username={username} userRole={userRole} isConnected={isConnected} />
-          <ListUsers users={users} />
+          <ListUsers userID={userID} users={users} />
           {children}
         </Box>
       </SwipeableDrawer>

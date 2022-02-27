@@ -77,7 +77,13 @@ function App(props) {
         <Canvas />
       </Container>
 
-      <Drawer username={socket?.id} userRole={userRole} isConnected={isConnected} users={users}>
+      <Drawer
+        userID={socket?.id}
+        username={socket?.id}
+        userRole={userRole}
+        isConnected={isConnected}
+        users={users}
+      >
         <Chat messages={messages} sendMessage={sendMessage} />
       </Drawer>
     </div>

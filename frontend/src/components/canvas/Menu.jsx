@@ -41,7 +41,7 @@ const useStyles = makeStyles({
 function Menu(props) {
   const classes = useStyles()
   const {
-    pen, setPen, eraser, setEraser, setIsInAction, clear,
+    userDraw, setUserDraw, setIsInAction, clear,
   } = props
 
   const [anchorEl, setAnchorEl] = useState(null)
@@ -55,17 +55,23 @@ function Menu(props) {
   const open = Boolean(anchorEl)
 
   const activePen = () => {
-    setEraser({ ...eraser, isActive: false })
-    setPen({ ...pen, isActive: true })
+    setUserDraw({
+      ...userDraw,
+      pen: { ...userDraw.pen, isActive: true },
+      eraser: { ...userDraw.eraser, isActive: false },
+    })
     setIsInAction(false)
   }
   const activeEraser = () => {
-    setEraser({ ...eraser, isActive: true })
-    setPen({ ...pen, isActive: false })
+    setUserDraw({
+      ...userDraw,
+      pen: { ...userDraw.pen, isActive: false },
+      eraser: { ...userDraw.eraser, isActive: true },
+    })
     setIsInAction(false)
   }
 
-  const checked = pen.isActive || eraser.isActive
+  const checked = userDraw.pen.isActive || userDraw.eraser.isActive
 
   return (
     <Container
@@ -77,40 +83,49 @@ function Menu(props) {
       onMouseLeave={handlePopoverClose}
     >
       <Box className={classes.chipsContainer}>
-        <Chip className={clsx(classes.chip, pen.isActive && 'active')} color="primary" icon={<BrushIcon />} label="Pinceau" onClick={() => { activePen() }} />
-        <Chip className={clsx(classes.chip, eraser.isActive && 'active')} color="primary" icon={<AutoFixNormalIcon />} label="Gomme" onClick={() => { activeEraser() }} />
+        <Chip className={clsx(classes.chip, userDraw.pen.isActive && 'active')} color="primary" icon={<BrushIcon />} label="Pinceau" onClick={() => { activePen() }} />
+        <Chip className={clsx(classes.chip, userDraw.eraser.isActive && 'active')} color="primary" icon={<AutoFixNormalIcon />} label="Gomme" onClick={() => { activeEraser() }} />
         <Chip className={classes.chip} color="primary" icon={<HighlightOffIcon />} label="Effacer tout" onClick={() => { clear() }} />
       </Box>
 
       <Box className={classes.tools}>
         <Zoom in={checked} style={{ transitionDelay: checked ? '500ms' : '0ms' }}>
           <Box>
-            {pen.isActive && (
+            {userDraw.pen.isActive && (
               <>
                 <input
                   type="color"
-                  value={pen.color}
-                  onChange={(e) => setPen({ ...pen, color: e.target.value })}
+                  value={userDraw.pen.color}
+                  onChange={(e) => setUserDraw({
+                    ...userDraw,
+                    pen: { ...userDraw.pen, color: e.target.value },
+                  })}
 
                 />
                 <input
                   type="range"
                   min="0"
                   max="50"
-                  value={pen.width}
-                  onChange={(e) => setPen({ ...pen, width: e.target.value })}
+                  value={userDraw.pen.width}
+                  onChange={(e) => setUserDraw({
+                    ...userDraw,
+                    pen: { ...userDraw.pen, width: e.target.value },
+                  })}
 
                 />
               </>
             )}
 
-            {eraser.isActive && (
+            {userDraw.eraser.isActive && (
               <input
                 type="range"
                 min="10"
                 max="100"
-                value={eraser.width}
-                onChange={(e) => setEraser({ ...eraser, width: e.target.value })}
+                value={userDraw.eraser.width}
+                onChange={(e) => setUserDraw({
+                  ...userDraw,
+                  eraser: { ...userDraw.eraser, width: e.target.value },
+                })}
 
               />
             )}

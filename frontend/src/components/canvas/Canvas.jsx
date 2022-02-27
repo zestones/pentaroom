@@ -21,18 +21,60 @@ const useStyles = makeStyles({
   },
 })
 
-function Canvas() {
+function Canvas({ socket }) {
   // Canvas
   const canvasRef = useRef(null)
 
-  // Initial value of tools
-  const [pen, setPen] = useState({ isActive: true, width: 10, color: '#000000' })
-  const [eraser, setEraser] = useState({ isActive: false, width: 10 })
   const [ctx, setCtx] = useState(null)
 
   const [canvasDim, setCanvasDim] = useState({ width: 0, height: 0 })
 
   const [isInAction, setIsInAction] = useState(false)
+
+  const [userDraw, setUserDraw] = useState({
+    x0: 0,
+    y0: 0,
+    x1: 0,
+    y1: 0,
+    pen: {
+      isActive: true,
+      color: '#000000',
+      width: 10,
+    },
+    eraser: {
+      isActive: false,
+      width: 10,
+    },
+  })
+
+  /** Draw */
+  const draw = (drawObject) => {
+    ctx.beginPath()
+    ctx.moveTo(drawObject.x0, drawObject.y0)
+    ctx.lineTo(drawObject.x1, drawObject.y1)
+    ctx.strokeStyle = drawObject.pen.color
+    ctx.lineWidth = drawObject.pen.width
+    ctx.stroke()
+    ctx.closePath()
+
+    if (socket && socket.id === drawObject.senderId) {
+      socket.emit('draw', drawObject)
+    }
+  }
+
+  /** Clean the screen with the eraser */
+  const erase = (drawObject) => {
+    ctx.clearRect(
+      drawObject.x0 - drawObject.eraser.width / 2,
+      drawObject.y0 - drawObject.eraser.width / 2,
+      drawObject.eraser.width,
+      drawObject.eraser.width,
+    )
+
+    if (socket && socket.id === drawObject.senderId) {
+      socket.emit('draw', drawObject)
+    }
+  }
 
   /** Init/Update values */
   useEffect(() => {
@@ -45,7 +87,19 @@ function Canvas() {
     setCanvasDim({ width: document.getElementById('draw').offsetWidth, height: document.getElementById('draw').offsetHeight })
 
     setCtx(context)
-  }, [setCtx, setCanvasDim])
+
+    if (socket) {
+      socket.on('draw', (drawObject) => {
+        if (drawObject.senderId !== socket.id) {
+          if (drawObject.pen.isActive) {
+            draw(drawObject)
+          } else if (drawObject.eraser.isActive) {
+            erase(drawObject)
+          }
+        }
+      })
+    }
+  }, [socket, setCtx, setCanvasDim])
 
   /** get current position on the screen */
   const getPositionOnEvent = (e) => {
@@ -64,51 +118,34 @@ function Canvas() {
     return { X, Y }
   }
 
-  /** Draw */
-  const draw = (e) => {
-    const pos = getPositionOnEvent(e)
-    ctx.strokeStyle = pen.color
-    ctx.lineWidth = pen.width
-    ctx.lineTo(pos.X, pos.Y)
-    ctx.stroke()
-  }
-
-  /** Clean the screen with the eraser */
-  const erase = (e) => {
-    const pos = getPositionOnEvent(e)
-    // Center the pointer in the middle of the rectangle
-    ctx.eraser = eraser.width
-    ctx.clearRect(
-      pos.X - ctx.eraser / 2,
-      pos.Y - ctx.eraser / 2,
-      ctx.eraser,
-      ctx.eraser,
-    )
-  }
-
   /** Start the drawing */
   const handleTouchStart = (e) => {
     setIsInAction(true)
-
-    ctx.beginPath()
-
     const pos = getPositionOnEvent(e)
-
-    ctx.moveTo(pos.X, pos.Y)
+    setUserDraw({
+      ...userDraw, x0: pos.X, x1: pos.X, y0: pos.Y, y1: pos.Y,
+    })
   }
 
   /** handle the mouse mouvement */
   const handleTouchMove = (e) => {
     if (!isInAction) return
-    if (pen.isActive) {
-      draw(e)
-    } else if (eraser.isActive) {
-      erase(e)
+    if (userDraw.pen.isActive) {
+      const pos = getPositionOnEvent(e)
+      setUserDraw({
+        ...userDraw, x0: userDraw.x1, y0: userDraw.y1, x1: pos.X, y1: pos.Y,
+      })
+      draw({ ...userDraw, senderId: socket.id })
+    } else if (userDraw.eraser.isActive) {
+      const pos = getPositionOnEvent(e)
+      setUserDraw({
+        ...userDraw, x0: pos.X, y0: pos.Y,
+      })
+      erase({ ...userDraw, senderId: socket.id })
     }
   }
 
   const handleTouchEnd = () => {
-    ctx.closePath()
     setIsInAction(false)
   }
 
@@ -137,10 +174,8 @@ function Canvas() {
       </div>
 
       <Menu
-        pen={pen}
-        setPen={setPen}
-        eraser={eraser}
-        setEraser={setEraser}
+        userDraw={userDraw}
+        setUserDraw={setUserDraw}
         setIsInAction={setIsInAction}
         clear={clear}
       />

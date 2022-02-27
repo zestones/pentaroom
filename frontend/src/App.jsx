@@ -65,7 +65,7 @@ function App(props) {
   // return our application
   return (
     <div className="App">
-      <Canvas />
+      <Canvas socket={socket} />
 
       <Drawer
         userID={socket?.id}

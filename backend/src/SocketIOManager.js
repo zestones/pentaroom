@@ -21,6 +21,7 @@ class SocketIOManager {
     this.globalEmitUsers()
     socket.on('disconnect', () => this.disconnection(socket))
     socket.on('new-message', (message) => this.globalEmitMessage(message))
+    socket.on('draw', (drawObject) => this.globalEmitDraw(drawObject))
   }
 
   /**
@@ -46,6 +47,13 @@ class SocketIOManager {
    */
   globalEmitUsers() {
     this.io.sockets.emit('update-users', this.users)
+  }
+
+  /**
+   * Send a message to connected users containing the draw object
+   */
+  globalEmitDraw(drawObject) {
+    this.io.sockets.emit('draw', drawObject)
   }
 }
 

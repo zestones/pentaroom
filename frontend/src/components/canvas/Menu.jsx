@@ -1,82 +1,126 @@
-import React, { useEffect } from 'react'
-import { createUseStyles } from 'react-jss'
-import Button from './Button'
-import ToolBoxModal, { openModal } from './ToolBoxModal'
-import PenOption from './Tools/PenOption'
-import EraserOption from './Tools/EraserOption'
-import './Menu.css'
+import React, { useState } from 'react'
+import { makeStyles } from '@mui/styles'
+import Container from '@mui/material/Container'
+import BrushIcon from '@mui/icons-material/Brush'
+import AutoFixNormalIcon from '@mui/icons-material/AutoFixNormal'
+import HighlightOffIcon from '@mui/icons-material/HighlightOff'
+import Chip from '@mui/material/Chip'
+import Zoom from '@mui/material/Zoom'
+import Box from '@mui/material/Box'
+import clsx from 'clsx'
 
-const styles = createUseStyles({
+const useStyles = makeStyles({
   menuBar: {
-    width: '75%',
-    height: '5%',
-    backgroundColor: 'green',
-    border: 'solid 2px',
-    marginTop: '1%',
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'center',
     borderRadius: '5px',
     alignItems: 'center',
-    margin: '0 auto',
+    margin: '5px auto 30px auto',
+  },
+  chipsContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+  },
+  chip: {
+    margin: '5px',
+    padding: '15px 30px',
+    height: '35px',
+    '&.active': {
+      backgroundColor: 'purple',
+    },
+  },
+  tools: {
+    marginTop: '15px',
+    height: '50px',
   },
 })
 
 function Menu(props) {
+  const classes = useStyles()
   const {
-    setLineColor, setLineWidth, lineWidth, setTools, setEraserSize, eraserSize, tools,
+    pen, setPen, eraser, setEraser, setIsInAction, clear,
   } = props
 
-  // Get the canvas
-  let canvas = document.getElementById('myCanvas')
+  const [anchorEl, setAnchorEl] = useState(null)
+  const handlePopoverOpen = (event) => {
+    setAnchorEl(event.currentTarget)
+  }
 
-  // init the canvas
-  useEffect(() => {
-    canvas = document.getElementById('myCanvas')
-  })
+  const handlePopoverClose = () => {
+    setAnchorEl(null)
+  }
+  const open = Boolean(anchorEl)
 
-  // Close the pen Option when the canvas is clicked
-  useEffect(() => {
-    function handleClickOutsideToolBoxMenu(e) {
-      if (e.target === canvas) {
-        setTools((prevTools) => ({
-          ...prevTools,
-          visible: false,
-        }))
-      }
-    }
-    document.addEventListener('pointerdown', handleClickOutsideToolBoxMenu)
-  }, [canvas])
+  const activePen = () => {
+    setEraser({ ...eraser, isActive: false })
+    setPen({ ...pen, isActive: true })
+    setIsInAction(false)
+  }
+  const activeEraser = () => {
+    setEraser({ ...eraser, isActive: true })
+    setPen({ ...pen, isActive: false })
+    setIsInAction(false)
+  }
+
+  const checked = pen.isActive || eraser.isActive
 
   return (
-    <div id="toolBar" className={styles().menuBar}>
-      {
-        (tools.visible)
-          ? (
-            <>
-              <PenOption
-                setLineColor={setLineColor}
-                setLineWidth={setLineWidth}
-                lineWidth={lineWidth}
-                state={tools.pen}
+    <Container
+      maxWidth="sm"
+      className={classes.menuBar}
+      aria-owns={open ? 'tool-popover' : undefined}
+      aria-haspopup="true"
+      onMouseEnter={handlePopoverOpen}
+      onMouseLeave={handlePopoverClose}
+    >
+      <Box className={classes.chipsContainer}>
+        <Chip className={clsx(classes.chip, pen.isActive && 'active')} color="primary" icon={<BrushIcon />} label="Pinceau" onClick={() => { activePen() }} />
+        <Chip className={clsx(classes.chip, eraser.isActive && 'active')} color="primary" icon={<AutoFixNormalIcon />} label="Gomme" onClick={() => { activeEraser() }} />
+        <Chip className={classes.chip} color="primary" icon={<HighlightOffIcon />} label="Effacer tout" onClick={() => { clear() }} />
+      </Box>
+
+      <Box className={classes.tools}>
+        <Zoom in={checked} style={{ transitionDelay: checked ? '500ms' : '0ms' }}>
+          <Box>
+            {pen.isActive && (
+              <>
+                <input
+                  type="color"
+                  value={pen.color}
+                  onChange={(e) => setPen({ ...pen, color: e.target.value })}
+
+                />
+                <input
+                  type="range"
+                  min="0"
+                  max="50"
+                  value={pen.width}
+                  onChange={(e) => setPen({ ...pen, width: e.target.value })}
+
+                />
+              </>
+            )}
+
+            {eraser.isActive && (
+              <input
+                type="range"
+                min="10"
+                max="100"
+                value={eraser.width}
+                onChange={(e) => setEraser({ ...eraser, width: e.target.value })}
+
               />
-              <EraserOption
-                setEraserSize={setEraserSize}
-                eraserSize={eraserSize}
-                state={tools.eraser}
-              />
-            </>
-          )
-          : (
-            <>
-              <Button text="Pinceau" setTools={setTools} name="pen" />
-              <Button text="Gomme" setTools={setTools} name="eraser" />
-            </>
-          )
-      }
-      <button type="button" onClick={openModal}>More...</button>
-      <ToolBoxModal setTools={setTools} />
-    </div>
+            )}
+
+          </Box>
+
+        </Zoom>
+      </Box>
+
+    </Container>
   )
 }
 export default Menu

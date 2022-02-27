@@ -1,23 +1,22 @@
 import React from 'react'
-import { createUseStyles } from 'react-jss'
+import { makeStyles } from '@mui/styles'
 
-const styles = createUseStyles({
+const useStyles = makeStyles({
   headers: {
-    backgroundColor: 'yellow',
     width: '100%',
-    height: '10%',
+    height: '80px',
     display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     alignItems: 'center',
+    color: 'white',
   },
-  score: { border: '2px solid green' },
 })
 
 function Header() {
+  const classes = useStyles()
   return (
-    <header className={styles().headers}>
-      <h1 className={styles().score}>Score</h1>
+    <header className={classes.headers}>
+      <h1 className={classes.score}>Score</h1>
     </header>
   )
 }

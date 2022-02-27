@@ -14,6 +14,7 @@ const useStyles = makeStyles({
   },
   box: {
     width: '500px',
+    maxWidth: '100vw',
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
@@ -40,7 +41,7 @@ function Drawer({
   }
 
   return (
-    <div>
+    <>
       <Button
         variant="contained"
         className={classes.button}
@@ -64,7 +65,7 @@ function Drawer({
           {children}
         </Box>
       </SwipeableDrawer>
-    </div>
+    </>
   )
 }
 

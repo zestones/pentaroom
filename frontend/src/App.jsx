@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 
 import { v4 as uuid } from 'uuid'
 import Canvas from './components/canvas/Canvas'
-import Container from './components/Container'
 
 import Drawer from './components/drawer/Drawer'
 import Chat from './components/chat/Chat'
@@ -66,9 +65,7 @@ function App(props) {
   // return our application
   return (
     <div className="App">
-      <Container>
-        <Canvas />
-      </Container>
+      <Canvas />
 
       <Drawer
         userID={socket?.id}

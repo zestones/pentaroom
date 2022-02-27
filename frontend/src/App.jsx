@@ -10,7 +10,7 @@ import Container from './components/Container'
 import Drawer from './components/drawer/Drawer'
 import Chat from './components/chat/Chat'
 
-const SERVER = process.env.REACT_APP_ENDPOINT || 'http://127.0.0.1:8080'
+const SERVER = process.env.REACT_APP_ENDPOINT || 'http://192.168.1.18:8080'
 
 function App(props) {
   // define the props type

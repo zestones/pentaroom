@@ -1,8 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react'
-import {
-  Paper, TextField, Button, makeStyles,
-} from '@material-ui/core'
-
+import { makeStyles } from '@mui/styles'
+import Paper from '@mui/material/Paper'
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
 import clsx from 'clsx'
 
 const useStyles = makeStyles({

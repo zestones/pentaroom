@@ -1,7 +1,9 @@
 import React from 'react'
-import { makeStyles, Tooltip } from '@material-ui/core'
+import { makeStyles } from '@mui/styles'
+import Tooltip from '@mui/material/Tooltip'
 import PresentToAllIcon from '@mui/icons-material/PresentToAll'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import clsx from 'clsx'
 
 const useStyles = makeStyles({
   userInfos: {
@@ -18,10 +20,9 @@ const useStyles = makeStyles({
     height: '15px',
     borderRadius: '100%',
     backgroundColor: 'red',
-
-  },
-  statusConnected: {
-    backgroundColor: 'green',
+    '&.connected': {
+      backgroundColor: 'green',
+    },
   },
   userRole: {
     margin: '0 5px',
@@ -38,18 +39,18 @@ function UserInfos({ username, userRole, isConnected }) {
   const renderIconUserRole = (role) => {
     switch (role) {
     case 'server':
-      return <PresentToAllIcon fontSize="large" className={classes.icon} />
+      return <PresentToAllIcon fontSize="medium" className={classes.icon} />
     case 'client':
-      return <AccountCircleIcon fontSize="large" className={classes.icon} />
+      return <AccountCircleIcon fontSize="medium" className={classes.icon} />
     default:
-      return <AccountCircleIcon fontSize="large" className={classes.icon} />
+      return <AccountCircleIcon fontSize="medium" className={classes.icon} />
     }
   }
   return (
     <div className={classes.userInfos}>
       <div className={classes.userStatus}>
         <Tooltip title={getStatusStr()}>
-          <div className={`${classes.status} ${isConnected && classes.statusConnected}`} />
+          <div className={clsx(classes.status, isConnected && 'connected')} />
         </Tooltip>
       </div>
       <h2>{username}</h2>

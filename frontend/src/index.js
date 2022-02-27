@@ -6,17 +6,20 @@ import {
   Routes,
   Route,
 } from 'react-router-dom'
+import StyledEngineProvider from '@mui/material/StyledEngineProvider'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App userRole="client" />} />
-        <Route path="/server" element={<App userRole="server" />} />
-      </Routes>
-    </BrowserRouter>
+    <StyledEngineProvider injectFirst>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<App userRole="client" />} />
+          <Route path="/server" element={<App userRole="server" />} />
+        </Routes>
+      </BrowserRouter>
+    </StyledEngineProvider>
   </React.StrictMode>,
   document.getElementById('root'),
 )

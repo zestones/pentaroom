@@ -26,8 +26,9 @@
         // force indent 2 spaces
         "indent": ["error", 2],
         "no-multi-spaces": ["error"],
-        // allow console.log
+        // allow console.log and alert
         "no-console": "off",
+        "no-alert": "off",
         // allow .js files
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
         "react/prop-types": "off"

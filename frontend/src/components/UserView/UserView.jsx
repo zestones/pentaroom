@@ -6,7 +6,7 @@ import Drawer from '../drawer/Drawer'
 import Chat from '../chat/Chat'
 import SwitchRoleButton from '../switchRoleButton/SwitchRoleButton'
 import UserInput from '../userInput/UserInput'
-import Canvas from '../canvas/Canvas'
+import Challenger from '../challenger/Challenger'
 
 function UserView({
   userRole, socket, isConnected, users, messages,
@@ -34,7 +34,7 @@ function UserView({
   // return our application
   return (
     <>
-      {isDrawer ? <Canvas socket={socket} /> : <UserInput />}
+      {isDrawer ? <Challenger socket={socket} setIsDrawer={setIsDrawer} /> : <UserInput />}
 
       <Drawer
         userID={socket?.id}

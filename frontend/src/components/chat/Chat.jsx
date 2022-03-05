@@ -78,6 +78,7 @@ function Chat({ messages, sendMessage }) {
 
   const handleNewMessageChange = (event) => {
     setNewMessage(event.target.value)
+    console.log(newMessage)
   }
 
   const handleSendMessage = () => {

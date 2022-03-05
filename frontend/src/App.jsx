@@ -8,6 +8,7 @@ import Canvas from './components/canvas/Canvas'
 
 import Drawer from './components/drawer/Drawer'
 import Chat from './components/chat/Chat'
+import SwitchRoleButton from './components/switchRoleButton/SwitchRoleButton'
 
 const SERVER = process.env.REACT_APP_ENDPOINT || 'http://192.168.1.18:8080'
 
@@ -23,6 +24,7 @@ function App(props) {
   const [isConnected, setConnected] = useState(false)
   const [users, setUsers] = useState([])
   const [messages, setMessages] = useState([])
+  const [isDrawer, setIsDrawer] = useState(false)
 
   const events = {
     connect: 'connect',
@@ -65,7 +67,7 @@ function App(props) {
   // return our application
   return (
     <div className="App">
-      <Canvas socket={socket} />
+      {isDrawer && (<Canvas socket={socket} />)}
 
       <Drawer
         userID={socket?.id}
@@ -76,6 +78,8 @@ function App(props) {
       >
         <Chat messages={messages} sendMessage={sendMessage} />
       </Drawer>
+
+      <SwitchRoleButton title="Switch mode" isDrawer={isDrawer} setIsDrawer={setIsDrawer} />
     </div>
   )
 }

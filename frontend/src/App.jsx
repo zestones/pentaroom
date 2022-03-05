@@ -4,7 +4,7 @@ import io from 'socket.io-client'
 import ServerView from './components/ServerView/ServerView'
 import UserView from './components/UserView/UserView'
 
-const SERVER = process.env.REACT_APP_ENDPOINT || 'http://192.168.1.18:8080'
+const SERVER = process.env.REACT_APP_ENDPOINT || 'http://192.168.1.139:8080'
 
 function App({ userRole }) {
   // init all the used variables
@@ -43,7 +43,7 @@ function App({ userRole }) {
 
   // return our application
   return (
-    userRole === 'server' ? <ServerView /> : <UserView userRole={userRole} socket={socket} isConnected={isConnected} users={users} messages={messages} />
+    userRole === 'server' ? <ServerView socket={socket} /> : <UserView userRole={userRole} socket={socket} isConnected={isConnected} users={users} messages={messages} />
   )
 }
 export default App

@@ -4,7 +4,7 @@ import io from 'socket.io-client'
 import ServerView from './components/ServerView/ServerView'
 import UserView from './components/UserView/UserView'
 
-const SERVER = process.env.REACT_APP_ENDPOINT || 'http://192.168.1.139:8080'
+const SERVER = process.env.REACT_APP_ENDPOINT || 'http://localhost:8080'
 
 function App({ userRole }) {
   // init all the used variables

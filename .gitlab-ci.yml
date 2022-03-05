@@ -22,6 +22,17 @@ Lint-Frontent:
   script:
     - npm run lint
 
+Lint-Backend:
+  stage: lint
+  only:
+    refs:
+      - main
+  before_script:
+    - cd backend && npm install
+  script:
+    - npm run lint
+
+
 Build-Frontend:
   stage: build
   only:
@@ -37,7 +48,8 @@ Build-Frontend:
     - cd frontend && npm install
   script:
     - npm run build
-  
+
+
 Test-Frontend:
   stage: tests
   only:
@@ -50,17 +62,6 @@ Test-Frontend:
     - cd frontend && npm install
   script:
     - npm run test
-
-
-Lint-Backend:
-  stage: lint
-  only:
-    refs:
-      - main
-  before_script:
-    - cd backend && npm install
-  script:
-    - npm run lint
 
 Test-Backend:
   stage: tests
@@ -90,6 +91,7 @@ sonarcloud-check:
       - .sonar/cache
   script:
     - sonar-scanner
+
 
 Front-End Deploy:
   stage: deploy

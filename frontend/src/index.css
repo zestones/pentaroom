@@ -3,6 +3,7 @@ html, body {
   width: 100%;
   overflow: hidden;
   background-color: #444444;
+  color: white;
 }
 #root, .App {
   height: 100%;

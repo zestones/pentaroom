@@ -15,8 +15,8 @@ ReactDOM.render(
     <StyledEngineProvider injectFirst>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<App userRole="client" />} />
-          <Route path="/server" element={<App userRole="server" />} />
+          <Route path="/" element={<App initialUserRole="client" />} />
+          <Route path="/server" element={<App initialUserRole="server" />} />
         </Routes>
       </BrowserRouter>
     </StyledEngineProvider>

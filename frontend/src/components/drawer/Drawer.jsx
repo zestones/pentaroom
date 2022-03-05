@@ -22,7 +22,7 @@ const useStyles = makeStyles({
 })
 
 function Drawer({
-  userID, username, userRole, isConnected, users, children,
+  userID, username, isConnected, users, children,
 }) {
   const classes = useStyles()
 
@@ -60,7 +60,7 @@ function Drawer({
           className={classes.box}
           role="presentation"
         >
-          <UserInfos username={username} userRole={userRole} isConnected={isConnected} />
+          <UserInfos username={username} isConnected={isConnected} />
           <ListUsers userID={userID} users={users} />
           {children}
         </Box>

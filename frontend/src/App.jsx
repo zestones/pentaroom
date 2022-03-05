@@ -6,12 +6,14 @@ import UserView from './components/UserView/UserView'
 
 const SERVER = process.env.REACT_APP_ENDPOINT || 'http://localhost:8080'
 
-function App({ userRole }) {
+function App({ initialUserRole }) {
   // init all the used variables
   const [socket, setSocket] = useState(null)
   const [isConnected, setConnected] = useState(false)
   const [users, setUsers] = useState([])
   const [messages, setMessages] = useState([])
+
+  const [userRole, setUserRole] = useState(initialUserRole)
 
   const events = {
     connect: 'connect',
@@ -43,7 +45,7 @@ function App({ userRole }) {
 
   // return our application
   return (
-    userRole === 'server' ? <ServerView socket={socket} /> : <UserView userRole={userRole} socket={socket} isConnected={isConnected} users={users} messages={messages} />
+    userRole === 'server' ? <ServerView socket={socket} /> : <UserView setUserRole={setUserRole} socket={socket} isConnected={isConnected} users={users} messages={messages} />
   )
 }
 export default App

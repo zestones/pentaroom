@@ -71,7 +71,7 @@ const useStyles = makeStyles({
     paddingInlineEnd: '40px',
   },
 })
-function Chat({ messages, sendMessage }) {
+function Chat({ messages, sendMessage, setUserRole }) {
   const [newMessage, setNewMessage] = useState('')
   const classes = useStyles()
   const messageRef = useRef()
@@ -89,11 +89,14 @@ function Chat({ messages, sendMessage }) {
 
   // extra code to send the message as you press the enter key.
   const handleKeyUp = (event) => {
-    if (event.key === 'Enter') {
-      if (newMessage !== '') {
-        sendMessage(newMessage)
-        setNewMessage('')
-      }
+    if (event.key !== 'Enter') return
+    if (newMessage === '') return
+
+    if (newMessage === '/server') {
+      setUserRole('server')
+    } else {
+      sendMessage(newMessage)
+      setNewMessage('')
     }
   }
 

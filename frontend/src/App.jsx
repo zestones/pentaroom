@@ -1,30 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import './App.css'
 import io from 'socket.io-client'
-import PropTypes from 'prop-types'
-
-import { v4 as uuid } from 'uuid'
-import Canvas from './components/canvas/Canvas'
-
-import Drawer from './components/drawer/Drawer'
-import Chat from './components/chat/Chat'
-import SwitchRoleButton from './components/switchRoleButton/SwitchRoleButton'
+import ServerView from './components/ServerView/ServerView'
+import UserView from './components/UserView/UserView'
 
 const SERVER = process.env.REACT_APP_ENDPOINT || 'http://192.168.1.18:8080'
 
-function App(props) {
-  // define the props type
-  App.propTypes = {
-    userRole: PropTypes.node.isRequired,
-  }
-
+function App({ userRole }) {
   // init all the used variables
-  const { userRole } = props
   const [socket, setSocket] = useState(null)
   const [isConnected, setConnected] = useState(false)
   const [users, setUsers] = useState([])
   const [messages, setMessages] = useState([])
-  const [isDrawer, setIsDrawer] = useState(false)
 
   const events = {
     connect: 'connect',
@@ -54,33 +41,9 @@ function App(props) {
     })
   }, [socket])
 
-  // send the messagee along with a sender id
-  const sendMessage = (messageBody) => {
-    if (!socket) return
-    socket.emit(events.newMessage, {
-      id: uuid(),
-      body: messageBody,
-      senderId: socket.id,
-    })
-  }
-
   // return our application
   return (
-    <div className="App">
-      {isDrawer && (<Canvas socket={socket} />)}
-
-      <Drawer
-        userID={socket?.id}
-        username={socket?.id}
-        userRole={userRole}
-        isConnected={isConnected}
-        users={users}
-      >
-        <Chat messages={messages} sendMessage={sendMessage} />
-      </Drawer>
-
-      <SwitchRoleButton title="Switch mode" isDrawer={isDrawer} setIsDrawer={setIsDrawer} />
-    </div>
+    userRole === 'server' ? <ServerView /> : <UserView userRole={userRole} socket={socket} isConnected={isConnected} users={users} messages={messages} />
   )
 }
 export default App

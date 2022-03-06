@@ -37,16 +37,20 @@ const modalStyle = {
   p: 4,
 }
 
-function Challenger({ socket, setIsDrawer, sendChosenWord }) {
+function Challenger({
+  socket, setIsDrawer, sendChosenWord, sendNewDrawer,
+}) {
   const [open, setOpen] = useState(true)
 
   // Liste envoyer par le serveur
   const words = ['Camion', 'Voiture', 'Pompier']
 
+  // Chose the right action to do when the modal is closed
   const handleClose = (event) => {
     if (event.target.value !== '') {
       sendChosenWord(event.target.value)
     } else {
+      sendNewDrawer()
       setIsDrawer(false)
     }
     setOpen(false)

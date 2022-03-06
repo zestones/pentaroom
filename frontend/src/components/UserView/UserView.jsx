@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { v4 as uuid } from 'uuid'
 
@@ -9,7 +9,7 @@ import UserInput from '../userInput/UserInput'
 import Challenger from '../challenger/Challenger'
 
 function UserView({
-  userRole, socket, isConnected, users, messages, hiddenWord,
+  userRole, socket, isConnected, users, messages, hiddenWord, userDrawer,
 }) {
   // init all the used variables
   const [isDrawer, setIsDrawer] = useState(false)
@@ -19,6 +19,16 @@ function UserView({
     updateUsers: 'update-users',
     newMessage: 'new-message',
     findWord: 'find-word',
+    drawerUsers: 'drawer-users',
+  }
+
+  const sendNewDrawer = () => {
+    if (!socket) return
+
+    const index = Math.floor(Math.random() * (users.length))
+    const senderId = users[index].id
+
+    socket.emit(events.drawerUsers, { id: senderId })
   }
 
   // send the message along with a sender id
@@ -37,6 +47,11 @@ function UserView({
     socket.emit(events.findWord, (myWord))
   }
 
+  // Init the user who is going to draw
+  useEffect(() => {
+    if (!isDrawer && userDrawer !== undefined && userDrawer.id === socket.id) { setIsDrawer(true) }
+  }, [userDrawer])
+
   // return our application
   return (
     <>
@@ -46,8 +61,10 @@ function UserView({
             socket={socket}
             setIsDrawer={setIsDrawer}
             sendChosenWord={sendChosenWord}
+            sendNewDrawer={sendNewDrawer}
           />
-        ) : <UserInput hiddenWord={hiddenWord} />}
+        )
+        : <UserInput hiddenWord={hiddenWord} /> }
 
       <Drawer
         userID={socket?.id}
@@ -58,9 +75,9 @@ function UserView({
       >
         <Chat messages={messages} sendMessage={sendMessage} />
       </Drawer>
-
-      <SwitchRoleButton title="Switch mode" isDrawer={isDrawer} setIsDrawer={setIsDrawer} />
+      <SwitchRoleButton title="Switch mode" isDrawer={isDrawer} setIsDrawer={setIsDrawer} sendNewDrawer={sendNewDrawer} />
     </>
   )
 }
+
 export default UserView

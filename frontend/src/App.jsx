@@ -4,7 +4,7 @@ import io from 'socket.io-client'
 import ServerView from './components/ServerView/ServerView'
 import UserView from './components/UserView/UserView'
 
-const SERVER = process.env.REACT_APP_ENDPOINT || 'http://192.168.1.18:8080'
+const SERVER = process.env.REACT_APP_ENDPOINT || 'http://localhost:8080'
 
 function App({ userRole }) {
   // init all the used variables
@@ -12,12 +12,14 @@ function App({ userRole }) {
   const [isConnected, setConnected] = useState(false)
   const [users, setUsers] = useState([])
   const [messages, setMessages] = useState([])
+  const [hiddenWord, setHiddenWord] = useState()
 
   const events = {
     connect: 'connect',
     disconnect: 'disconnect',
     updateUsers: 'update-users',
     newMessage: 'new-message',
+    findWord: 'find-word',
   }
 
   // initialize the socket IO connection
@@ -39,11 +41,12 @@ function App({ userRole }) {
         isOwner: message.senderId === socket.id,
       }])
     })
+    socket.on(events.findWord, (word) => setHiddenWord(word))
   }, [socket])
 
   // return our application
   return (
-    userRole === 'server' ? <ServerView /> : <UserView userRole={userRole} socket={socket} isConnected={isConnected} users={users} messages={messages} />
+    userRole === 'server' ? <ServerView socket={socket} /> : <UserView userRole={userRole} socket={socket} isConnected={isConnected} users={users} messages={messages} hiddenWord={hiddenWord} />
   )
 }
 export default App

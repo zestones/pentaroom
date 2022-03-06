@@ -9,19 +9,19 @@ import UserInput from '../userInput/UserInput'
 import Challenger from '../challenger/Challenger'
 
 function UserView({
-  userRole, socket, isConnected, users, messages,
+  userRole, socket, isConnected, users, messages, hiddenWord,
 }) {
   // init all the used variables
   const [isDrawer, setIsDrawer] = useState(false)
-
   const events = {
     connect: 'connect',
     disconnect: 'disconnect',
     updateUsers: 'update-users',
     newMessage: 'new-message',
+    findWord: 'find-word',
   }
 
-  // send the messagee along with a sender id
+  // send the message along with a sender id
   const sendMessage = (messageBody) => {
     if (!socket) return
     socket.emit(events.newMessage, {
@@ -31,10 +31,23 @@ function UserView({
     })
   }
 
+  // send a Word chosen from the list of word proposed
+  const sendChosenWord = (myWord) => {
+    if (!socket) return
+    socket.emit(events.findWord, (myWord))
+  }
+
   // return our application
   return (
     <>
-      {isDrawer ? <Challenger socket={socket} setIsDrawer={setIsDrawer} /> : <UserInput />}
+      {isDrawer
+        ? (
+          <Challenger
+            socket={socket}
+            setIsDrawer={setIsDrawer}
+            sendChosenWord={sendChosenWord}
+          />
+        ) : <UserInput hiddenWord={hiddenWord} />}
 
       <Drawer
         userID={socket?.id}

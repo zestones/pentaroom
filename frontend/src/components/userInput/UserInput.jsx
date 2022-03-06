@@ -13,6 +13,8 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     alignItems: 'center',
     padding: '0',
+    flexDirection: 'column',
+
   },
   subcontainer: {
     textAlign: 'center',
@@ -20,9 +22,13 @@ const useStyles = makeStyles({
   sendButton: {
     marginTop: '30px',
   },
+  hiddenWord: {
+    color: 'black',
+    textAlign: 'center',
+  },
 })
 
-function UserInput() {
+function UserInput({ hiddenWord }) {
   const classes = useStyles()
 
   const inputRef = useRef('')
@@ -30,7 +36,7 @@ function UserInput() {
   const handleValidation = () => {
     const { value } = inputRef.current
     if (!value) return
-    alert(`Vous avez saisi ${value}`)
+    alert(`Vous avez saisi : ${value} , mot à trouver : ${hiddenWord}`)
   }
   const handleKeyPressed = (e) => {
     if (e.key === 'Enter') {
@@ -40,6 +46,11 @@ function UserInput() {
 
   return (
     <Container className={classes.container} maxWidth="xxl">
+      <div className={classes.hiddenWord}>
+        <h1>
+          {hiddenWord}
+        </h1>
+      </div>
       <Container className={classes.subcontainer} maxWidth="lg">
         <TextField
           inputRef={inputRef}

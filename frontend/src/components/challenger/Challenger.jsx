@@ -24,7 +24,7 @@ const useStyles = makeStyles({
   },
 })
 
-const style = {
+const modalStyle = {
   position: 'absolute',
   top: '50%',
   left: '50%',
@@ -37,27 +37,20 @@ const style = {
   p: 4,
 }
 
-function Challenger({ socket, setIsDrawer }) {
+function Challenger({ socket, setIsDrawer, sendChosenWord }) {
   const [open, setOpen] = useState(true)
-  const [chosenWord, setChosenWord] = useState('')
 
+  // Liste envoyer par le serveur
   const words = ['Camion', 'Voiture', 'Pompier']
 
   const handleClose = (event) => {
     if (event.target.value !== '') {
-      setChosenWord(event.target.value)
-      console.log(chosenWord)
+      sendChosenWord(event.target.value)
     } else {
       setIsDrawer(false)
     }
     setOpen(false)
   }
-
-  const btn = words.map((word) => (
-    <Button variant="contained" color="success" value={word} onClick={handleClose}>
-      {word}
-    </Button>
-  ))
 
   const classes = useStyles()
 
@@ -75,9 +68,13 @@ function Challenger({ socket, setIsDrawer }) {
         }}
       >
         <Fade in={open}>
-          <Box sx={style}>
+          <Box sx={modalStyle}>
             <Stack className={classes.wordsProposition} direction="row" spacing={2}>
-              {btn}
+              {words.map((word) => (
+                <Button variant="contained" color="success" value={word} onClick={handleClose}>
+                  {word}
+                </Button>
+              ))}
             </Stack>
             <Button className={classes.rejectProposition} variant="outlined" color="error" onClick={handleClose}>
               Refuser

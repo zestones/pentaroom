@@ -21,6 +21,7 @@ function App({ initialUserRole }) {
     disconnect: 'disconnect',
     updateUsers: 'update-users',
     newMessage: 'new-message',
+    registration: 'registration',
   }
 
   // initialize the socket IO connection
@@ -35,6 +36,7 @@ function App({ initialUserRole }) {
     if (!socket) return
     socket.on(events.connect, () => setConnected(true))
     socket.on(events.disconnect, () => setConnected(false))
+    socket.on(events.registration, (user) => setUsers(user))
     socket.on(events.updateUsers, (listUsers) => setUsers(listUsers))
     socket.on(events.newMessage, (message) => {
       setMessages((oldMessages) => [...oldMessages, {

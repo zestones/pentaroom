@@ -38,7 +38,6 @@ function UserView({
 
       <Drawer
         userID={socket?.id}
-        username={socket?.id}
         isConnected={isConnected}
         users={users}
       >

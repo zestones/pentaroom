@@ -37,12 +37,14 @@ function ListUsers({ users, userID }) {
 
   const classes = useStyles()
 
+  const getNumberUser = () => users.filter((user) => user.pseudo !== '').length
+
   return (
     <div>
       <Button className={classes.button} onClick={handleOpen}>
         Utilsateurs :
         {' '}
-        {users.length}
+        {getNumberUser()}
       </Button>
       <Modal
         open={open}
@@ -53,7 +55,10 @@ function ListUsers({ users, userID }) {
         <Box className={classes.box}>
           <ul className={classes.listUsers}>
             {users.map((user) => (
-              <li className={user.id === userID && classes.currentUser} key={user}>{user.id}</li>
+              <li className={user.id === userID && classes.currentUser} key={user.id}>
+                {user.pseudo}
+
+              </li>
             ))}
           </ul>
         </Box>

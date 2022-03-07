@@ -17,11 +17,19 @@ class SocketIOManager {
    */
   connection(socket) {
     console.log(`+ : ${socket.id}`)
-    this.users.push({ id: socket.id })
+    this.users.push({ id: socket.id, pseudo: '' })
     this.globalEmitUsers()
+    socket.on('registration', (user) => this.registration(user))
     socket.on('disconnect', () => this.disconnection(socket))
     socket.on('new-message', (message) => this.globalEmitMessage(message))
     socket.on('draw', (drawObject) => this.globalEmitDraw(drawObject))
+  }
+
+  registration(user) {
+    console.log(`Updtate => id :  ${user.id} pseudo :${user.pseudo}`)
+    const index = this.users.map((x) => x.id).indexOf(user.id)
+    this.users[index].pseudo = user.pseudo
+    this.globalEmitUsers()
   }
 
   /**

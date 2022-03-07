@@ -22,7 +22,7 @@ const useStyles = makeStyles({
 })
 
 function Drawer({
-  userID, username, isConnected, users, children,
+  userID, isConnected, users, children,
 }) {
   const classes = useStyles()
 
@@ -38,6 +38,11 @@ function Drawer({
     }
 
     setOpen(open)
+  }
+
+  const getUsername = () => {
+    const index = users.map((x) => x.id).indexOf(userID)
+    return users[index].pseudo
   }
 
   return (
@@ -60,7 +65,7 @@ function Drawer({
           className={classes.box}
           role="presentation"
         >
-          <UserInfos username={username} isConnected={isConnected} />
+          <UserInfos username={getUsername()} isConnected={isConnected} />
           <ListUsers userID={userID} users={users} />
           {children}
         </Box>

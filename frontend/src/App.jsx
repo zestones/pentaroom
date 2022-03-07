@@ -1,8 +1,9 @@
+/* eslint-disable import/no-named-as-default-member */
 import React, { useState, useEffect } from 'react'
 import './App.css'
 import io from 'socket.io-client'
 import ServerView from './components/ServerView/ServerView'
-import UserView from './components/UserView/UserView'
+import Login from './components/login/Login'
 
 const SERVER = process.env.REACT_APP_ENDPOINT || 'http://localhost:8080'
 
@@ -45,7 +46,7 @@ function App({ initialUserRole }) {
 
   // return our application
   return (
-    userRole === 'server' ? <ServerView socket={socket} /> : <UserView setUserRole={setUserRole} socket={socket} isConnected={isConnected} users={users} messages={messages} />
+    userRole === 'server' ? <ServerView socket={socket} /> : <Login setUserRole={setUserRole} socket={socket} isConnected={isConnected} users={users} messages={messages} />
   )
 }
 export default App

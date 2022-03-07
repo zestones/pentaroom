@@ -17,11 +17,14 @@ class SocketIOManager {
    */
   connection(socket) {
     console.log(`+ : ${socket.id}`)
+
     this.users.push({ id: socket.id })
     this.globalEmitUsers()
     socket.on('disconnect', () => this.disconnection(socket))
     socket.on('new-message', (message) => this.globalEmitMessage(message))
     socket.on('draw', (drawObject) => this.globalEmitDraw(drawObject))
+    socket.on('find-word', (findWord) => this.globalEmitWord(findWord))
+    socket.on('drawer-users', (drawerUsers) => this.globalEmitDrawerUsers(drawerUsers))
   }
 
   /**
@@ -40,6 +43,22 @@ class SocketIOManager {
    */
   globalEmitMessage(message) {
     this.io.emit('new-message', message)
+  }
+
+  /**
+   * Send a message to connected users containing the new drawer user id
+   * @param {*} newWord : the new user Drawer
+   */
+  globalEmitDrawerUsers(newDrawer) {
+    this.io.sockets.emit('drawer-users', newDrawer)
+  }
+
+  /**
+   * Send a message to connected users containing the new word
+   * @param {*} newWord : the new word
+   */
+  globalEmitWord(newWord) {
+    this.io.sockets.emit('find-word', newWord)
   }
 
   /**

@@ -10,8 +10,10 @@ function App({ initialUserRole }) {
   // init all the used variables
   const [socket, setSocket] = useState(null)
   const [isConnected, setConnected] = useState(false)
-  const [users, setUsers] = useState([])
+  const [users, setUsers] = useState({})
   const [messages, setMessages] = useState([])
+  const [hiddenWord, setHiddenWord] = useState()
+  const [userDrawer, setDrawer] = useState()
 
   const [userRole, setUserRole] = useState(initialUserRole)
 
@@ -20,6 +22,8 @@ function App({ initialUserRole }) {
     disconnect: 'disconnect',
     updateUsers: 'update-users',
     newMessage: 'new-message',
+    findWord: 'find-word',
+    drawerUsers: 'drawer-users',
   }
 
   // initialize the socket IO connection
@@ -34,7 +38,10 @@ function App({ initialUserRole }) {
     if (!socket) return
     socket.on(events.connect, () => setConnected(true))
     socket.on(events.disconnect, () => setConnected(false))
+    socket.on(events.findWord, (word) => setHiddenWord(word))
     socket.on(events.updateUsers, (listUsers) => setUsers(listUsers))
+    socket.on(events.drawerUsers, (drawer) => setDrawer(drawer))
+
     socket.on(events.newMessage, (message) => {
       setMessages((oldMessages) => [...oldMessages, {
         ...message,
@@ -45,7 +52,7 @@ function App({ initialUserRole }) {
 
   // return our application
   return (
-    userRole === 'server' ? <ServerView socket={socket} /> : <UserView setUserRole={setUserRole} socket={socket} isConnected={isConnected} users={users} messages={messages} />
+    userRole === 'server' ? <ServerView socket={socket} /> : <UserView userRole={userRole} socket={socket} isConnected={isConnected} users={users} messages={messages} hiddenWord={hiddenWord} userDrawer={userDrawer} />
   )
 }
 export default App

@@ -9,7 +9,7 @@ import UserInput from '../userInput/UserInput'
 import Challenger from '../challenger/Challenger'
 
 function UserView({
-  userRole, socket, isConnected, users, messages, hiddenWord, userDrawer,
+  setUserRole, socket, isConnected, users, messages, hiddenWord, userDrawer,
 }) {
   // init all the used variables
   const [isDrawer, setIsDrawer] = useState(false)

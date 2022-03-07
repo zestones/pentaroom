@@ -52,7 +52,7 @@ function App({ initialUserRole }) {
 
   // return our application
   return (
-    userRole === 'server' ? <ServerView socket={socket} /> : <UserView userRole={userRole} socket={socket} isConnected={isConnected} users={users} messages={messages} hiddenWord={hiddenWord} userDrawer={userDrawer} />
+    userRole === 'server' ? <ServerView socket={socket} /> : <UserView setUserRole={setUserRole} socket={socket} isConnected={isConnected} users={users} messages={messages} hiddenWord={hiddenWord} userDrawer={userDrawer} />
   )
 }
 export default App

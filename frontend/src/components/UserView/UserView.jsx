@@ -41,7 +41,12 @@ function UserView({
         isConnected={isConnected}
         users={users}
       >
-        <Chat messages={messages} sendMessage={sendMessage} setUserRole={setUserRole} />
+        <Chat
+          messages={messages}
+          sendMessage={sendMessage}
+          setUserRole={setUserRole}
+          users={users}
+        />
       </Drawer>
 
       <SwitchRoleButton title="Switch mode" isDrawer={isDrawer} setIsDrawer={setIsDrawer} />

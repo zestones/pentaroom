@@ -3,7 +3,7 @@ import { makeStyles } from '@mui/styles'
 import Paper from '@mui/material/Paper'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
-import clsx from 'clsx'
+import Message from './Message'
 
 const useStyles = makeStyles({
   container: {
@@ -42,36 +42,13 @@ const useStyles = makeStyles({
   divider: {
     margin: '0.1em',
   },
-  message: {
-    listStyle: 'none',
-  },
-  owner: {
-    margin: '1em',
-    backgroundColor: '#0091EA',
-    padding: '0.5em 1.5em',
-    borderRadius: '20px',
-    color: '#FFF',
-    wordBreak: 'break-word',
-    maxWidth: '65%',
-    width: 'fit-content',
-    marginRight: 'auto',
-  },
-  guest: {
-    margin: '1em',
-    backgroundColor: '#8BC34A',
-    padding: '0.5em 1.5em',
-    borderRadius: '20px',
-    color: '#FFF',
-    wordBreak: 'break-word',
-    maxWidth: '65%',
-    width: 'fit-content',
-    marginLeft: 'auto',
-  },
   ol: {
     paddingInlineEnd: '40px',
   },
 })
-function Chat({ messages, sendMessage, setUserRole }) {
+function Chat({
+  messages, sendMessage, setUserRole, users,
+}) {
   const [newMessage, setNewMessage] = useState('')
   const classes = useStyles()
   const messageRef = useRef()
@@ -109,12 +86,7 @@ function Chat({ messages, sendMessage, setUserRole }) {
         <div className={classes.messageContainer}>
           <ol className={classes.ol}>
             {messages.map((message) => (
-              <li
-                key={message.id}
-                className={clsx(classes.message, message.isOwner ? classes.owner : classes.guest)}
-              >
-                <span>{message.body}</span>
-              </li>
+              <Message message={message} users={users} />
             ))}
           </ol>
           <div ref={messageRef} />

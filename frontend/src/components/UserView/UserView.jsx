@@ -21,6 +21,16 @@ function UserView({
     newMessage: 'new-message',
   }
 
+  const getUsername = () => {
+    const index = users.map((x) => x.id).indexOf(socket.id)
+    return users[index].pseudo
+  }
+
+  const getUserAvatar = () => {
+    const index = users.map((x) => x.id).indexOf(socket.id)
+    return users[index].avatar
+  }
+
   // send the messagee along with a sender id
   const sendMessage = (messageBody) => {
     if (!socket) return
@@ -28,6 +38,8 @@ function UserView({
       id: uuid(),
       body: messageBody,
       senderId: socket.id,
+      pseudo: getUsername(),
+      avatar: getUserAvatar(),
     })
   }
 
@@ -45,7 +57,6 @@ function UserView({
           messages={messages}
           sendMessage={sendMessage}
           setUserRole={setUserRole}
-          users={users}
         />
       </Drawer>
 

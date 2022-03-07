@@ -47,7 +47,7 @@ const useStyles = makeStyles({
   },
 })
 function Chat({
-  messages, sendMessage, setUserRole, users,
+  messages, sendMessage, setUserRole,
 }) {
   const [newMessage, setNewMessage] = useState('')
   const classes = useStyles()
@@ -86,7 +86,7 @@ function Chat({
         <div className={classes.messageContainer}>
           <ol className={classes.ol}>
             {messages.map((message) => (
-              <Message message={message} users={users} />
+              <Message message={message} />
             ))}
           </ol>
           <div ref={messageRef} />

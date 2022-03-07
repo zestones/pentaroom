@@ -58,31 +58,21 @@ const useStyles = makeStyles({
 
 })
 
-function Message({ message, users }) {
+function Message({ message }) {
   const classes = useStyles()
-
-  const getUsername = () => {
-    const index = users.map((x) => x.id).indexOf(message.senderId)
-    return users[index].pseudo
-  }
-
-  const getUserAvatar = () => {
-    const index = users.map((x) => x.id).indexOf(message.senderId)
-    return users[index].avatar
-  }
 
   return (
     <div className={classes.messageDisplay}>
       {(!message.isOwner)
         ? (
           <>
-            <Avatar fontSize="medium" className={classes.guestAvatar} {...getUserAvatar()} />
+            <Avatar fontSize="medium" className={classes.guestAvatar} {...message.avatar} />
             <div className={classes.guestDisplay}>
               <h5 className={
                 clsx(classes.message, classes.guestUsername)
               }
               >
-                {getUsername()}
+                {message.pseudo}
               </h5>
               <li
                 key={message.id}

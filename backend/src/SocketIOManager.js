@@ -17,7 +17,7 @@ class SocketIOManager {
    */
   connection(socket) {
     console.log(`+ : ${socket.id}`)
-    this.users.push({ id: socket.id, pseudo: '' })
+    this.users.push({ id: socket.id, pseudo: '', avatar: undefined })
     this.globalEmitUsers()
     socket.on('registration', (user) => this.registration(user))
     socket.on('disconnect', () => this.disconnection(socket))
@@ -26,9 +26,10 @@ class SocketIOManager {
   }
 
   registration(user) {
-    console.log(`Updtate => id :  ${user.id} pseudo :${user.pseudo}`)
+    console.log(`Update => id :  ${user.id} pseudo :${user.pseudo}`)
     const index = this.users.map((x) => x.id).indexOf(user.id)
     this.users[index].pseudo = user.pseudo
+    this.users[index].avatar = user.avatar
     this.globalEmitUsers()
   }
 

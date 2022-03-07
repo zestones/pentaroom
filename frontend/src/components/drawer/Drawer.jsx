@@ -45,6 +45,11 @@ function Drawer({
     return users[index].pseudo
   }
 
+  const getUserAvatar = () => {
+    const index = users.map((x) => x.id).indexOf(userID)
+    return users[index].avatar
+  }
+
   return (
     <>
       <Button
@@ -65,7 +70,11 @@ function Drawer({
           className={classes.box}
           role="presentation"
         >
-          <UserInfos username={getUsername()} isConnected={isConnected} />
+          <UserInfos
+            username={getUsername()}
+            isConnected={isConnected}
+            myAvatar={getUserAvatar()}
+          />
           <ListUsers userID={userID} users={users} />
           {children}
         </Box>

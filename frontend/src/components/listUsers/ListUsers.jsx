@@ -37,13 +37,13 @@ function ListUsers({ users, userID }) {
 
   const classes = useStyles()
 
+  // get the number of users registered
   const getNumberUser = () => users.filter((user) => user.pseudo !== '').length
 
   return (
     <div>
       <Button className={classes.button} onClick={handleOpen}>
         Utilsateurs :
-        {' '}
         {getNumberUser()}
       </Button>
       <Modal

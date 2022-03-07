@@ -6,7 +6,7 @@ import UserView from './components/UserView/UserView'
 
 const SERVER = process.env.REACT_APP_ENDPOINT || 'http://localhost:8080'
 
-function App({ userRole }) {
+function App({ initialUserRole }) {
   // init all the used variables
   const [socket, setSocket] = useState(null)
   const [isConnected, setConnected] = useState(false)
@@ -14,6 +14,8 @@ function App({ userRole }) {
   const [messages, setMessages] = useState([])
   const [hiddenWord, setHiddenWord] = useState()
   const [userDrawer, setDrawer] = useState()
+
+  const [userRole, setUserRole] = useState(initialUserRole)
 
   const events = {
     connect: 'connect',

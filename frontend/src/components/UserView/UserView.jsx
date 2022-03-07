@@ -69,11 +69,10 @@ function UserView({
       <Drawer
         userID={socket?.id}
         username={socket?.id}
-        userRole={userRole}
         isConnected={isConnected}
         users={users}
       >
-        <Chat messages={messages} sendMessage={sendMessage} />
+        <Chat messages={messages} sendMessage={sendMessage} setUserRole={setUserRole} />
       </Drawer>
       <SwitchRoleButton title="Switch mode" isDrawer={isDrawer} setIsDrawer={setIsDrawer} sendNewDrawer={sendNewDrawer} />
     </>

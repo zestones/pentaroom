@@ -5,8 +5,7 @@ import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import SendIcon from '@mui/icons-material/Send'
 import { makeStyles } from '@mui/styles'
-import { genConfig } from 'react-nice-avatar'
-import UserAvatar from '../avatar/userAvatar'
+import UserAvatar from '../avatar/UserAvatar'
 
 const useStyles = makeStyles({
   container: {
@@ -30,26 +29,6 @@ const useStyles = makeStyles({
 function Login({
   setUserRole, socket, isConnected, users, messages,
 }) {
-  const [config, setAvatarData] = useState({
-    sex: 'woman',
-    faceColor: 'white',
-    earSize: 'small',
-    eyeStyle: 'smile',
-    noseStyle: 'short',
-    mouthStyle: 'peace',
-    shirtStyle: 'polo',
-    glassesStyle: 'round',
-    hairColor: '#000',
-    hairStyle: 'womanShort',
-    hatStyle: 'none',
-    hatColor: '#000',
-    eyeBrowStyle: 'up',
-    shirtColor: '#F4D150',
-    bgColor: 'linear-gradient(45deg, #176fff 0%, #68ffef 100%)',
-  })
-
-  const myAvatar = genConfig(config)
-
   const events = {
     connect: 'connect',
     disconnect: 'disconnect',
@@ -84,8 +63,6 @@ function Login({
       {(registered)
       && (
         <UserAvatar
-          setAvatarData={setAvatarData}
-          myAvatar={myAvatar}
           setUserRole={setUserRole}
           socket={socket}
           isConnected={isConnected}

@@ -4,7 +4,7 @@ import { makeStyles } from '@mui/styles'
 import Container from '@mui/material/Container'
 
 import Button from '@mui/material/Button'
-import Avatar from 'react-nice-avatar'
+import Avatar, { genConfig } from 'react-nice-avatar'
 import { Stack } from '@mui/material'
 import UserView from '../UserView/UserView'
 import AvatarColor from './AvatarColor'
@@ -47,8 +47,28 @@ const useStyles = makeStyles({
 })
 
 function UserAvatar({
-  setAvatarData, myAvatar, setUserRole, socket, isConnected, users, messages,
+  setUserRole, socket, isConnected, users, messages,
 }) {
+  const [config, setAvatarData] = useState({
+    sex: 'woman',
+    faceColor: 'white',
+    earSize: 'small',
+    eyeStyle: 'smile',
+    noseStyle: 'short',
+    mouthStyle: 'peace',
+    shirtStyle: 'polo',
+    glassesStyle: 'round',
+    hairColor: '#000',
+    hairStyle: 'womanShort',
+    hatStyle: 'none',
+    hatColor: '#000',
+    eyeBrowStyle: 'up',
+    shirtColor: '#F4D150',
+    bgColor: 'linear-gradient(45deg, #176fff 0%, #68ffef 100%)',
+  })
+
+  const myAvatar = genConfig(config)
+
   const [isReady, setIsReady] = useState(false)
   const classes = useStyles()
 

@@ -19,7 +19,6 @@ function AvatarAttribute({ myAvatar, setAvatarData }) {
   ]
 
   const [typeAttribute, setType] = useState('shirtStyle')
-  const [arrValue, setArrValue] = useState(attribute.shirtStyle)
 
   // return the index of the value that is currently edited in the avatar
   const getAvatarAttributeIndex = (x) => attribute[x].indexOf(myAvatar[x])
@@ -27,17 +26,18 @@ function AvatarAttribute({ myAvatar, setAvatarData }) {
   // Update the targeted value
   const updateAttribute = (e) => {
     let index
+    let arrValue = []
     // Iterate the attribute object
     Object.keys(attribute).forEach((x) => {
       // search the targeted element in the object
       if (e.target.name === x) {
         index = getAvatarAttributeIndex(x) + 1
 
-        // Iterate indefinetly
-        if (index >= attribute[x].length - 1) index = 0
+        // Iterate indefinetly over the targeted attribute
+        if (index >= attribute[x].length) index = 0
 
         // set the arr value
-        setArrValue(attribute[x])
+        arrValue = attribute[x]
       }
     })
 

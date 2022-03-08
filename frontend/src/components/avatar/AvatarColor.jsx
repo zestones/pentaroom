@@ -5,30 +5,24 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import FormControl from '@mui/material/FormControl'
 import FormLabel from '@mui/material/FormLabel'
 
-function AvatarColor({ myAvatar, setAvatarData }) {
+function AvatarColor({ setAvatarData }) {
   const [value, setValue] = useState('faceColor')
-
-  const handleChange = (event) => {
-    setValue(event.target.value)
-  }
 
   return (
     <FormControl>
       <FormLabel id="demo-controlled-radio-buttons-group">Couleur</FormLabel>
       <input
         type="color"
-        name={value}
-        value={myAvatar.value}
         onChange={(e) => setAvatarData((prevData) => ({
           ...prevData,
-          [e.target.name]: e.target.value,
+          [value]: e.target.value, /* hairColor */
         }))}
       />
       <RadioGroup
         aria-labelledby="demo-controlled-radio-buttons-group"
         name="controlled-radio-buttons-group"
         value={value}
-        onChange={handleChange}
+        onChange={(e) => { setValue(e.target.value) }}
       >
         <FormControlLabel value="faceColor" control={<Radio />} label="Visage" />
         <FormControlLabel value="hairColor" control={<Radio />} label="Cheveux" />

@@ -94,6 +94,7 @@ function UserAvatar({
     })
     setIsReady(true)
   }
+
   return (
     <>
       {(isReady) && (
@@ -110,6 +111,7 @@ function UserAvatar({
           <h1>
             Bienvenue
             {' '}
+
             {getUsername()}
           </h1>
           <p> Configurer votre avatar </p>
@@ -117,9 +119,11 @@ function UserAvatar({
         <Avatar className={classes.avatar} {...myAvatar} />
         <Container className={classes.subcontainer} maxWidth="lg">
           <Stack direction="row" spacing={2}>
-            <AvatarColor myAvatar={myAvatar} setAvatarData={setAvatarData} />
+            <AvatarColor setAvatarData={setAvatarData} />
             <AvatarAttribute myAvatar={myAvatar} setAvatarData={setAvatarData} />
+
           </Stack>
+
         </Container>
         <Button
           className={classes.letsGo}

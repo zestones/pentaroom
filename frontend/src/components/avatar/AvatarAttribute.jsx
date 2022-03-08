@@ -18,7 +18,21 @@ function AvatarAttribute({ myAvatar, setAvatarData }) {
     },
   ]
 
-  const [typeAttribute, setType] = useState('shirtStyle')
+  const [attributeColor] = [
+    {
+      faceColor: ['#E8BEAC', '#8d5524', '#e0ac69'],
+      hairColor: ['#e2bc74', '#e7a854', '#7e5835', '#85530f', '#6b5a3a'],
+      shirtColor: ['blue', 'yellow', 'red', 'purple'],
+      bgColor: ['linear-gradient(#e66465, #9198e5)',
+        'linear-gradient(45deg, blue, red)',
+        'linear-gradient(150deg, #805381, #c0c0a4)',
+        'linear-gradient(229deg, #7b3da9, #89ee8d)',
+        'linear-gradient(215deg, #784030, #2a5c1c)',
+        'linear-gradient(237deg, #882d64, #b4db90)'],
+    },
+  ]
+
+  const [typeAttribute, setType] = useState('glassesStyle')
 
   // return the index of the value that is currently edited in the avatar
   const getAvatarAttributeIndex = (x) => attribute[x].indexOf(myAvatar[x])
@@ -48,29 +62,63 @@ function AvatarAttribute({ myAvatar, setAvatarData }) {
     }))
   }
 
+  const randomizeAvatar = () => {
+    Object.keys(attribute).forEach((x) => {
+      const arr = attribute[x]
+      const random = Math.floor(Math.random() * arr.length)
+      const randomValue = arr[random]
+
+      setAvatarData((prevData) => ({
+        ...prevData,
+        [x]: randomValue,
+      }))
+    })
+    Object.keys(attributeColor).forEach((x) => {
+      const arr = attributeColor[x]
+      const random = Math.floor(Math.random() * arr.length)
+      const randomValue = arr[random]
+
+      setAvatarData((prevData) => ({
+        ...prevData,
+        [x]: randomValue,
+      }))
+    })
+  }
+
   return (
-    <FormControl>
-      <FormLabel id="demo-controlled-radio-buttons-group">Attribut</FormLabel>
+    <>
+      <FormControl>
+
+        <FormLabel id="demo-controlled-radio-buttons-group">Attribut</FormLabel>
+        <Button
+          variant="contained"
+          name={typeAttribute}
+          onClick={updateAttribute}
+        >
+          CHANGER
+        </Button>
+        <RadioGroup
+          aria-labelledby="demo-controlled-radio-buttons-group"
+          name="controlled-radio-buttons-group"
+          value={typeAttribute}
+          onChange={(e) => setType(e.target.value)}
+        >
+          <FormControlLabel value="glassesStyle" control={<Radio />} label="Lunette" />
+          <FormControlLabel value="eyeStyle" control={<Radio />} label="Yeux" />
+          <FormControlLabel value="mouthStyle" control={<Radio />} label="Bouche" />
+          <FormControlLabel value="shirtStyle" control={<Radio />} label="Shirt" />
+          <FormControlLabel value="hairStyle" control={<Radio />} label="Cheveux" />
+        </RadioGroup>
+      </FormControl>
+
       <Button
-        variant="contained"
-        name={typeAttribute}
-        onClick={updateAttribute}
+        variant="outlined"
+        name="click"
+        onClick={randomizeAvatar}
       >
-        CHANGER
+        Générer
       </Button>
-      <RadioGroup
-        aria-labelledby="demo-controlled-radio-buttons-group"
-        name="controlled-radio-buttons-group"
-        value={typeAttribute}
-        onChange={(e) => setType(e.target.value)}
-      >
-        <FormControlLabel value="glassesStyle" control={<Radio />} label="Lunette" />
-        <FormControlLabel value="eyeStyle" control={<Radio />} label="Yeux" />
-        <FormControlLabel value="mouthStyle" control={<Radio />} label="Bouche" />
-        <FormControlLabel value="shirtStyle" control={<Radio />} label="Shirt" />
-        <FormControlLabel value="hairStyle" control={<Radio />} label="Cheveux" />
-      </RadioGroup>
-    </FormControl>
+    </>
   )
 }
 

@@ -10,7 +10,8 @@ const useStyles = makeStyles({
   },
   owner: {
     margin: '1em',
-    marginTop: '0px',
+    marginTop: '10px',
+    marginBottom: '0px',
     backgroundColor: '#8BC34A',
     padding: '0.5em 1.5em',
     borderRadius: '20px',
@@ -21,7 +22,7 @@ const useStyles = makeStyles({
     marginLeft: 'auto',
   },
   guest: {
-    margin: '0.5em',
+    margin: '0px',
     marginTop: '0px',
     backgroundColor: '#0091EA',
     padding: '0.5em 1.5em',
@@ -37,7 +38,7 @@ const useStyles = makeStyles({
     paddingLeft: '2em',
     margin: '0px',
     borderRadius: '20px',
-    color: 'gray',
+    color: 'black',
     maxWidth: '65%',
     width: 'fit-content',
     marginRight: 'auto',
@@ -55,12 +56,35 @@ const useStyles = makeStyles({
   guestDisplay: {
     flexDirection: 'column',
   },
-
+  guestMessageTime: {
+    paddingLeft: '3em',
+    margin: '0px',
+    color: 'gray',
+    fontSize: '15px',
+  },
+  ownerMessageTime: {
+    padding: '0px',
+    margin: '0px',
+    color: 'gray',
+    fontSize: '15px',
+    marginLeft: 'auto',
+    marginRight: '0',
+    maxWidth: '80px',
+  },
+  ownerDisplay: {
+    marginLeft: 'auto',
+    marginRight: '0',
+  },
 })
 
 function Message({ message }) {
   const classes = useStyles()
 
+  const getMessageTime = () => {
+    const separateDate = message.time.split(' ')
+    const separateTime = separateDate[separateDate.length - 1].split(':')
+    return `${separateTime[0]}:${separateTime[1]}`
+  }
   return (
     <div className={classes.messageDisplay}>
       {(!message.isOwner)
@@ -76,20 +100,28 @@ function Message({ message }) {
               </h5>
               <li
                 key={message.id}
-                className={clsx(classes.message, message.isOwner ? classes.owner : classes.guest)}
+                className={clsx(classes.message, classes.guest)}
               >
                 <span>{message.body}</span>
               </li>
+              <p className={classes.guestMessageTime}>
+                {getMessageTime()}
+              </p>
             </div>
           </>
         )
         : (
-          <li
-            key={message.id}
-            className={clsx(classes.message, message.isOwner ? classes.owner : classes.guest)}
-          >
-            <span>{message.body}</span>
-          </li>
+          <div className={classes.ownerDisplay}>
+            <li
+              key={message.id}
+              className={clsx(classes.message, classes.owner)}
+            >
+              <span>{message.body}</span>
+            </li>
+            <p className={classes.ownerMessageTime}>
+              {getMessageTime()}
+            </p>
+          </div>
         )}
 
     </div>

@@ -6,9 +6,9 @@ import FormControl from '@mui/material/FormControl'
 import FormLabel from '@mui/material/FormLabel'
 import Button from '@mui/material/Button'
 
-function AvatarAttribut({ myAvatar, setAvatarData }) {
+function AvatarAttribute({ myAvatar, setAvatarData }) {
   // avatar editable value
-  const [attribut] = [
+  const [attribute] = [
     {
       glassesStyle: ['round', 'square', 'none'],
       eyeStyle: ['circle', 'oval', 'smile'],
@@ -18,27 +18,26 @@ function AvatarAttribut({ myAvatar, setAvatarData }) {
     },
   ]
 
-  // init variable
-  const [typeAttribut, setType] = useState('shirtStyle')
-  const [arrValue, setArrValue] = useState(attribut.shirtStyle)
+  const [typeAttribute, setType] = useState('shirtStyle')
+  const [arrValue, setArrValue] = useState(attribute.shirtStyle)
 
   // return the index of the value that is currently edited in the avatar
-  const getAvatarAttributeIndex = (x) => attribut[x].indexOf(myAvatar[x])
+  const getAvatarAttributeIndex = (x) => attribute[x].indexOf(myAvatar[x])
 
   // Update the targeted value
-  const updateAttribut = (e) => {
+  const updateAttribute = (e) => {
     let index
-    // Iterate the attribut object
-    Object.keys(attribut).forEach((x) => {
+    // Iterate the attribute object
+    Object.keys(attribute).forEach((x) => {
       // search the targeted element in the object
       if (e.target.name === x) {
         index = getAvatarAttributeIndex(x) + 1
 
         // Iterate indefinetly
-        if (index >= attribut[x].length - 1) index = 0
+        if (index >= attribute[x].length - 1) index = 0
 
         // set the arr value
-        setArrValue(attribut[x])
+        setArrValue(attribute[x])
       }
     })
 
@@ -54,25 +53,25 @@ function AvatarAttribut({ myAvatar, setAvatarData }) {
       <FormLabel id="demo-controlled-radio-buttons-group">Attribut</FormLabel>
       <Button
         variant="contained"
-        name={typeAttribut}
-        onClick={updateAttribut}
+        name={typeAttribute}
+        onClick={updateAttribute}
       >
         CHANGER
       </Button>
       <RadioGroup
         aria-labelledby="demo-controlled-radio-buttons-group"
         name="controlled-radio-buttons-group"
-        value={typeAttribut}
+        value={typeAttribute}
         onChange={(e) => setType(e.target.value)}
       >
-        <FormControlLabel value="glassesStyle" control={<Radio />} label="Glasses" />
-        <FormControlLabel value="eyeStyle" control={<Radio />} label="Eyes" />
-        <FormControlLabel value="mouthStyle" control={<Radio />} label="Mouth" />
+        <FormControlLabel value="glassesStyle" control={<Radio />} label="Lunette" />
+        <FormControlLabel value="eyeStyle" control={<Radio />} label="Yeux" />
+        <FormControlLabel value="mouthStyle" control={<Radio />} label="Bouche" />
         <FormControlLabel value="shirtStyle" control={<Radio />} label="Shirt" />
-        <FormControlLabel value="hairStyle" control={<Radio />} label="Hair Style" />
+        <FormControlLabel value="hairStyle" control={<Radio />} label="Cheveux" />
       </RadioGroup>
     </FormControl>
   )
 }
 
-export default AvatarAttribut
+export default AvatarAttribute

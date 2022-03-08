@@ -7,7 +7,6 @@ import SendIcon from '@mui/icons-material/Send'
 import { makeStyles } from '@mui/styles'
 import { genConfig } from 'react-nice-avatar'
 import UserAvatar from '../avatar/userAvatar'
-import UserView from '../UserView/UserView'
 
 const useStyles = makeStyles({
   container: {
@@ -25,10 +24,6 @@ const useStyles = makeStyles({
   },
   sendButton: {
     marginTop: '30px',
-  },
-  hiddenWord: {
-    color: 'black',
-    textAlign: 'center',
   },
 })
 
@@ -73,7 +68,7 @@ function Login({
     socket.emit(events.registration, {
       id: socket.id,
       pseudo: value,
-      avatar: myAvatar,
+      avatar: '',
     })
     setIsRegistered(true)
   }
@@ -88,7 +83,9 @@ function Login({
     <>
       {(registered)
       && (
-        <UserView
+        <UserAvatar
+          setAvatarData={setAvatarData}
+          myAvatar={myAvatar}
           setUserRole={setUserRole}
           socket={socket}
           isConnected={isConnected}
@@ -101,7 +98,7 @@ function Login({
           <h1> Pentaroom </h1>
           <p> Réveille le picasso en toi </p>
         </div>
-        <UserAvatar setAvatarData={setAvatarData} myAvatar={myAvatar} />
+
         <Container className={classes.subcontainer} maxWidth="lg">
 
           <TextField

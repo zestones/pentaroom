@@ -14,7 +14,7 @@ function AvatarColor({ myAvatar, setAvatarData }) {
 
   return (
     <FormControl>
-      <FormLabel id="demo-controlled-radio-buttons-group">Color</FormLabel>
+      <FormLabel id="demo-controlled-radio-buttons-group">Couleur</FormLabel>
       <input
         type="color"
         name={value}
@@ -30,10 +30,10 @@ function AvatarColor({ myAvatar, setAvatarData }) {
         value={value}
         onChange={handleChange}
       >
-        <FormControlLabel value="faceColor" control={<Radio />} label="Face" />
-        <FormControlLabel value="bgColor" control={<Radio />} label="Background" />
-        <FormControlLabel value="hairColor" control={<Radio />} label="Hair" />
+        <FormControlLabel value="faceColor" control={<Radio />} label="Visage" />
+        <FormControlLabel value="hairColor" control={<Radio />} label="Cheveux" />
         <FormControlLabel value="shirtColor" control={<Radio />} label="Shirt" />
+        <FormControlLabel value="bgColor" control={<Radio />} label="Fond" />
       </RadioGroup>
     </FormControl>
   )

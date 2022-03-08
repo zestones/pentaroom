@@ -15,6 +15,7 @@ function AvatarAttribute({ myAvatar, setAvatarData }) {
       mouthStyle: ['laugh', 'smile', 'peace'],
       shirtStyle: ['hoody', 'short', 'polo'],
       hairStyle: ['normal', 'thick', 'mohawk', 'womanLong', 'womanShort'],
+      hatStyle: ['none', 'turban', 'beanie'],
     },
   ]
 
@@ -23,6 +24,7 @@ function AvatarAttribute({ myAvatar, setAvatarData }) {
       faceColor: ['#E8BEAC', '#8d5524', '#e0ac69'],
       hairColor: ['#e2bc74', '#e7a854', '#7e5835', '#85530f', '#6b5a3a'],
       shirtColor: ['blue', 'yellow', 'red', 'purple'],
+      hatColor: ['red', 'blue'],
       bgColor: ['linear-gradient(#e66465, #9198e5)',
         'linear-gradient(45deg, blue, red)',
         'linear-gradient(150deg, #805381, #c0c0a4)',
@@ -60,6 +62,7 @@ function AvatarAttribute({ myAvatar, setAvatarData }) {
       ...prevData,
       [e.target.name]: arrValue[index],
     }))
+    console.log(myAvatar)
   }
 
   const randomizeAvatar = () => {
@@ -108,6 +111,7 @@ function AvatarAttribute({ myAvatar, setAvatarData }) {
           <FormControlLabel value="mouthStyle" control={<Radio />} label="Bouche" />
           <FormControlLabel value="shirtStyle" control={<Radio />} label="Shirt" />
           <FormControlLabel value="hairStyle" control={<Radio />} label="Cheveux" />
+          <FormControlLabel value="hatStyle" control={<Radio />} label="Chapeau" />
         </RadioGroup>
       </FormControl>
 

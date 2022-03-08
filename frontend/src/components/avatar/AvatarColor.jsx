@@ -28,6 +28,7 @@ function AvatarColor({ setAvatarData }) {
         <FormControlLabel value="hairColor" control={<Radio />} label="Cheveux" />
         <FormControlLabel value="shirtColor" control={<Radio />} label="Shirt" />
         <FormControlLabel value="bgColor" control={<Radio />} label="Fond" />
+        <FormControlLabel value="hatColor" control={<Radio />} label="Chapeau" />
       </RadioGroup>
     </FormControl>
   )

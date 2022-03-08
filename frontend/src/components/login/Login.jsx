@@ -6,7 +6,7 @@ import Button from '@mui/material/Button'
 import SendIcon from '@mui/icons-material/Send'
 import { makeStyles } from '@mui/styles'
 import { genConfig } from 'react-nice-avatar'
-import UserAvatar from './userAvatar'
+import UserAvatar from '../avatar/userAvatar'
 import UserView from '../UserView/UserView'
 
 const useStyles = makeStyles({

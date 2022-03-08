@@ -26,7 +26,7 @@ function UserAvatar({ setAvatarData, myAvatar }) {
       <Avatar style={{ width: '5rem', height: '5rem' }} {...myAvatar} />
       <Stack className={classes.wordsProposition} direction="row" spacing={2}>
         <AvatarColor myAvatar={myAvatar} setAvatarData={setAvatarData} />
-        <AvatarAttribut setAvatarData={setAvatarData} />
+        <AvatarAttribut myAvatar={myAvatar} setAvatarData={setAvatarData} />
       </Stack>
     </>
   )

@@ -57,10 +57,13 @@ const useStyles = makeStyles({
     flexDirection: 'column',
   },
   guestMessageTime: {
-    paddingLeft: '3em',
+    paddingLeft: '2em',
     margin: '0px',
     color: 'gray',
     fontSize: '15px',
+    marginLeft: '0',
+    marginRight: 'auto',
+    maxWidth: '80px',
   },
   ownerMessageTime: {
     padding: '0px',

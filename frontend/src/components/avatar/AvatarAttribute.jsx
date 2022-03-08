@@ -16,11 +16,6 @@ function AvatarAttribute({ myAvatar, setAvatarData }) {
       shirtStyle: ['hoody', 'short', 'polo'],
       hairStyle: ['normal', 'thick', 'mohawk', 'womanLong', 'womanShort'],
       hatStyle: ['none', 'turban', 'beanie'],
-    },
-  ]
-
-  const [attributeColor] = [
-    {
       faceColor: ['#E8BEAC', '#8d5524', '#e0ac69'],
       hairColor: ['#e2bc74', '#e7a854', '#7e5835', '#85530f', '#6b5a3a'],
       shirtColor: ['blue', 'yellow', 'red', 'purple'],
@@ -68,16 +63,6 @@ function AvatarAttribute({ myAvatar, setAvatarData }) {
   const randomizeAvatar = () => {
     Object.keys(attribute).forEach((x) => {
       const arr = attribute[x]
-      const random = Math.floor(Math.random() * arr.length)
-      const randomValue = arr[random]
-
-      setAvatarData((prevData) => ({
-        ...prevData,
-        [x]: randomValue,
-      }))
-    })
-    Object.keys(attributeColor).forEach((x) => {
-      const arr = attributeColor[x]
       const random = Math.floor(Math.random() * arr.length)
       const randomValue = arr[random]
 

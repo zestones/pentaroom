@@ -1,41 +1,32 @@
-/* eslint-disable no-return-assign */
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react'
-import Button from '@mui/material/Button'
 import { makeStyles } from '@mui/styles'
-import Stack from '@mui/material/Stack'
 
 import Avatar from 'react-nice-avatar'
+import { Stack } from '@mui/material'
+import AvatarColor from './AvatarColor'
+import AvatarAttribut from './AvatarAttribut'
 
 const useStyles = makeStyles({
-  wordsProposition: {
+  inputColor: {
     display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: 'column',
   },
-  rejectProposition: {
-    position: 'absolute',
-    right: 35,
-    bottom: 35,
+  stack: {
+    display: 'flex',
+    flexDirection: 'column',
   },
+
 })
 
 function UserAvatar({ setAvatarData, myAvatar }) {
-  const handleAttribut = () => {
-    setAvatarData(() => ({
-    }))
-  }
-
   const classes = useStyles()
-
   return (
     <>
       <Avatar style={{ width: '5rem', height: '5rem' }} {...myAvatar} />
       <Stack className={classes.wordsProposition} direction="row" spacing={2}>
-        <Button variant="contained" onClick={handleAttribut}>
-          Randomize
-        </Button>
+        <AvatarColor myAvatar={myAvatar} setAvatarData={setAvatarData} />
+        <AvatarAttribut setAvatarData={setAvatarData} />
       </Stack>
     </>
   )

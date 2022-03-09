@@ -36,28 +36,21 @@ function AvatarAttribute({ myAvatar, setAvatarData }) {
 
   // Update the targeted value
   const updateAttribute = (e) => {
-    let index
-    let arrValue = []
-    // Iterate the attribute object
-    Object.keys(attribute).forEach((x) => {
-      // search the targeted element in the object
-      if (e.target.name === x) {
-        index = getAvatarAttributeIndex(x) + 1
+    // Get the type of attribute
+    const type = Object.keys(attribute).find((x) => x === e.target.name)
+    let index = getAvatarAttributeIndex(type) + 1
 
-        // Iterate indefinetly over the targeted attribute
-        if (index >= attribute[x].length) index = 0
+    // Iterate indefinetly over the targeted attribute
+    if (index >= attribute[type].length) index = 0
 
-        // set the arr value
-        arrValue = attribute[x]
-      }
-    })
+    // set the arr value
+    const arrValue = attribute[type]
 
     // Change the avatar data
     setAvatarData((prevData) => ({
       ...prevData,
       [e.target.name]: arrValue[index],
     }))
-    console.log(myAvatar)
   }
 
   const randomizeAvatar = () => {

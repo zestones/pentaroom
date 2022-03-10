@@ -17,7 +17,11 @@ function SwitchRoleButton({ isDrawer, setIsDrawer }) {
     setIsDrawer(!isDrawer)
   }
   return (
-    <Button variant="contained" className={classes.button} onClick={handleClick}>{isDrawer ? 'Passer spectateur' : 'Passer dessinateur'}</Button>
+
+    <>
+      <Button variant="contained" className={classes.button} onClick={handleClick}>{isDrawer ? 'Passer spectateur' : 'Passer dessinateur'}</Button>
+      <Button variant="contained" size="big">resultat</Button>
+    </>
   )
 }
 

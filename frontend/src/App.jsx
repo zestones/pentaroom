@@ -1,8 +1,9 @@
+/* eslint-disable import/no-named-as-default-member */
 import React, { useState, useEffect } from 'react'
 import './App.css'
 import io from 'socket.io-client'
 import ServerView from './components/ServerView/ServerView'
-import UserView from './components/UserView/UserView'
+import Login from './components/login/Login'
 
 const SERVER = process.env.REACT_APP_ENDPOINT || 'http://localhost:8080'
 
@@ -24,6 +25,7 @@ function App({ initialUserRole }) {
     newMessage: 'new-message',
     findWord: 'find-word',
     drawerUsers: 'drawer-users',
+    registration: 'registration',
   }
 
   // initialize the socket IO connection
@@ -38,7 +40,9 @@ function App({ initialUserRole }) {
     if (!socket) return
     socket.on(events.connect, () => setConnected(true))
     socket.on(events.disconnect, () => setConnected(false))
+
     socket.on(events.findWord, (word) => setHiddenWord(word))
+    socket.on(events.registration, (user) => setUsers(user))
     socket.on(events.updateUsers, (listUsers) => setUsers(listUsers))
     socket.on(events.drawerUsers, (drawer) => setDrawer(drawer))
 
@@ -52,7 +56,7 @@ function App({ initialUserRole }) {
 
   // return our application
   return (
-    userRole === 'server' ? <ServerView socket={socket} /> : <UserView setUserRole={setUserRole} socket={socket} isConnected={isConnected} users={users} messages={messages} hiddenWord={hiddenWord} userDrawer={userDrawer} />
+    userRole === 'server' ? <ServerView socket={socket} /> : <Login setUserRole={setUserRole} socket={socket} isConnected={isConnected} users={users} messages={messages} hiddenWord={hiddenWord} userDrawer={userDrawer} />
   )
 }
 export default App

@@ -13,6 +13,7 @@ function UserView({
 }) {
   // init all the used variables
   const [isDrawer, setIsDrawer] = useState(false)
+
   const events = {
     connect: 'connect',
     disconnect: 'disconnect',
@@ -20,6 +21,23 @@ function UserView({
     newMessage: 'new-message',
     findWord: 'find-word',
     drawerUsers: 'drawer-users',
+    registration: 'registration',
+  }
+
+  const getUsername = () => {
+    const index = users.map((x) => x.id).indexOf(socket.id)
+    return users[index].pseudo
+  }
+
+  const getUserAvatar = () => {
+    const index = users.map((x) => x.id).indexOf(socket.id)
+    return users[index].avatar
+  }
+
+  // Check if the user is fully registered (Pseudo + Avatar)
+  const isFullyRegistered = (index) => {
+    if (users[index].pseudo === '' || users[index].avatar === undefined) return false
+    return true
   }
 
   const sendNewDrawer = () => {
@@ -28,16 +46,21 @@ function UserView({
     const index = Math.floor(Math.random() * (users.length))
     const senderId = users[index].id
 
-    socket.emit(events.drawerUsers, { id: senderId })
+    if (isFullyRegistered(index)) {
+      socket.emit(events.drawerUsers, { id: senderId })
+    } else sendNewDrawer()
   }
 
-  // send the message along with a sender id
+  // send the messagee along with a sender id
   const sendMessage = (messageBody) => {
     if (!socket) return
     socket.emit(events.newMessage, {
       id: uuid(),
       body: messageBody,
       senderId: socket.id,
+      pseudo: getUsername(),
+      avatar: getUserAvatar(),
+      time: new Date().toLocaleString(),
     })
   }
 
@@ -68,11 +91,14 @@ function UserView({
 
       <Drawer
         userID={socket?.id}
-        username={socket?.id}
         isConnected={isConnected}
         users={users}
       >
-        <Chat messages={messages} sendMessage={sendMessage} setUserRole={setUserRole} />
+        <Chat
+          messages={messages}
+          sendMessage={sendMessage}
+          setUserRole={setUserRole}
+        />
       </Drawer>
       <SwitchRoleButton title="Switch mode" isDrawer={isDrawer} setIsDrawer={setIsDrawer} sendNewDrawer={sendNewDrawer} />
     </>

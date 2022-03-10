@@ -1,8 +1,9 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react'
 import { makeStyles } from '@mui/styles'
 import Tooltip from '@mui/material/Tooltip'
-import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import clsx from 'clsx'
+import Avatar from 'react-nice-avatar'
 
 const useStyles = makeStyles({
   userInfos: {
@@ -28,10 +29,13 @@ const useStyles = makeStyles({
   },
   icon: {
     color: 'black',
+    width: '3rem',
+    height: '3rem',
+    border: '2px solid black',
   },
 })
 
-function UserInfos({ username, isConnected }) {
+function UserInfos({ username, isConnected, myAvatar }) {
   const getStatusStr = () => ((isConnected) ? 'Connecté' : 'Non connecté')
   const classes = useStyles()
 
@@ -45,7 +49,7 @@ function UserInfos({ username, isConnected }) {
       <h2>{username}</h2>
 
       <div className={classes.userRole}>
-        <AccountCircleIcon fontSize="medium" className={classes.icon} />
+        <Avatar fontSize="medium" className={classes.icon} {...myAvatar} />
       </div>
 
     </div>

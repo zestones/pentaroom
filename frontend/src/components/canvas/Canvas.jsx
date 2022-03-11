@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { makeStyles } from '@mui/styles'
 import Container from '@mui/material/Container'
-import { fillCanvas } from './fillCanvas'
+import { fillCanvas } from './FillCanvas'
 import Menu from './Menu'
 import Header from './Header'
 
@@ -49,6 +49,9 @@ function Canvas({ socket }) {
       isActive: false,
       color: '',
     },
+    clear: {
+      isActive: false,
+    },
   })
 
   /** Draw */
@@ -91,6 +94,13 @@ function Canvas({ socket }) {
     }
   }
 
+  const clear = (drawObject) => {
+    ctx.clearRect(0, 0, canvasDim.width, canvasDim.height)
+    if (socket && socket.id === drawObject.senderId) {
+      socket.emit('draw', drawObject)
+    }
+  }
+
   /** Init/Update values */
   useEffect(() => {
     const canvas = canvasRef.current
@@ -112,6 +122,8 @@ function Canvas({ socket }) {
             erase(drawObject)
           } else if (drawObject.fill.isActive) {
             fillCanvas(drawObject, ctx, canvasDim, socket)
+          } else if (drawObject.clear.isActive) {
+            clear(drawObject)
           }
         }
       })
@@ -177,10 +189,6 @@ function Canvas({ socket }) {
     setIsInAction(false)
   }
 
-  const clear = () => {
-    ctx.clearRect(0, 0, canvasDim.width, canvasDim.height)
-  }
-
   const classes = useStyles()
 
   return (
@@ -206,6 +214,7 @@ function Canvas({ socket }) {
         setUserDraw={setUserDraw}
         setIsInAction={setIsInAction}
         clear={clear}
+        socket={socket}
       />
     </Container>
   )

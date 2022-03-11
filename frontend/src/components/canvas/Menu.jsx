@@ -42,7 +42,7 @@ const useStyles = makeStyles({
 function Menu(props) {
   const classes = useStyles()
   const {
-    userDraw, setUserDraw, setIsInAction, clear,
+    userDraw, setUserDraw, setIsInAction, clear, socket,
   } = props
 
   const [anchorEl, setAnchorEl] = useState(null)
@@ -61,6 +61,7 @@ function Menu(props) {
       pen: { ...userDraw.pen, isActive: true },
       eraser: { ...userDraw.eraser, isActive: false },
       fill: { ...userDraw.fill, isActive: false },
+      clear: { ...userDraw.clear, isActive: false },
     })
     setIsInAction(false)
   }
@@ -70,6 +71,7 @@ function Menu(props) {
       pen: { ...userDraw.pen, isActive: false },
       eraser: { ...userDraw.eraser, isActive: true },
       fill: { ...userDraw.fill, isActive: false },
+      clear: { ...userDraw.clear, isActive: false },
     })
     setIsInAction(false)
   }
@@ -79,12 +81,24 @@ function Menu(props) {
       pen: { ...userDraw.pen, isActive: false },
       eraser: { ...userDraw.eraser, isActive: false },
       fill: { ...userDraw.fill, isActive: true },
+      clear: { ...userDraw.clear, isActive: false },
     })
     setIsInAction(false)
   }
 
-  const checked = userDraw.pen.isActive || userDraw.eraser.isActive || userDraw.fill.isActive
+  const activeClear = () => {
+    /** set Dont work ??!! */
+    userDraw.pen.isActive = false
+    userDraw.fill.isActive = false
+    userDraw.eraser.isActive = false
+    userDraw.clear.isActive = true
 
+    clear({ ...userDraw, senderId: socket.id })
+    setIsInAction(false)
+  }
+
+  const checked = userDraw.pen.isActive || userDraw.eraser.isActive
+   || userDraw.fill.isActive
   return (
     <Container
       maxWidth="sm"
@@ -98,7 +112,7 @@ function Menu(props) {
         <Chip className={clsx(classes.chip, userDraw.pen.isActive && 'active')} color="primary" icon={<BrushIcon />} label="Pinceau" onClick={() => { activePen() }} />
         <Chip className={clsx(classes.chip, userDraw.eraser.isActive && 'active')} color="primary" icon={<AutoFixNormalIcon />} label="Gomme" onClick={() => { activeEraser() }} />
         <Chip className={clsx(classes.chip, userDraw.fill.isActive && 'active')} color="primary" icon={<FormatColorFillIcon />} label="Remplissage" onClick={() => { activeFill() }} />
-        <Chip className={classes.chip} color="primary" icon={<HighlightOffIcon />} label="Effacer tout" onClick={() => { clear() }} />
+        <Chip className={classes.chip} color="primary" icon={<HighlightOffIcon />} label="Effacer tout" onClick={() => { activeClear() }} />
       </Box>
 
       <Box className={classes.tools}>

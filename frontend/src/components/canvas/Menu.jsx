@@ -59,6 +59,7 @@ function Menu(props) {
       ...userDraw,
       pen: { ...userDraw.pen, isActive: true },
       eraser: { ...userDraw.eraser, isActive: false },
+      fill: { ...userDraw.fill, isActive: false },
     })
     setIsInAction(false)
   }
@@ -67,11 +68,21 @@ function Menu(props) {
       ...userDraw,
       pen: { ...userDraw.pen, isActive: false },
       eraser: { ...userDraw.eraser, isActive: true },
+      fill: { ...userDraw.fill, isActive: false },
+    })
+    setIsInAction(false)
+  }
+  const activeFill = () => {
+    setUserDraw({
+      ...userDraw,
+      pen: { ...userDraw.pen, isActive: false },
+      eraser: { ...userDraw.eraser, isActive: false },
+      fill: { ...userDraw.fill, isActive: true },
     })
     setIsInAction(false)
   }
 
-  const checked = userDraw.pen.isActive || userDraw.eraser.isActive
+  const checked = userDraw.pen.isActive || userDraw.eraser.isActive || userDraw.fill.isActive
 
   return (
     <Container
@@ -85,6 +96,7 @@ function Menu(props) {
       <Box className={classes.chipsContainer}>
         <Chip className={clsx(classes.chip, userDraw.pen.isActive && 'active')} color="primary" icon={<BrushIcon />} label="Pinceau" onClick={() => { activePen() }} />
         <Chip className={clsx(classes.chip, userDraw.eraser.isActive && 'active')} color="primary" icon={<AutoFixNormalIcon />} label="Gomme" onClick={() => { activeEraser() }} />
+        <Chip className={clsx(classes.chip, userDraw.fill.isActive && 'active')} color="primary" icon={<AutoFixNormalIcon />} label="Remplissage" onClick={() => { activeFill() }} />
         <Chip className={classes.chip} color="primary" icon={<HighlightOffIcon />} label="Effacer tout" onClick={() => { clear() }} />
       </Box>
 
@@ -127,6 +139,17 @@ function Menu(props) {
                   eraser: { ...userDraw.eraser, width: e.target.value },
                 })}
 
+              />
+            )}
+
+            {userDraw.fill.isActive && (
+              <input
+                type="color"
+                value={userDraw.fill.color}
+                onChange={(e) => setUserDraw({
+                  ...userDraw,
+                  fill: { ...userDraw.fill, color: e.target.value },
+                })}
               />
             )}
 

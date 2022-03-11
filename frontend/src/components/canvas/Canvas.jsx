@@ -1,3 +1,5 @@
+/* eslint-disable no-unreachable-loop */
+/* eslint-disable no-unreachable */
 /* eslint-disable no-param-reassign */
 /* eslint-disable prefer-destructuring */
 import React, { useState, useRef, useEffect } from 'react'
@@ -104,7 +106,7 @@ function Canvas({ socket }) {
   }
 
   const compareColor = (color1, color2) => {
-    for (let i = 0; i < color1.length; i += 1) {
+    for (let i = 0; i < color2.length; i += 1) {
       if (color1[i] !== color2[i]) return false
     }
     return true
@@ -163,7 +165,7 @@ function Canvas({ socket }) {
 
         const currentColor = getPixelColor(imgData, x, y)
         // the color targeted is the same as the current color pixel
-        if (compareColor(currentColor, targetColor)) {
+        if (compareColor(targetColor, currentColor)) {
           // fill the pixel
           drawPixel(imgData, x, y, fillColor)
           // we check the four direction

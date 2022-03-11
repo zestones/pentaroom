@@ -45,6 +45,10 @@ function Canvas({ socket }) {
       isActive: false,
       width: 10,
     },
+    fill: {
+      isActive: false,
+      color: '#000000',
+    },
   })
 
   /** Draw */

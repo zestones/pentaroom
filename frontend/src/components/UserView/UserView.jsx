@@ -2,29 +2,17 @@ import React, { useState } from 'react'
 
 import { v4 as uuid } from 'uuid'
 
-import Button from '@mui/material/Button'
-import { makeStyles } from '@mui/styles'
 import Drawer from '../drawer/Drawer'
 import Chat from '../chat/Chat'
 import SwitchRoleButton from '../switchRoleButton/SwitchRoleButton'
 import UserInput from '../userInput/UserInput'
 import Canvas from '../canvas/Canvas'
-import Resultat from '../resultat/ScoreBoard'
-
-const useStyles = makeStyles({
-  scores: {
-    position: 'absolute',
-    bottom: '50px',
-    left: '300px',
-  },
-})
 
 function UserView({
   setUserRole, socket, isConnected, users, messages,
 }) {
   // init all the used variables
   const [isDrawer, setIsDrawer] = useState(false)
-  const classes = useStyles()
 
   const events = {
     connect: 'connect',
@@ -56,22 +44,10 @@ function UserView({
     })
   }
 
-  const [displayScore, setDisplayScore] = useState(false)
-
-  const handleClick = () => {
-    setDisplayScore(true)
-    console.log(displayScore)
-  }
-
   // return our application
   return (
     <>
       {isDrawer ? <Canvas socket={socket} /> : <UserInput />}
-
-      <Button className={classes.scores} variant="contained" onClick={handleClick}>resultat</Button>
-
-      {(displayScore) && <Resultat />}
-
       <Drawer
         userID={socket?.id}
         isConnected={isConnected}

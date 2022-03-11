@@ -1,9 +1,10 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import Container from '@mui/material/Container'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import SendIcon from '@mui/icons-material/Send'
 import { makeStyles } from '@mui/styles'
+import ScoreBoard from '../resultat/ScoreBoard'
 
 const useStyles = makeStyles({
   container: {
@@ -19,6 +20,11 @@ const useStyles = makeStyles({
   },
   sendButton: {
     marginTop: '30px',
+  },
+  scores: {
+    position: 'absolute',
+    bottom: '50px',
+    left: '300px',
   },
 })
 
@@ -38,21 +44,46 @@ function UserInput() {
     }
   }
 
+  const [displayScore, setDisplayScore] = useState(false)
+
+  const handleClick = () => {
+    setDisplayScore(true)
+  }
+
   return (
-    <Container className={classes.container} maxWidth="xxl">
-      <Container className={classes.subcontainer} maxWidth="lg">
-        <TextField
-          inputRef={inputRef}
-          fullWidth
-          label="Saisissez votre mot"
-          variant="outlined"
-          onKeyPress={handleKeyPressed}
-        />
-        <Button className={classes.sendButton} variant="contained" endIcon={<SendIcon />} onClick={handleValidation}>
-          Envoyer
+    <>
+      {
+        (displayScore) && (
+          <ScoreBoard />
+        )
+      }
+
+      <Container className={classes.container} maxWidth="xxl">
+        <Container className={classes.subcontainer} maxWidth="lg">
+          <TextField
+            inputRef={inputRef}
+            fullWidth
+            label="Saisissez votre mot"
+            variant="outlined"
+            onKeyPress={handleKeyPressed}
+          />
+          <Button className={classes.sendButton} variant="contained" endIcon={<SendIcon />} onClick={handleValidation}>
+            Envoyer
+          </Button>
+
+        </Container>
+        <Button
+          className={classes.scores}
+          variant="contained"
+          name="click"
+          onClick={handleClick}
+
+        >
+          resultat
+
         </Button>
       </Container>
-    </Container>
+    </>
   )
 }
 

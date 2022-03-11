@@ -223,10 +223,13 @@ function Canvas({ socket }) {
     })
     if (userDraw.fill.isActive) {
       setUserDraw({
-        ...userDraw, x0: pos.X, y0: pos.Y, color: ctx.strokeStyle,
+        ...userDraw, color: ctx.strokeStyle,
       })
       fillCanvas({
-        ...userDraw, senderId: socket.id,
+        ...userDraw,
+        x0: pos.X,
+        y0: pos.Y,
+        senderId: socket.id,
       })
     }
   }

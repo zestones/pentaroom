@@ -56,11 +56,12 @@ function Canvas({ socket }) {
   /** Draw */
   const draw = (drawObject) => {
     ctx.beginPath()
+
     ctx.moveTo(drawObject.x0, drawObject.y0)
     ctx.lineTo(drawObject.x1, drawObject.y1)
+
     ctx.strokeStyle = drawObject.pen.color
     ctx.lineWidth = drawObject.pen.width
-
     ctx.lineJoin = 'round'
     ctx.lineCap = 'round'
 
@@ -74,12 +75,18 @@ function Canvas({ socket }) {
 
   /** Clean the screen with the eraser */
   const erase = (drawObject) => {
-    ctx.clearRect(
-      drawObject.x0 - drawObject.eraser.width / 2,
-      drawObject.y0 - drawObject.eraser.width / 2,
-      drawObject.eraser.width,
-      drawObject.eraser.width,
-    )
+    ctx.beginPath()
+
+    ctx.moveTo(drawObject.x0, drawObject.y0)
+    ctx.lineTo(drawObject.x1, drawObject.y1)
+
+    ctx.strokeStyle = 'white'
+    ctx.lineWidth = drawObject.eraser.width
+    ctx.lineJoin = 'round'
+    ctx.lineCap = 'round'
+
+    ctx.stroke()
+    ctx.closePath()
 
     if (socket && socket.id === drawObject.senderId) {
       socket.emit('draw', drawObject)

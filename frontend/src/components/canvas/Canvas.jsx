@@ -83,8 +83,6 @@ function Canvas({ socket }) {
 
     ctx.strokeStyle = 'white'
     ctx.lineWidth = drawObject.eraser.width
-    ctx.lineJoin = 'round'
-    ctx.lineCap = 'round'
 
     ctx.stroke()
     ctx.closePath()
@@ -179,7 +177,7 @@ function Canvas({ socket }) {
     } else if (userDraw.eraser.isActive) {
       const pos = getPositionOnEvent(e)
       setUserDraw({
-        ...userDraw, x0: pos.X, y0: pos.Y,
+        ...userDraw, x0: userDraw.x1, y0: userDraw.y1, x1: pos.X, y1: pos.Y,
       })
       erase({ ...userDraw, senderId: socket.id })
     }

@@ -7,6 +7,7 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import Chip from '@mui/material/Chip'
 import Zoom from '@mui/material/Zoom'
 import Box from '@mui/material/Box'
+import FormatColorFillIcon from '@mui/icons-material/FormatColorFill'
 import clsx from 'clsx'
 
 const useStyles = makeStyles({
@@ -96,7 +97,7 @@ function Menu(props) {
       <Box className={classes.chipsContainer}>
         <Chip className={clsx(classes.chip, userDraw.pen.isActive && 'active')} color="primary" icon={<BrushIcon />} label="Pinceau" onClick={() => { activePen() }} />
         <Chip className={clsx(classes.chip, userDraw.eraser.isActive && 'active')} color="primary" icon={<AutoFixNormalIcon />} label="Gomme" onClick={() => { activeEraser() }} />
-        <Chip className={clsx(classes.chip, userDraw.fill.isActive && 'active')} color="primary" icon={<AutoFixNormalIcon />} label="Remplissage" onClick={() => { activeFill() }} />
+        <Chip className={clsx(classes.chip, userDraw.fill.isActive && 'active')} color="primary" icon={<FormatColorFillIcon />} label="Remplissage" onClick={() => { activeFill() }} />
         <Chip className={classes.chip} color="primary" icon={<HighlightOffIcon />} label="Effacer tout" onClick={() => { clear() }} />
       </Box>
 

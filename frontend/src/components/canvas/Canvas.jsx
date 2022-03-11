@@ -31,6 +31,13 @@ function Canvas({ socket }) {
 
   const [isInAction, setIsInAction] = useState(false)
 
+  // history of the canvas
+  const [history] = useState({
+    undoList: [],
+    redoList: [],
+  })
+  const myCanvas = document.getElementById('myCanvas')
+
   const [userDraw, setUserDraw] = useState({
     x0: 0,
     y0: 0,
@@ -47,7 +54,7 @@ function Canvas({ socket }) {
     },
     fill: {
       isActive: false,
-      color: '',
+      color: '#000000',
     },
     clear: {
       isActive: false,
@@ -83,6 +90,9 @@ function Canvas({ socket }) {
 
     ctx.strokeStyle = 'white'
     ctx.lineWidth = drawObject.eraser.width
+
+    ctx.lineJoin = 'round'
+    ctx.lineCap = 'round'
 
     ctx.stroke()
     ctx.closePath()
@@ -128,6 +138,58 @@ function Canvas({ socket }) {
     }
   }, [socket, setCtx, setCanvasDim])
 
+  /** save the canvas */
+  const saveCanvas = (keepRedoList, list) => {
+    if (!keepRedoList) {
+      history.redoList = []
+    }
+    (list || history.undoList).push(myCanvas.toDataURL())
+  }
+
+  /** restore the canvas */
+  // pop is the array which the img will be restored
+  // push is the array which a new img will be added
+  const restoreCanvas = (pop, push) => {
+    if (pop.length) {
+      // get the last image saved
+      const restore = pop.pop()
+      // save a new image
+      saveCanvas(true, push)
+
+      // Create img with the data in pop
+      const img = new Image()
+      img.src = restore
+
+      // clear the canvas
+      ctx.clearRect(0, 0, canvasDim.width, canvasDim.height)
+
+      // draw the previous canvas
+      img.onload = function reDraw() {
+        ctx.drawImage(
+          img,
+          0,
+          0,
+          canvasDim.width,
+          canvasDim.height,
+          0,
+          0,
+          canvasDim.width,
+          canvasDim.height,
+        )
+      }
+    }
+  }
+
+  /** get the previous canvas */
+  const undoCanvas = () => {
+    restoreCanvas(history.undoList, history.redoList)
+  }
+
+  /** get the <next> canvas */
+  const redoCanvas = () => {
+    restoreCanvas(history.redoList, history.undoList)
+  }
+
   /** get current position on the screen */
   const getPositionOnEvent = (e) => {
     let X
@@ -148,6 +210,7 @@ function Canvas({ socket }) {
   /** Start the drawing */
   const handleTouchStart = (e) => {
     setIsInAction(true)
+    saveCanvas(false)
     const pos = getPositionOnEvent(e)
     setUserDraw({
       ...userDraw, x0: pos.X, x1: pos.X, y0: pos.Y, y1: pos.Y,
@@ -213,6 +276,8 @@ function Canvas({ socket }) {
         setIsInAction={setIsInAction}
         clear={clear}
         socket={socket}
+        undoCanvas={undoCanvas}
+        redoCanvas={redoCanvas}
       />
     </Container>
   )

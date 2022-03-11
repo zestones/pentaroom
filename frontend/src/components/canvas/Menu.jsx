@@ -8,6 +8,9 @@ import Chip from '@mui/material/Chip'
 import Zoom from '@mui/material/Zoom'
 import Box from '@mui/material/Box'
 import FormatColorFillIcon from '@mui/icons-material/FormatColorFill'
+import RedoIcon from '@mui/icons-material/Redo'
+import UndoIcon from '@mui/icons-material/Undo'
+import IconButton from '@mui/material/IconButton'
 import clsx from 'clsx'
 
 const useStyles = makeStyles({
@@ -37,12 +40,22 @@ const useStyles = makeStyles({
     marginTop: '15px',
     height: '50px',
   },
+  redo: {
+    position: 'absolute',
+    right: 100,
+    bottom: 25,
+  },
+  undo: {
+    position: 'absolute',
+    left: 100,
+    bottom: 80,
+  },
 })
 
 function Menu(props) {
   const classes = useStyles()
   const {
-    userDraw, setUserDraw, setIsInAction, clear, socket,
+    userDraw, setUserDraw, setIsInAction, clear, socket, undoCanvas, redoCanvas,
   } = props
 
   const [anchorEl, setAnchorEl] = useState(null)
@@ -114,7 +127,25 @@ function Menu(props) {
         <Chip className={clsx(classes.chip, userDraw.fill.isActive && 'active')} color="primary" icon={<FormatColorFillIcon />} label="Remplissage" onClick={() => { activeFill() }} />
         <Chip className={classes.chip} color="primary" icon={<HighlightOffIcon />} label="Effacer tout" onClick={() => { activeClear() }} />
       </Box>
+      <IconButton
+        className={classes.undo}
+        color="primary"
+        aria-label="upload picture"
+        component="span"
+        onClick={() => undoCanvas()}
 
+      >
+        <UndoIcon />
+      </IconButton>
+      <IconButton
+        className={classes.redo}
+        color="primary"
+        aria-label="upload picture"
+        component="span"
+        onClick={() => redoCanvas()}
+      >
+        <RedoIcon />
+      </IconButton>
       <Box className={classes.tools}>
         <Zoom in={checked} style={{ transitionDelay: checked ? '500ms' : '0ms' }}>
           <Box>

@@ -60,6 +60,10 @@ function Canvas({ socket }) {
     ctx.lineTo(drawObject.x1, drawObject.y1)
     ctx.strokeStyle = drawObject.pen.color
     ctx.lineWidth = drawObject.pen.width
+
+    ctx.lineJoin = 'round'
+    ctx.lineCap = 'round'
+
     ctx.stroke()
     ctx.closePath()
 

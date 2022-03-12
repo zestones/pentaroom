@@ -84,9 +84,8 @@ function Message({ message }) {
   const classes = useStyles()
 
   const getMessageTime = () => {
-    const separateDate = message.time.split(' ')
-    const separateTime = separateDate[separateDate.length - 1].split(':')
-    return `${separateTime[0]}:${separateTime[1]}`
+    const date = new Date(message.time)
+    return `${date.getHours()}:${date.getMinutes()}`
   }
   return (
     <div className={classes.messageDisplay}>

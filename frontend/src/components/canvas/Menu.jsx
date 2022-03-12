@@ -75,6 +75,8 @@ function Menu(props) {
       eraser: { ...userDraw.eraser, isActive: false },
       fill: { ...userDraw.fill, isActive: false },
       clear: { ...userDraw.clear, isActive: false },
+      undo: { ...userDraw.undo, isActive: false },
+      redo: { ...userDraw.redo, isActive: false },
     })
     setIsInAction(false)
   }
@@ -85,6 +87,8 @@ function Menu(props) {
       eraser: { ...userDraw.eraser, isActive: true },
       fill: { ...userDraw.fill, isActive: false },
       clear: { ...userDraw.clear, isActive: false },
+      undo: { ...userDraw.undo, isActive: false },
+      redo: { ...userDraw.redo, isActive: false },
     })
     setIsInAction(false)
   }
@@ -95,6 +99,8 @@ function Menu(props) {
       eraser: { ...userDraw.eraser, isActive: false },
       fill: { ...userDraw.fill, isActive: true },
       clear: { ...userDraw.clear, isActive: false },
+      undo: { ...userDraw.undo, isActive: false },
+      redo: { ...userDraw.redo, isActive: false },
     })
     setIsInAction(false)
   }
@@ -105,9 +111,32 @@ function Menu(props) {
     userDraw.fill.isActive = false
     userDraw.eraser.isActive = false
     userDraw.clear.isActive = true
-
+    userDraw.undo.isActive = false
+    userDraw.redo.isActive = false
+    userDraw.redo.redoList = []
+    userDraw.undo.undoList = []
     clear({ ...userDraw, senderId: socket.id })
     setIsInAction(false)
+  }
+
+  const activeUndo = () => {
+    userDraw.pen.isActive = false
+    userDraw.fill.isActive = false
+    userDraw.eraser.isActive = false
+    userDraw.redo.isActive = false
+    userDraw.undo.isActive = true
+
+    undoCanvas({ ...userDraw, senderId: socket.id })
+  }
+  const activeRedo = () => {
+    userDraw.pen.isActive = false
+    userDraw.fill.isActive = false
+    userDraw.eraser.isActive = false
+    userDraw.redo.isActive = false
+    userDraw.undo.isActive = false
+    userDraw.redo.isActive = true
+
+    redoCanvas({ ...userDraw, senderId: socket.id })
   }
 
   const checked = userDraw.pen.isActive || userDraw.eraser.isActive
@@ -132,7 +161,7 @@ function Menu(props) {
         color="primary"
         aria-label="upload picture"
         component="span"
-        onClick={() => undoCanvas()}
+        onClick={() => activeUndo()}
 
       >
         <UndoIcon />
@@ -142,7 +171,7 @@ function Menu(props) {
         color="primary"
         aria-label="upload picture"
         component="span"
-        onClick={() => redoCanvas()}
+        onClick={() => activeRedo()}
       >
         <RedoIcon />
       </IconButton>

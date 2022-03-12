@@ -31,11 +31,6 @@ function Canvas({ socket }) {
 
   const [isInAction, setIsInAction] = useState(false)
 
-  // history of the canvas
-  const [history] = useState({
-    undoList: [],
-    redoList: [],
-  })
   const myCanvas = document.getElementById('myCanvas')
 
   const [userDraw, setUserDraw] = useState({
@@ -57,6 +52,14 @@ function Canvas({ socket }) {
       color: '#000000',
     },
     clear: {
+      isActive: false,
+    },
+    undo: {
+      undoList: [],
+      isActive: false,
+    },
+    redo: {
+      redoList: [],
       isActive: false,
     },
   })
@@ -109,41 +112,12 @@ function Canvas({ socket }) {
     }
   }
 
-  /** Init/Update values */
-  useEffect(() => {
-    const canvas = canvasRef.current
-    const context = canvas.getContext('2d')
-
-    context.lineJoin = 'round'
-    context.lineCap = 'round'
-
-    setCanvasDim({ width: document.getElementById('draw').offsetWidth, height: document.getElementById('draw').offsetHeight })
-
-    setCtx(context)
-
-    if (socket) {
-      socket.on('draw', (drawObject) => {
-        if (drawObject.senderId !== socket.id) {
-          if (drawObject.pen.isActive) {
-            draw(drawObject)
-          } else if (drawObject.eraser.isActive) {
-            erase(drawObject)
-          } else if (drawObject.fill.isActive) {
-            fillCanvas(drawObject, ctx, canvasDim, socket)
-          } else if (drawObject.clear.isActive) {
-            clear(drawObject)
-          }
-        }
-      })
-    }
-  }, [socket, setCtx, setCanvasDim])
-
   /** save the canvas */
   const saveCanvas = (keepRedoList, list) => {
     if (!keepRedoList) {
-      history.redoList = []
+      userDraw.redo.redoList = []
     }
-    (list || history.undoList).push(myCanvas.toDataURL())
+    (list || userDraw.undo.undoList).push(myCanvas.toDataURL())
   }
 
   /** restore the canvas */
@@ -181,14 +155,53 @@ function Canvas({ socket }) {
   }
 
   /** get the previous canvas */
-  const undoCanvas = () => {
-    restoreCanvas(history.undoList, history.redoList)
+  const undoCanvas = (drawObject) => {
+    if (socket && socket.id === drawObject.senderId) {
+      socket.emit('draw', drawObject)
+    }
+    restoreCanvas(drawObject.undo.undoList, drawObject.redo.redoList)
   }
 
   /** get the <next> canvas */
-  const redoCanvas = () => {
-    restoreCanvas(history.redoList, history.undoList)
+  const redoCanvas = (drawObject) => {
+    if (socket && socket.id === drawObject.senderId) {
+      socket.emit('draw', drawObject)
+    }
+    restoreCanvas(drawObject.redo.redoList, drawObject.undo.undoList)
   }
+
+  /** Init/Update values */
+  useEffect(() => {
+    const canvas = canvasRef.current
+    const context = canvas.getContext('2d')
+
+    context.lineJoin = 'round'
+    context.lineCap = 'round'
+
+    setCanvasDim({ width: document.getElementById('draw').offsetWidth, height: document.getElementById('draw').offsetHeight })
+
+    setCtx(context)
+
+    if (socket) {
+      socket.on('draw', (drawObject) => {
+        if (drawObject.senderId !== socket.id) {
+          if (drawObject.pen.isActive) {
+            draw(drawObject)
+          } else if (drawObject.eraser.isActive) {
+            erase(drawObject)
+          } else if (drawObject.fill.isActive) {
+            fillCanvas(drawObject, ctx, canvasDim, socket)
+          } else if (drawObject.clear.isActive) {
+            clear(drawObject)
+          } else if (drawObject.undo.isActive) {
+            undoCanvas(drawObject)
+          } else if (drawObject.redo.isActive) {
+            redoCanvas(drawObject)
+          }
+        }
+      })
+    }
+  }, [socket, setCtx, setCanvasDim])
 
   /** get current position on the screen */
   const getPositionOnEvent = (e) => {

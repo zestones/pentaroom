@@ -35,35 +35,39 @@ const useStyles = makeStyles({
   },
   guestUsername: {
     paddingTop: '0.5em',
-    paddingLeft: '2em',
+    paddingLeft: '1em',
     margin: '0px',
     borderRadius: '20px',
     color: 'black',
     maxWidth: '65%',
-    width: 'fit-content',
-    marginRight: 'auto',
+    overflow: 'hidden',
+    paddingBottom: '5px',
+
   },
   guestAvatar: {
     color: 'transparent',
     backgroundColor: 'transparent',
     width: '2rem',
     height: '2rem',
+    marginRight: '5px',
   },
   messageDisplay: {
     display: 'flex',
     flexDirection: 'row',
+    alignItems: 'center',
   },
   guestDisplay: {
     flexDirection: 'column',
   },
   guestMessageTime: {
-    paddingLeft: '2em',
+    paddingLeft: '1em',
     margin: '0px',
     color: 'gray',
     fontSize: '15px',
     marginLeft: '0',
     marginRight: 'auto',
     maxWidth: '80px',
+    paddingTop: '5px',
   },
   ownerMessageTime: {
     padding: '0px',
@@ -73,6 +77,7 @@ const useStyles = makeStyles({
     marginLeft: 'auto',
     marginRight: '0',
     maxWidth: '80px',
+    paddingTop: '5px',
   },
   ownerDisplay: {
     marginLeft: 'auto',

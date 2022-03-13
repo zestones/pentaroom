@@ -40,16 +40,6 @@ const useStyles = makeStyles({
     marginTop: '15px',
     height: '50px',
   },
-  redo: {
-    position: 'absolute',
-    right: 100,
-    bottom: 25,
-  },
-  undo: {
-    position: 'absolute',
-    left: 100,
-    bottom: 80,
-  },
 })
 
 function Menu(props) {
@@ -155,26 +145,9 @@ function Menu(props) {
         <Chip className={clsx(classes.chip, userDraw.eraser.isActive && 'active')} color="primary" icon={<AutoFixNormalIcon />} label="Gomme" onClick={() => { activeEraser() }} />
         <Chip className={clsx(classes.chip, userDraw.fill.isActive && 'active')} color="primary" icon={<FormatColorFillIcon />} label="Remplissage" onClick={() => { activeFill() }} />
         <Chip className={classes.chip} color="primary" icon={<HighlightOffIcon />} label="Effacer tout" onClick={() => { activeClear() }} />
+        <IconButton className={classes.undo} color="primary" aria-label="undo action" component="span" onClick={() => activeUndo()}><UndoIcon /></IconButton>
+        <IconButton className={classes.redo} color="primary" aria-label="redo action" component="span" onClick={() => activeRedo()}><RedoIcon /></IconButton>
       </Box>
-      <IconButton
-        className={classes.undo}
-        color="primary"
-        aria-label="upload picture"
-        component="span"
-        onClick={() => activeUndo()}
-
-      >
-        <UndoIcon />
-      </IconButton>
-      <IconButton
-        className={classes.redo}
-        color="primary"
-        aria-label="upload picture"
-        component="span"
-        onClick={() => activeRedo()}
-      >
-        <RedoIcon />
-      </IconButton>
       <Box className={classes.tools}>
         <Zoom in={checked} style={{ transitionDelay: checked ? '500ms' : '0ms' }}>
           <Box>

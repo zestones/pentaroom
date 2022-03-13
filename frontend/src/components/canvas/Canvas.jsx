@@ -11,6 +11,7 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
+    backgroundColor: '#444444',
   },
   drawArea: {
     flexGrow: '1',
@@ -66,6 +67,7 @@ function Canvas({ socket }) {
 
   /** Draw */
   const draw = (drawObject) => {
+    console.log('draw')
     ctx.beginPath()
 
     ctx.moveTo(drawObject.x0, drawObject.y0)
@@ -223,7 +225,9 @@ function Canvas({ socket }) {
   /** Start the drawing */
   const handleTouchStart = (e) => {
     setIsInAction(true)
+
     saveCanvas(false)
+
     const pos = getPositionOnEvent(e)
     setUserDraw({
       ...userDraw, x0: pos.X, x1: pos.X, y0: pos.Y, y1: pos.Y,

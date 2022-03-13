@@ -20,9 +20,6 @@ const useStyles = makeStyles({
     backgroundColor: 'white',
     marginTop: '5px',
   },
-  myCanvas: {
-    backgroundColor: 'rgb(255, 255, 255, 255)',
-  },
 })
 
 function Canvas({ socket }) {
@@ -287,7 +284,6 @@ function Canvas({ socket }) {
       <div id="draw" className={classes.drawArea}>
         <canvas
           id="myCanvas"
-          className={classes.myCanvas}
           onTouchStart={handleTouchStart}
           onMouseDown={handleTouchStart}
           onTouchMove={handleTouchMove}

@@ -51,6 +51,7 @@ const hexToRgb = (h) => {
 
 export const fillCanvas = (drawObject, ctx, canvasDim, socket) => {
   const fillColor = hexToRgb(drawObject.fill.color)
+
   // get the data of the current canvas
   const imgData = ctx.getImageData(
     0,
@@ -60,20 +61,6 @@ export const fillCanvas = (drawObject, ctx, canvasDim, socket) => {
   )
   // get the color targeted
   const targetColor = getPixelColor(imgData, drawObject.x0, drawObject.y0)
-  let transparentBlack
-  let isWhite = false
-
-  // considere transparent black and white as the same color
-  if (targetColor[0] === 0
-    && targetColor[1] === 0 && targetColor[2] === 0 && targetColor[3] === 0) {
-    transparentBlack = [255, 255, 255, 255]
-    isWhite = true
-  } else if (targetColor[0] === 255
-    && targetColor[1] === 255 && targetColor[2] === 255 && targetColor[3] === 255) {
-    transparentBlack = [0, 0, 0, 0]
-    isWhite = true
-  }
-
   if (!compareColor(targetColor, fillColor)) {
     // recursivity don't work !
     // creation of a stack whith the position
@@ -84,21 +71,8 @@ export const fillCanvas = (drawObject, ctx, canvasDim, socket) => {
       const x = stack.pop()
 
       const currentColor = getPixelColor(imgData, x, y)
-
-      // considere transparent black and white as the same
-      if (isWhite) {
-        if (compareColor(transparentBlack, currentColor)
-        || compareColor(targetColor, currentColor)) {
-        // fill the pixel
-          drawPixel(imgData, x, y, fillColor)
-          // we check the four direction
-          stack.push(x + 1, y)
-          stack.push(x - 1, y)
-          stack.push(x, y + 1)
-          stack.push(x, y - 1)
-        }
       // the color targeted is the same as the current color pixel
-      } else if (compareColor(targetColor, currentColor)) {
+      if (compareColor(targetColor, currentColor)) {
         // fill the pixel
         drawPixel(imgData, x, y, fillColor)
         // we check the four direction

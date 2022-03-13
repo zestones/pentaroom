@@ -20,6 +20,9 @@ const useStyles = makeStyles({
     backgroundColor: 'white',
     marginTop: '5px',
   },
+  myCanvas: {
+    backgroundColor: 'rgb(255, 255, 255, 255)',
+  },
 })
 
 function Canvas({ socket }) {
@@ -66,15 +69,15 @@ function Canvas({ socket }) {
   })
 
   const activeDefaultTool = () => {
+    ctx.strokeStyle = userDraw.pen.color
     setUserDraw({
       ...userDraw,
-      pen: { ...userDraw, isActive: true },
+      pen: { ...userDraw.pen, isActive: true },
     })
   }
 
   /** Draw */
   const draw = (drawObject) => {
-    console.log('draw')
     ctx.beginPath()
 
     ctx.moveTo(drawObject.x0, drawObject.y0)
@@ -105,7 +108,6 @@ function Canvas({ socket }) {
 
     ctx.lineJoin = 'round'
     ctx.lineCap = 'round'
-
     ctx.stroke()
     ctx.closePath()
 
@@ -285,6 +287,7 @@ function Canvas({ socket }) {
       <div id="draw" className={classes.drawArea}>
         <canvas
           id="myCanvas"
+          className={classes.myCanvas}
           onTouchStart={handleTouchStart}
           onMouseDown={handleTouchStart}
           onTouchMove={handleTouchMove}

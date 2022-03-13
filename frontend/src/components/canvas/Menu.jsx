@@ -106,7 +106,6 @@ function Menu(props) {
     userDraw.redo.redoList = []
     userDraw.undo.undoList = []
     clear({ ...userDraw, senderId: socket.id })
-    setIsInAction(false)
   }
 
   const activeUndo = () => {

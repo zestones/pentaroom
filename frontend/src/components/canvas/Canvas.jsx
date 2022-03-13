@@ -65,6 +65,13 @@ function Canvas({ socket }) {
     },
   })
 
+  const activeDefaultTool = () => {
+    setUserDraw({
+      ...userDraw,
+      pen: { ...userDraw, isActive: true },
+    })
+  }
+
   /** Draw */
   const draw = (drawObject) => {
     console.log('draw')
@@ -112,6 +119,7 @@ function Canvas({ socket }) {
     if (socket && socket.id === drawObject.senderId) {
       socket.emit('draw', drawObject)
     }
+    activeDefaultTool()
   }
 
   /** save the canvas */
@@ -162,6 +170,7 @@ function Canvas({ socket }) {
       socket.emit('draw', drawObject)
     }
     restoreCanvas(drawObject.undo.undoList, drawObject.redo.redoList)
+    activeDefaultTool()
   }
 
   /** get the <next> canvas */
@@ -170,6 +179,7 @@ function Canvas({ socket }) {
       socket.emit('draw', drawObject)
     }
     restoreCanvas(drawObject.redo.redoList, drawObject.undo.undoList)
+    activeDefaultTool()
   }
 
   /** Init/Update values */

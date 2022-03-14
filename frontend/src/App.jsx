@@ -11,7 +11,7 @@ function App({ initialUserRole }) {
   // init all the used variables
   const [socket, setSocket] = useState(null)
   const [isConnected, setConnected] = useState(false)
-  const [users, setUsers] = useState({})
+  const [users, setUsers] = useState([])
   const [messages, setMessages] = useState([])
   const [hiddenWord, setHiddenWord] = useState()
   const [userDrawer, setDrawer] = useState()

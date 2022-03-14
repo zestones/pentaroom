@@ -60,7 +60,7 @@ function UserView({
       senderId: socket.id,
       pseudo: getUsername(),
       avatar: getUserAvatar(),
-      time: new Date().toLocaleString(),
+      time: new Date(),
     })
   }
 

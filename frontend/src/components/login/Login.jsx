@@ -61,40 +61,42 @@ function Login({
   }
 
   return (
-    <>
+    <Container className={classes.container} maxWidth="xxl">
       {(registered)
-      && (
-        <UserAvatar
-          setUserRole={setUserRole}
-          socket={socket}
-          isConnected={isConnected}
-          users={users}
-          messages={messages}
-          hiddenWord={hiddenWord}
-          userDrawer={userDrawer}
-        />
-      )}
-      <Container className={classes.container} maxWidth="xxl">
-        <div className={classes.hiddenWord}>
-          <h1> Pentaroom </h1>
-          <p> Réveille le picasso en toi </p>
-        </div>
-
-        <Container className={classes.subcontainer} maxWidth="lg">
-
-          <TextField
-            inputRef={inputRef}
-            fullWidth
-            label="Saisissez votre pseudo"
-            variant="outlined"
-            onKeyPress={handleKeyPressed}
+        ? (
+          <UserAvatar
+            setUserRole={setUserRole}
+            socket={socket}
+            isConnected={isConnected}
+            users={users}
+            messages={messages}
+            hiddenWord={hiddenWord}
+            userDrawer={userDrawer}
           />
-          <Button className={classes.sendButton} variant="contained" endIcon={<SendIcon />} onClick={handleValidation}>
-            Envoyer
-          </Button>
-        </Container>
-      </Container>
-    </>
+        )
+        : (
+          <>
+            <div className={classes.hiddenWord}>
+              <h1> Pentaroom </h1>
+              <p> Réveille le picasso en toi </p>
+            </div>
+
+            <Container className={classes.subcontainer} maxWidth="lg">
+
+              <TextField
+                inputRef={inputRef}
+                fullWidth
+                label="Saisissez votre pseudo"
+                variant="outlined"
+                onKeyPress={handleKeyPressed}
+              />
+              <Button className={classes.sendButton} variant="contained" endIcon={<SendIcon />} onClick={handleValidation}>
+                Envoyer
+              </Button>
+            </Container>
+          </>
+        )}
+    </Container>
   )
 }
 

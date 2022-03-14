@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { makeStyles } from '@mui/styles'
 import Container from '@mui/material/Container'
-
+import { fillCanvas } from './FillCanvas'
 import Menu from './Menu'
 import Header from './Header'
 
@@ -11,6 +11,7 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
+    backgroundColor: '#444444',
   },
   drawArea: {
     flexGrow: '1',
@@ -31,6 +32,8 @@ function Canvas({ socket }) {
 
   const [isInAction, setIsInAction] = useState(false)
 
+  const myCanvas = document.getElementById('myCanvas')
+
   const [userDraw, setUserDraw] = useState({
     x0: 0,
     y0: 0,
@@ -45,15 +48,43 @@ function Canvas({ socket }) {
       isActive: false,
       width: 10,
     },
+    fill: {
+      isActive: false,
+      color: '#000000',
+    },
+    clear: {
+      isActive: false,
+    },
+    undo: {
+      undoList: [],
+      isActive: false,
+    },
+    redo: {
+      redoList: [],
+      isActive: false,
+    },
   })
+
+  const activeDefaultTool = () => {
+    ctx.strokeStyle = userDraw.pen.color
+    setUserDraw({
+      ...userDraw,
+      pen: { ...userDraw.pen, isActive: true },
+    })
+  }
 
   /** Draw */
   const draw = (drawObject) => {
     ctx.beginPath()
+
     ctx.moveTo(drawObject.x0, drawObject.y0)
     ctx.lineTo(drawObject.x1, drawObject.y1)
+
     ctx.strokeStyle = drawObject.pen.color
     ctx.lineWidth = drawObject.pen.width
+    ctx.lineJoin = 'round'
+    ctx.lineCap = 'round'
+
     ctx.stroke()
     ctx.closePath()
 
@@ -64,16 +95,90 @@ function Canvas({ socket }) {
 
   /** Clean the screen with the eraser */
   const erase = (drawObject) => {
-    ctx.clearRect(
-      drawObject.x0 - drawObject.eraser.width / 2,
-      drawObject.y0 - drawObject.eraser.width / 2,
-      drawObject.eraser.width,
-      drawObject.eraser.width,
-    )
+    ctx.beginPath()
+
+    ctx.moveTo(drawObject.x0, drawObject.y0)
+    ctx.lineTo(drawObject.x1, drawObject.y1)
+
+    ctx.strokeStyle = 'white'
+    ctx.lineWidth = drawObject.eraser.width
+
+    ctx.lineJoin = 'round'
+    ctx.lineCap = 'round'
+    ctx.stroke()
+    ctx.closePath()
 
     if (socket && socket.id === drawObject.senderId) {
       socket.emit('draw', drawObject)
     }
+  }
+
+  const clear = (drawObject) => {
+    ctx.clearRect(0, 0, canvasDim.width, canvasDim.height)
+    if (socket && socket.id === drawObject.senderId) {
+      socket.emit('draw', drawObject)
+    }
+    activeDefaultTool()
+  }
+
+  /** save the canvas */
+  const saveCanvas = (keepRedoList, list) => {
+    if (!keepRedoList) {
+      userDraw.redo.redoList = []
+    }
+    (list || userDraw.undo.undoList).push(myCanvas.toDataURL())
+  }
+
+  /** restore the canvas */
+  // pop is the array which the img will be restored
+  // push is the array which a new img will be added
+  const restoreCanvas = (pop, push) => {
+    if (pop.length) {
+      // get the last image saved
+      const restore = pop.pop()
+      // save a new image
+      saveCanvas(true, push)
+
+      // Create img with the data in pop
+      const img = new Image()
+      img.src = restore
+
+      // clear the canvas
+      ctx.clearRect(0, 0, canvasDim.width, canvasDim.height)
+
+      // draw the previous canvas
+      img.onload = function reDraw() {
+        ctx.drawImage(
+          img,
+          0,
+          0,
+          canvasDim.width,
+          canvasDim.height,
+          0,
+          0,
+          canvasDim.width,
+          canvasDim.height,
+        )
+      }
+    }
+  }
+
+  /** get the previous canvas */
+  const undoCanvas = (drawObject) => {
+    if (socket && socket.id === drawObject.senderId) {
+      socket.emit('draw', drawObject)
+    }
+    restoreCanvas(drawObject.undo.undoList, drawObject.redo.redoList)
+    activeDefaultTool()
+  }
+
+  /** get the <next> canvas */
+  const redoCanvas = (drawObject) => {
+    if (socket && socket.id === drawObject.senderId) {
+      socket.emit('draw', drawObject)
+    }
+    restoreCanvas(drawObject.redo.redoList, drawObject.undo.undoList)
+    activeDefaultTool()
   }
 
   /** Init/Update values */
@@ -95,6 +200,14 @@ function Canvas({ socket }) {
             draw(drawObject)
           } else if (drawObject.eraser.isActive) {
             erase(drawObject)
+          } else if (drawObject.fill.isActive) {
+            fillCanvas(drawObject, ctx, canvasDim, socket)
+          } else if (drawObject.clear.isActive) {
+            clear(drawObject)
+          } else if (drawObject.undo.isActive) {
+            undoCanvas(drawObject)
+          } else if (drawObject.redo.isActive) {
+            redoCanvas(drawObject)
           }
         }
       })
@@ -121,10 +234,24 @@ function Canvas({ socket }) {
   /** Start the drawing */
   const handleTouchStart = (e) => {
     setIsInAction(true)
+
+    saveCanvas(false)
+
     const pos = getPositionOnEvent(e)
     setUserDraw({
       ...userDraw, x0: pos.X, x1: pos.X, y0: pos.Y, y1: pos.Y,
     })
+    if (userDraw.fill.isActive) {
+      setUserDraw({
+        ...userDraw, color: ctx.strokeStyle,
+      })
+      fillCanvas({
+        ...userDraw,
+        x0: pos.X,
+        y0: pos.Y,
+        senderId: socket.id,
+      }, ctx, canvasDim, socket)
+    }
   }
 
   /** handle the mouse mouvement */
@@ -139,7 +266,7 @@ function Canvas({ socket }) {
     } else if (userDraw.eraser.isActive) {
       const pos = getPositionOnEvent(e)
       setUserDraw({
-        ...userDraw, x0: pos.X, y0: pos.Y,
+        ...userDraw, x0: userDraw.x1, y0: userDraw.y1, x1: pos.X, y1: pos.Y,
       })
       erase({ ...userDraw, senderId: socket.id })
     }
@@ -147,10 +274,6 @@ function Canvas({ socket }) {
 
   const handleTouchEnd = () => {
     setIsInAction(false)
-  }
-
-  const clear = () => {
-    ctx.clearRect(0, 0, canvasDim.width, canvasDim.height)
   }
 
   const classes = useStyles()
@@ -178,6 +301,9 @@ function Canvas({ socket }) {
         setUserDraw={setUserDraw}
         setIsInAction={setIsInAction}
         clear={clear}
+        socket={socket}
+        undoCanvas={undoCanvas}
+        redoCanvas={redoCanvas}
       />
     </Container>
   )

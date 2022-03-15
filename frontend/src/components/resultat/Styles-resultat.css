@@ -72,3 +72,40 @@ body {
       visibility: visible;
     }
   
+  
+    .player-name {
+      flex-grow: 1;
+      line-height: 3.5em;
+      padding-left: 10px;
+    }
+  
+  .stats {
+    width: 170px;
+  }
+  
+  .stats {
+    display: flex;
+    margin: 0 0 0 28px;
+    font-weight: normal;
+  }
+  
+    .stats td:first-child {
+      text-align: right;
+      font-weight: normal;
+      letter-spacing: 2px;
+      font-size: .7em;
+    }
+  
+    .stats td:last-child {
+      text-align: left;
+    }
+  
+    .avatar {
+      margin-right: 100px;
+      margin-top: 15px;
+    }
+  
+    .score {
+      margin-right: 180px;
+      margin-top: 25px;
+    }

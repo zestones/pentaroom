@@ -1,33 +1,3 @@
-/* ELEMENT STYLES -------------------- */
-body {
-    background: linear-gradient(
-        90deg,
-        rgb(19, 165, 209) 0%,
-        rgb(146, 191, 202) 100%
-      ); 
-    font-family: arial;
-    text-transform: uppercase;
-  }
-  
-  header {
-    color: #FFF;
-    padding: 5px 10px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    background-color: rgb(48, 18, 168);
-    border-bottom: solid 2px #D4CAFF;
-  }
-  
-  header h1 {
-    flex-grow: 1;
-    font-size: 1.5em;
-    letter-spacing: 2px;
-    font-weight: normal;
-  }
-  
-  
-  
   /* ICONS */
   svg {
     width: 28px;

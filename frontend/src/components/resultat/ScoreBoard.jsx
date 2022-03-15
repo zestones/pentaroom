@@ -6,23 +6,30 @@ import Container from '@mui/material/Container'
 import Player from './Player'
 
 const useStyles = makeStyles({
-  container: {
-    height: '100%',
-    backgroundColor: 'white',
+  main: {
     display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: '0',
     flexDirection: 'column',
-
+    height: '100%',
+    backgroundColor: 'linearGradient(90deg,rgb(19, 165, 209) 0%,rgb(146, 191, 202) 100%)',
   },
-  subcontainer: {
+
+  header: {
+    color: '#FFF',
+    padding: '5px 10px',
     textAlign: 'center',
     display: 'flex',
-    justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'column',
+    backgroundColor: 'rgb(48, 18, 168)',
+    borderBottom: 'solid 2px #D4CAFF',
   },
+
+  h1: {
+    flexGrow: '1',
+    fontSize: '1.5em',
+    letterSpacing: '2px',
+    fontSeight: 'normal',
+  },
+
 })
 
 function ScoreBoard() {
@@ -94,8 +101,8 @@ function ScoreBoard() {
   return (
     <Container maxWidth="xl" className={classes.main}>
       <div className="scoreboard">
-        <header>
-          <h1>
+        <header className={classes.header}>
+          <h1 className={classes.h1}>
             Players:
             {' '}
             {players.length}

@@ -13,7 +13,7 @@ import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import Avatar from '@mui/material/Avatar'
 import Stack from '@mui/material/Stack'
-
+import Confetti from 'react-confetti'
 import { deepOrange } from '@mui/material/colors'
 
 const useStyles = makeStyles({
@@ -148,9 +148,16 @@ function ScoreBoard() {
       border: 0,
     },
   }))
+  const width = '2000'
+  const height = '2080'
 
   return (
     <Container maxWidth="xl" className={classes.main}>
+      <Confetti
+        width={width}
+        height={height}
+      />
+
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>

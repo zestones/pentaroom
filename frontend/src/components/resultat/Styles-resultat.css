@@ -1,3 +1,14 @@
+/* ELEMENT STYLES -------------------- */
+body {
+    background: linear-gradient(
+        90deg,
+        rgb(19, 165, 209) 0%,
+        rgb(146, 191, 202) 100%
+      ); 
+    font-family: arial;
+    text-transform: uppercase;
+  }
+  
   header {
     color: #FFF;
     padding: 5px 10px;
@@ -30,3 +41,34 @@
     animation: grow 0.35s ease-in-out;
     transform-origin: 50% 50%;
   }
+  
+  @keyframes grow {
+    50% { transform: scale(1.4) rotate(-3deg); }
+  }
+  
+  
+  /* COMPONENT STYLES -------------------- */
+  .scoreboard {
+    background: #fff;
+    width: 700px;
+    margin: 70px auto;
+    box-shadow: 0 2px 0 rgb(48, 18, 168);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  
+  .player {
+    display: flex;
+    font-size: 1.2em;
+    border-bottom: solid 2px #EEEEEE;
+    letter-spacing: 2px;
+  }
+  
+    .player:last-of-type {
+      border-bottom-color: #D4CAFF;
+    }
+  
+    .player-name:hover .remove-player {
+      visibility: visible;
+    }
+  

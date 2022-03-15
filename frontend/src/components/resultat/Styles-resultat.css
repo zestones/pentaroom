@@ -1,0 +1,32 @@
+  header {
+    color: #FFF;
+    padding: 5px 10px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    background-color: rgb(48, 18, 168);
+    border-bottom: solid 2px #D4CAFF;
+  }
+  
+  header h1 {
+    flex-grow: 1;
+    font-size: 1.5em;
+    letter-spacing: 2px;
+    font-weight: normal;
+  }
+  
+  
+  
+  /* ICONS */
+  svg {
+    width: 28px;
+    height: 19px;
+    margin-right: 5px;
+    fill: #F0F0F0;
+  }
+  
+  .is-high-score {
+    fill: #FFC657;
+    animation: grow 0.35s ease-in-out;
+    transform-origin: 50% 50%;
+  }

@@ -1,9 +1,9 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-nested-ternary */
-import React, { useState } from 'react'
+import React from 'react'
 import { makeStyles } from '@mui/styles'
 import Container from '@mui/material/Container'
-import Avatar, { genConfig } from 'react-nice-avatar'
+import Player from './Player'
 
 const useStyles = makeStyles({
   container: {
@@ -23,96 +23,94 @@ const useStyles = makeStyles({
     alignItems: 'center',
     flexDirection: 'column',
   },
-  avatar: {
-    border: 'thick double black',
-    width: '5rem',
-    height: '5rem',
-  },
 })
 
 function ScoreBoard() {
-  const [config] = useState({
-    sex: 'woman',
-    faceColor: 'white',
-    earSize: 'small',
-    eyeStyle: 'smile',
-    noseStyle: 'short',
-    mouthStyle: 'peace',
-    shirtStyle: 'polo',
-    glassesStyle: 'round',
-    hairColor: '#000',
-    hairStyle: 'womanShort',
-    hatStyle: 'none',
-    hatColor: '#000',
-    eyeBrowStyle: 'up',
-    shirtColor: '#F4D150',
-    bgColor: 'linear-gradient(45deg, #176fff 0%, #68ffef 100%)',
-  })
-
-  const myAvatar = genConfig(config)
-
-  const listPlayers = [
+  const players = [
     {
-      imgSrc: '',
-      name: 'islem',
-      score: '10 / 100',
+      name: 'mohamed',
+      score: 7,
+      id: 1,
     },
     {
-      imgSrc: './test.png',
       name: 'ghilas',
-      score: '80 / 100',
+      score: 5,
+      id: 2,
     },
     {
-      imgSrc: 'test.png',
-      name: 'idriss',
-      score: '90 / 100',
+      name: 'antoine',
+      score: 10,
+      id: 3,
     },
     {
-      imgSrc: 'test.png',
-      name: 'moha',
-      score: '70 / 100',
+      name: 'idris',
+      score: 2,
+      id: 4,
     },
     {
-      imgSrc: 'test.png',
-      name: 'moha2',
-      score: '60 / 100',
+      name: 'islem',
+      score: 10,
+      id: 5,
+    },
+
+    {
+      name: 'moh',
+      score: 4,
+      id: 6,
     },
     {
-      imgSrc: 'test.png',
-      name: 'ANTOINE',
-      score: '100 / 100',
+      name: 'antoine',
+      score: 10,
+      id: 7,
+    },
+    {
+      name: 'idris',
+      score: 2,
+      id: 8,
+    },
+    {
+      name: 'islem',
+      score: 10,
+      id: 9,
+    },
+
+    {
+      name: 'moh',
+      score: 4,
+      id: 10,
     },
   ]
   const classes = useStyles()
 
-  return (
-    <Container className={classes.container} maxWidth="xxl">
-      <div className="card">
-        <div className="card-body" />
-        <table className="table table-borderless">
-          <tbody>
-            {
-              listPlayers.map((el, index) => (
-                <tr>
-                  <td className="border-0">
-                    <b className={index + 1 === 1 || index + 1 === 2 || index + 1 === 3 ? 'text-danger' : ' '}>
-                      {index + 1 === 1 ? '1st' : index + 1 === 2 ? '2nd' : index + 1 === 3 ? '3rd' : index + 1}
+  const getHighestScore = () => {
+    const highestScore = players.reduce((score, player) => Math.max(score, player.score), 0)
 
-                    </b>
-                  </td>
-                  <td className="border-0">
-                    <div className="d-flex">
-                      <Avatar className={classes.avatar} {...myAvatar} />
-                      <div className="align-self-center pl-3" />
-                      <span className="font-weight-bold">{el.name}</span>
-                    </div>
-                  </td>
-                  <td className="border-0">{el.score}</td>
-                </tr>
-              ))
-            }
-          </tbody>
-        </table>
+    if (highestScore) {
+      return highestScore
+    }
+    return null
+  }
+
+  return (
+    <Container maxWidth="xl" className={classes.main}>
+      <div className="scoreboard">
+        <header>
+          <h1>
+            Players:
+            {' '}
+            {players.length}
+          </h1>
+          <h1>SCORE</h1>
+          <h1>scoreboard</h1>
+        </header>
+        {players.map((player) => (
+          <Player
+            name={player.name}
+            score={player.score}
+            isHighScore={getHighestScore() === player.score}
+            key={player.id.toString()}
+          />
+        ))}
       </div>
     </Container>
   )

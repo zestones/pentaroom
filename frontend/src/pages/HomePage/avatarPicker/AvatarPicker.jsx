@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 
-import React from 'react'
+import React, { useState } from 'react'
 import Avatar, { genConfig } from 'react-nice-avatar'
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
@@ -35,10 +35,14 @@ const useStyles = makeStyles({
   },
 })
 
+const hairStyles = ['normal', 'thick', 'mohawk', 'womanLong', 'womanShort']
+const eyeStyles = ['normal', 'circle', 'oval', 'smile']
+const glassesStyles = ['none', 'round', 'square']
+
 function AvatarPicker() {
   const classes = useStyles()
 
-  const config = genConfig()
+  const [config, setConfig] = useState(genConfig())
 
   const caracteristics = [
     { id: 'face', title: 'Visage' },
@@ -46,6 +50,27 @@ function AvatarPicker() {
     { id: 'eyes', title: 'Yeux' },
     { id: 'glasses', title: 'Lunettes' },
   ]
+
+  const handleFaceClick = () => {
+    const newConfig = genConfig()
+    setConfig({ ...config, faceColor: newConfig.faceColor })
+  }
+
+  const handleHairClick = () => {
+    const index = (hairStyles.indexOf(config.hairStyle) + 1) % hairStyles.length
+    const newConfig = genConfig()
+    setConfig({ ...config, hairColor: newConfig.hairColor, hairStyle: hairStyles[index] })
+  }
+
+  const handleEyesClick = () => {
+    const index = (eyeStyles.indexOf(config.eyeStyle) + 1) % eyeStyles.length
+    setConfig({ ...config, eyeStyle: eyeStyles[index] })
+  }
+
+  const handleGlassesClick = () => {
+    const index = (glassesStyles.indexOf(config.glassesStyle) + 1) % glassesStyles.length
+    setConfig({ ...config, glassesStyle: glassesStyles[index] })
+  }
 
   return (
     <Container className={classes.container}>
@@ -57,10 +82,10 @@ function AvatarPicker() {
         <Box key={carac.id} className={classes.caracteristicPicker}>
           <h3 className={classes.caracteristicTitle}>{carac.title}</h3>
           <CaracteristicPicker>
-            {carac.id === 'face' && <Face faceColor={config.faceColor} />}
-            {carac.id === 'hair' && <Hair hairColor={config.hairColor} />}
-            {carac.id === 'eyes' && <Eyes />}
-            {carac.id === 'glasses' && <Glasses />}
+            {carac.id === 'face' && <Box onClick={handleFaceClick}><Face faceColor={config.faceColor} /></Box>}
+            {carac.id === 'hair' && <Box onClick={handleHairClick}><Hair hairColor={config.hairColor} /></Box>}
+            {carac.id === 'eyes' && <Box onClick={handleEyesClick}><Eyes /></Box>}
+            {carac.id === 'glasses' && <Box onClick={handleGlassesClick}><Glasses /></Box>}
           </CaracteristicPicker>
         </Box>
       ))}

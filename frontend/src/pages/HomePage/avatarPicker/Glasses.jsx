@@ -3,7 +3,7 @@ import React from 'react'
 function Glasses() {
   return (
     <svg
-      width="152"
+      width="90"
       height="65"
       viewBox="0 0 152 65"
       fill="none"

@@ -17,7 +17,6 @@ const useStyles = makeStyles({
     borderRadius: '20px',
     color: '#FFF',
     wordBreak: 'break-word',
-    maxWidth: '65%',
     width: 'fit-content',
     marginLeft: 'auto',
   },
@@ -29,7 +28,6 @@ const useStyles = makeStyles({
     borderRadius: '20px',
     color: '#FFF',
     wordBreak: 'break-word',
-    maxWidth: '65%',
     width: 'fit-content',
     marginRight: 'auto',
   },
@@ -52,6 +50,7 @@ const useStyles = makeStyles({
     marginRight: '5px',
   },
   messageDisplay: {
+    fontFamily: 'Sans-serif',
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',

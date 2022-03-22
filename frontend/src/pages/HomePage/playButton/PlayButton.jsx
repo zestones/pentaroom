@@ -7,9 +7,9 @@ const useStyles = makeStyles({
   playButton: {
     margin: 'auto',
     display: 'block',
-    fontSize: '45px',
+    fontSize: '35px',
     lineHeight: '1',
-    padding: '30px 60px',
+    padding: '20px 40px',
     borderRadius: '50px',
     backgroundColor: '#f58322',
     fontFamily: 'inherit',

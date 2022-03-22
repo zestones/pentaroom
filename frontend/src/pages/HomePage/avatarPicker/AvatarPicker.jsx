@@ -16,7 +16,8 @@ const useStyles = makeStyles({
   container: {
     display: 'flex',
     alignItems: 'center',
-    height: '350px',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
   },
   avatar: {
     width: '250px',

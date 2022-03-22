@@ -3,7 +3,7 @@
 html, body {
   height: 100%;
   width: 100%;
-  overflow: hidden;
+  overflow-x: hidden;
   background: rgb(0,91,182);
   background: linear-gradient(180deg, rgba(0,91,182,1) 0%, rgba(0,146,208,1) 36%, rgba(0,243,253,1) 100%);
   
@@ -17,6 +17,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: white;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 code {

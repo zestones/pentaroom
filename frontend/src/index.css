@@ -1,19 +1,22 @@
+@import url('https://fonts.googleapis.com/css?family=Bangers');
+
 html, body {
   height: 100%;
   width: 100%;
   overflow: hidden;
-  background-color: #444444;
+  background: rgb(0,91,182);
+  background: linear-gradient(180deg, rgba(0,91,182,1) 0%, rgba(0,146,208,1) 36%, rgba(0,243,253,1) 100%);
+  
 }
 #root, .App {
   height: 100%;
 }
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Bangers', cursive;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: white;
 }
 
 code {

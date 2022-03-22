@@ -11,7 +11,6 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
-    backgroundColor: '#444444',
   },
   drawArea: {
     flexGrow: '1',

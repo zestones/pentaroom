@@ -1,6 +1,5 @@
 import React from 'react'
 
-import clsx from 'clsx'
 import { makeStyles } from '@mui/styles'
 
 const useStyles = makeStyles({
@@ -35,7 +34,7 @@ function Header() {
   return (
     <header className={classes.header}>
       <img src="/pentaboy.svg" alt="pentaboy" className={classes.pentaboy} />
-      <h1 className={clsx(classes.title, 'letter-shadow')}>
+      <h1 className={classes.title}>
         Penta
         <br />
         Room

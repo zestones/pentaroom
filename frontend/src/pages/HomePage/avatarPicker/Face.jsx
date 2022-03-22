@@ -5,8 +5,8 @@ function Face({ faceColor }) {
   const pathId = `path${Math.round(Math.random() * 9999999)}`
   return (
     <svg
-      width="90"
-      height="90"
+      width="70%"
+      height="70%"
       viewBox="0 0 200 320"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

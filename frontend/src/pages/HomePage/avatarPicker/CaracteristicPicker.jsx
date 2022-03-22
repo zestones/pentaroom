@@ -5,15 +5,16 @@ import Box from '@mui/material/Box'
 
 const useStyles = makeStyles({
   caracteristicPicker: {
-    width: '120px',
-    height: '120px',
+    width: '80px',
+    height: '80px',
     borderRadius: '100%',
     backgroundColor: '#ffcc00',
-    padding: '20px',
+    padding: '15px',
 
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+
   },
 })
 

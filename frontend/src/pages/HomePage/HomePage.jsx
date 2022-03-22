@@ -21,14 +21,14 @@ const useStyles = makeStyles({
     margin: '50px auto',
   },
   title: {
-    fontSize: '50px',
+    fontSize: '30px',
     margin: '0',
+    marginBottom: '30px',
     '-webkit-text-stroke-width': '2px',
     '-webkit-text-stroke-color': 'black',
     letterSpacing: '1px',
   },
   inputName: {
-    marginTop: '30px',
     height: '75px',
     borderRadius: '50px',
     backgroundColor: '#cce3f6',

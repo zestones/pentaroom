@@ -8,13 +8,14 @@ const useStyles = makeStyles({
   transparentContainer: {
     borderRadius: '50px',
     padding: '30px',
+    maxWidth: '700px',
   },
 })
 
 function transparentContainer({ backgroundColor, children, className }) {
   const classes = useStyles()
   return (
-    <Container maxWidth="md" style={{ backgroundColor: `${backgroundColor}46` }} className={clsx(className, classes.transparentContainer)}>
+    <Container style={{ backgroundColor: `${backgroundColor}46` }} className={clsx(className, classes.transparentContainer)}>
       {children}
     </Container>
   )

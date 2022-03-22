@@ -17,11 +17,11 @@ const useStyles = makeStyles({
     display: 'flex',
     alignItems: 'center',
     flexWrap: 'wrap',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
   },
   avatar: {
-    width: '250px',
-    height: '250px',
+    width: '180px',
+    height: '180px',
     border: '5px solid black',
     background: '#ffcc00 !important',
   },
@@ -31,7 +31,7 @@ const useStyles = makeStyles({
 
   },
   caracteristicTitle: {
-    fontSize: '30px',
+    fontSize: '20px',
     margin: '10px 0',
   },
 })

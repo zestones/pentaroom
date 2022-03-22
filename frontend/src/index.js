@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom'
 import StyledEngineProvider from '@mui/material/StyledEngineProvider'
 import App from './App'
-import HomePage from './HomePage'
+import HomePage from './pages/HomePage/HomePage'
 import reportWebVitals from './reportWebVitals'
 
 ReactDOM.render(

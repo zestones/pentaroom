@@ -20,7 +20,6 @@ const useStyles = makeStyles({
     transform: 'rotate(-8deg)',
   },
   title: {
-    textTransform: 'uppercase',
     '-webkit-text-stroke-width': '2px',
     '-webkit-text-stroke-color': 'black',
     letterSpacing: '2px',

@@ -4,6 +4,7 @@ import { makeStyles } from '@mui/styles'
 import Header from './header/Header'
 import TransparentContainer from './transparentContainer/TransparentContainer'
 import AvatarPicker from './avatarPicker/AvatarPicker'
+import PlayButton from './playButton/PlayButton'
 
 const useStyles = makeStyles({
   container: {
@@ -41,6 +42,8 @@ function HomePage() {
         <h2 className={classes.title}>2.Choisis un pseudo :</h2>
         <input type="text" placeholder="Tape ton pseudo ici ..." className={classes.inputName} />
       </TransparentContainer>
+      <PlayButton />
+
     </>
   )
 }

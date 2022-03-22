@@ -22,6 +22,7 @@ const useStyles = makeStyles({
     width: '250px',
     height: '250px',
     border: '5px solid black',
+    background: '#ffcc00 !important',
   },
   caracteristicPicker: {
     marginLeft: '15px',

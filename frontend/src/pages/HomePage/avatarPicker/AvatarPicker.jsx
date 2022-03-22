@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 
-import React, { useState } from 'react'
+import React from 'react'
 import Avatar, { genConfig } from 'react-nice-avatar'
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
@@ -40,10 +40,8 @@ const hairStyles = ['normal', 'thick', 'mohawk', 'womanLong', 'womanShort']
 const eyeStyles = ['normal', 'circle', 'oval', 'smile']
 const glassesStyles = ['none', 'round', 'square']
 
-function AvatarPicker() {
+function AvatarPicker({ avatar, setConfig }) {
   const classes = useStyles()
-
-  const [config, setConfig] = useState(genConfig())
 
   const caracteristics = [
     { id: 'face', title: 'Visage' },
@@ -54,37 +52,37 @@ function AvatarPicker() {
 
   const handleFaceClick = () => {
     const newConfig = genConfig()
-    setConfig({ ...config, faceColor: newConfig.faceColor })
+    setConfig({ ...avatar, faceColor: newConfig.faceColor })
   }
 
   const handleHairClick = () => {
-    const index = (hairStyles.indexOf(config.hairStyle) + 1) % hairStyles.length
+    const index = (hairStyles.indexOf(avatar.hairStyle) + 1) % hairStyles.length
     const newConfig = genConfig()
-    setConfig({ ...config, hairColor: newConfig.hairColor, hairStyle: hairStyles[index] })
+    setConfig({ ...avatar, hairColor: newConfig.hairColor, hairStyle: hairStyles[index] })
   }
 
   const handleEyesClick = () => {
-    const index = (eyeStyles.indexOf(config.eyeStyle) + 1) % eyeStyles.length
-    setConfig({ ...config, eyeStyle: eyeStyles[index] })
+    const index = (eyeStyles.indexOf(avatar.eyeStyle) + 1) % eyeStyles.length
+    setConfig({ ...avatar, eyeStyle: eyeStyles[index] })
   }
 
   const handleGlassesClick = () => {
-    const index = (glassesStyles.indexOf(config.glassesStyle) + 1) % glassesStyles.length
-    setConfig({ ...config, glassesStyle: glassesStyles[index] })
+    const index = (glassesStyles.indexOf(avatar.glassesStyle) + 1) % glassesStyles.length
+    setConfig({ ...avatar, glassesStyle: glassesStyles[index] })
   }
 
   return (
     <Container className={classes.container}>
       <Box>
-        <Avatar className={classes.avatar} {...config} />
+        <Avatar className={classes.avatar} {...avatar} />
       </Box>
 
       {caracteristics.map((carac) => (
         <Box key={carac.id} className={classes.caracteristicPicker}>
           <h3 className={classes.caracteristicTitle}>{carac.title}</h3>
           <CaracteristicPicker>
-            {carac.id === 'face' && <Box onClick={handleFaceClick}><Face faceColor={config.faceColor} /></Box>}
-            {carac.id === 'hair' && <Box onClick={handleHairClick}><Hair hairColor={config.hairColor} /></Box>}
+            {carac.id === 'face' && <Box onClick={handleFaceClick}><Face faceColor={avatar.faceColor} /></Box>}
+            {carac.id === 'hair' && <Box onClick={handleHairClick}><Hair hairColor={avatar.hairColor} /></Box>}
             {carac.id === 'eyes' && <Box onClick={handleEyesClick}><Eyes /></Box>}
             {carac.id === 'glasses' && <Box onClick={handleGlassesClick}><Glasses /></Box>}
           </CaracteristicPicker>

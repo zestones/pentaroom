@@ -1,9 +1,12 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable import/no-named-as-default-member */
 import React, { useState, useEffect } from 'react'
 import './App.css'
 import io from 'socket.io-client'
 import ServerView from './components/ServerView/ServerView'
-import Login from './components/login/Login'
+import UserView from './components/UserView/UserView'
+
+import HomePage from './pages/HomePage/HomePage'
 
 const SERVER = process.env.REACT_APP_ENDPOINT || 'http://localhost:8080'
 
@@ -17,6 +20,8 @@ function App({ initialUserRole }) {
   const [userDrawer, setDrawer] = useState()
 
   const [userRole, setUserRole] = useState(initialUserRole)
+
+  const [isRegistered, setRegistered] = useState(false)
 
   const events = {
     connect: 'connect',
@@ -56,7 +61,24 @@ function App({ initialUserRole }) {
 
   // return our application
   return (
-    userRole === 'server' ? <ServerView socket={socket} /> : <Login setUserRole={setUserRole} socket={socket} isConnected={isConnected} users={users} messages={messages} hiddenWord={hiddenWord} userDrawer={userDrawer} />
+
+    userRole === 'server'
+      ? <ServerView socket={socket} />
+      : (isRegistered
+        ? (
+          <UserView
+            setUserRole={setUserRole}
+            socket={socket}
+            isConnected={isConnected}
+            users={users}
+            messages={messages}
+            hiddenWord={hiddenWord}
+            userDrawer={userDrawer}
+          />
+        )
+
+        : <HomePage socket={socket} setRegistered={setRegistered} />
+      )
   )
 }
 export default App

@@ -16,10 +16,10 @@ const useStyles = makeStyles({
   },
 })
 
-function PlayButton() {
+function PlayButton({ onClick }) {
   const classes = useStyles()
   return (
-    <Button variant="contained" className={classes.playButton}>C&lsquo;est Parti !</Button>
+    <Button onClick={onClick} variant="contained" className={classes.playButton}>C&lsquo;est Parti !</Button>
   )
 }
 export default PlayButton

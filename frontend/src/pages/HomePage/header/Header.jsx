@@ -11,10 +11,10 @@ const useStyles = makeStyles({
 
   },
   pentaboy: {
-    height: '300px',
+    height: '150px',
     width: 'auto',
     objectFit: 'contain',
-    marginRight: '-75px',
+    marginRight: '-40px',
     position: 'relative',
     zIndex: '2',
     transform: 'rotate(-8deg)',
@@ -23,7 +23,7 @@ const useStyles = makeStyles({
     '-webkit-text-stroke-width': '2px',
     '-webkit-text-stroke-color': 'black',
     letterSpacing: '2px',
-    fontSize: '90px',
+    fontSize: '60px',
 
   },
 })

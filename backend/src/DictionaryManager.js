@@ -27,3 +27,5 @@ class DictionaryManager {
     return Words
   }
 }
+
+module.exports = DictionaryManager

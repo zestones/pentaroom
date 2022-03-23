@@ -3,7 +3,6 @@ const fs = require('fs')
 class DictionaryManager {
   constructor() {
     this.WordsUsed = []
-    this.Words = []
   }
 
   // Look up a word in the dictionary
@@ -16,13 +15,15 @@ class DictionaryManager {
 
   getRandomWords() {
     let i = 0
+    const Words = []
     while (i < 3) {
       const alea = Math.floor(Math.random() * this.dictionary.length)
       if (!this.WordsUsed.includes(this.dictionary[alea])) {
         this.WordsUsed.push(this.dictionary[alea])
-        this.Words.push(this.dictionary[alea])
+        Words.push(this.dictionary[alea])
         i += 1
       }
     }
+    return Words
   }
 }

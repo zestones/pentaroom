@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-undef */
 import React from 'react'
 
 import { makeStyles } from '@mui/styles'

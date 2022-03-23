@@ -8,6 +8,7 @@ import Header from './header/Header'
 import TransparentContainer from './transparentContainer/TransparentContainer'
 import AvatarPicker from './avatarPicker/AvatarPicker'
 import PlayButton from './playButton/PlayButton'
+import Icon from '../../components/animation/Icon'
 
 const useStyles = makeStyles({
   superContainer: {
@@ -26,6 +27,11 @@ const useStyles = makeStyles({
   },
   container: {
     margin: '20px auto',
+  },
+  Icon: {
+    margin: '0 auto',
+    display: 'block',
+    padding: '20px 40px',
   },
   title: {
     fontSize: '30px',
@@ -105,7 +111,7 @@ function HomePage({ socket, setRegistered }) {
           <AvatarPicker avatar={avatar} setConfig={setConfig} />
         </TransparentContainer>
         <TransparentContainer backgroundColor="#0000A5" className={classes.container}>
-          <h2 className={classes.title}>2.Choisis un pseudo :</h2>
+          <h2 className={classes.title}>2.Choisis un pseudo : </h2>
           <OutlinedInput
             inputRef={inputRef}
             fullWidth
@@ -116,6 +122,9 @@ function HomePage({ socket, setRegistered }) {
         </TransparentContainer>
       </Container>
       <PlayButton onClick={handleValidation} />
+      <div className={classes.Icon}>
+        <Icon />
+      </div>
     </Container>
   )
 }

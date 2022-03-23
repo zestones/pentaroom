@@ -121,10 +121,10 @@ function HomePage({ socket, setRegistered }) {
           />
         </TransparentContainer>
       </Container>
+      <PlayButton onClick={handleValidation} />
       <div className={classes.Icon}>
         <Icon />
       </div>
-      <PlayButton onClick={handleValidation} />
     </Container>
   )
 }

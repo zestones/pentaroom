@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 
 import React from 'react'
-import Avatar, { genConfig } from 'react-nice-avatar'
+import Avatar from 'react-nice-avatar'
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
 import { makeStyles } from '@mui/styles'
@@ -36,6 +36,7 @@ const useStyles = makeStyles({
   },
 })
 
+const faceColor = ['#f9c9b6', '#e0ac69', '#ac6651', '#8d5524']
 const hairStyles = ['normal', 'thick', 'mohawk', 'womanLong', 'womanShort']
 const eyeStyles = ['normal', 'circle', 'oval', 'smile']
 const glassesStyles = ['none', 'round', 'square']
@@ -51,14 +52,13 @@ function AvatarPicker({ avatar, setConfig }) {
   ]
 
   const handleFaceClick = () => {
-    const newConfig = genConfig()
-    setConfig({ ...avatar, faceColor: newConfig.faceColor })
+    const index = (faceColor.indexOf(avatar.faceColor) + 1) % faceColor.length
+    setConfig({ ...avatar, faceColor: faceColor[index] })
   }
 
   const handleHairClick = () => {
     const index = (hairStyles.indexOf(avatar.hairStyle) + 1) % hairStyles.length
-    const newConfig = genConfig()
-    setConfig({ ...avatar, hairColor: newConfig.hairColor, hairStyle: hairStyles[index] })
+    setConfig({ ...avatar, hairStyle: hairStyles[index] })
   }
 
   const handleEyesClick = () => {

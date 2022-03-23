@@ -57,7 +57,25 @@ const events = {
 function HomePage({ socket, setRegistered }) {
   const classes = useStyles()
 
-  const [avatar, setConfig] = useState(genConfig())
+  const [avatar, setConfig] = useState(genConfig(
+    {
+      sex: 'woman',
+      faceColor: '#f9c9b6',
+      earSize: 'small',
+      eyeStyle: 'smile',
+      noseStyle: 'short',
+      mouthStyle: 'peace',
+      shirtStyle: 'polo',
+      glassesStyle: 'round',
+      hairColor: '#000',
+      hairStyle: 'womanShort',
+      hatStyle: 'none',
+      hatColor: '#000',
+      eyeBrowStyle: 'up',
+      shirtColor: '#F4D150',
+      bgColor: 'linear-gradient(45deg, #176fff 0%, #68ffef 100%)',
+    },
+  ))
   const inputRef = useRef('')
 
   const handleValidation = () => {
@@ -88,7 +106,6 @@ function HomePage({ socket, setRegistered }) {
         </TransparentContainer>
         <TransparentContainer backgroundColor="#0000A5" className={classes.container}>
           <h2 className={classes.title}>2.Choisis un pseudo :</h2>
-
           <OutlinedInput
             inputRef={inputRef}
             fullWidth

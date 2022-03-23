@@ -1,7 +1,8 @@
 class SocketIOManager {
-  constructor(io) {
+  constructor(io, dictionaryManager) {
     this.users = []
     this.io = io
+    this.dictionaryManager = dictionaryManager
   }
 
   /**
@@ -25,6 +26,7 @@ class SocketIOManager {
     socket.on('draw', (drawObject) => this.globalEmitDraw(drawObject))
     socket.on('find-word', (findWord) => this.globalEmitWord(findWord))
     socket.on('drawer-users', (drawerUsers) => this.globalEmitDrawerUsers(drawerUsers))
+    socket.on('get-random-words', () => socket.emit('random-words', this.dictionaryManager.getRandomWords()))
   }
 
   registration(user) {

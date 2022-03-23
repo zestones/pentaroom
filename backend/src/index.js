@@ -14,8 +14,10 @@ const io = require('socket.io')(server, {
 
 // get socket io manager
 const SocketIOManager = require('./SocketIOManager')
+const DictionaryManager = require('./DictionaryManager')
 
-const socketManager = new SocketIOManager(io)
+const dictionaryManager = new DictionaryManager()
+const socketManager = new SocketIOManager(io, dictionaryManager)
 
 // init the socket connexion
 socketManager.init()

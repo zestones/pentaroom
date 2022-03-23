@@ -38,7 +38,7 @@ function App({ initialUserRole }) {
     const newSocket = io(SERVER)
     setSocket(newSocket)
     return () => newSocket.close()
-  }, [setSocket])
+  }, [])
 
   // Socket IO Client Manager
   useEffect(() => {

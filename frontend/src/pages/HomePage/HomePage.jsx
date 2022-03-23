@@ -10,6 +10,13 @@ import AvatarPicker from './avatarPicker/AvatarPicker'
 import PlayButton from './playButton/PlayButton'
 
 const useStyles = makeStyles({
+  superContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    minHeight: '100%',
+    padding: '30px 0',
+  },
   mainContainer: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -18,7 +25,7 @@ const useStyles = makeStyles({
     padding: '0',
   },
   container: {
-    margin: '50px auto',
+    margin: '20px auto',
   },
   title: {
     fontSize: '30px',
@@ -29,12 +36,11 @@ const useStyles = makeStyles({
     letterSpacing: '1px',
   },
   inputName: {
-    height: '75px',
     borderRadius: '50px',
     backgroundColor: '#cce3f6',
     border: '1px solid black',
-    padding: '5px 30px',
-    fontSize: '30px',
+    padding: '0px 15px',
+    fontSize: '20px',
   },
 })
 
@@ -73,7 +79,7 @@ function HomePage({ socket, setRegistered }) {
   }
 
   return (
-    <>
+    <Container maxWidth="xxl" className={classes.superContainer}>
       <Header />
       <Container maxWidth="xxl" className={classes.mainContainer}>
         <TransparentContainer backgroundColor="#0000A5" className={classes.container}>
@@ -93,7 +99,7 @@ function HomePage({ socket, setRegistered }) {
         </TransparentContainer>
       </Container>
       <PlayButton onClick={handleValidation} />
-    </>
+    </Container>
   )
 }
 export default HomePage

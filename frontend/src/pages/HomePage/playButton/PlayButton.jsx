@@ -5,7 +5,7 @@ import { makeStyles } from '@mui/styles'
 
 const useStyles = makeStyles({
   playButton: {
-    margin: 'auto',
+    margin: '0 auto',
     display: 'block',
     fontSize: '35px',
     lineHeight: '1',

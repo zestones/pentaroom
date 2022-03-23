@@ -24,6 +24,7 @@ const useStyles = makeStyles({
     '-webkit-text-stroke-color': 'black',
     letterSpacing: '2px',
     fontSize: '60px',
+    margin: '0',
 
   },
 })

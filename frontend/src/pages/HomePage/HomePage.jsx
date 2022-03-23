@@ -79,9 +79,9 @@ function HomePage({ socket, setRegistered }) {
   const inputRef = useRef('')
 
   const handleValidation = () => {
-    if (!socket) return
-
     const { value } = inputRef.current
+    if (!value || !socket) return
+
     socket.emit(events.registration, {
       id: socket.id,
       pseudo: value,

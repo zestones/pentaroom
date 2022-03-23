@@ -1,7 +1,8 @@
 class SocketIOManager {
-  constructor(io) {
+  constructor(io, dictionaryManager) {
     this.users = []
     this.io = io
+    this.dictionaryManager = dictionaryManager
   }
 
   /**

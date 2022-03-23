@@ -19,6 +19,7 @@ function ServerView({ socket, users }) {
   return (
     <div className={classes.row}>
       <div className={classes.column}>
+        <h1> Listes des Utilisateurs </h1>
         <Userlist users={users} />
       </div>
       <Canvas socket={socket} />

@@ -1,20 +1,19 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import Container from '@mui/material/Container'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import SendIcon from '@mui/icons-material/Send'
 import { makeStyles } from '@mui/styles'
-import TransparentContainer from '../../pages/HomePage/transparentContainer/TransparentContainer'
-import Header from '../../pages/HomePage/header/Header'
+import ScoreBoard from '../resultat/ScoreBoard'
 
 const useStyles = makeStyles({
   container: {
     height: '100%',
+    backgroundColor: 'white',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     padding: '0',
-    flexDirection: 'column',
   },
   subcontainer: {
     textAlign: 'center',
@@ -22,13 +21,14 @@ const useStyles = makeStyles({
   sendButton: {
     marginTop: '30px',
   },
-  hiddenWord: {
-    color: 'black',
-    textAlign: 'center',
+  scores: {
+    position: 'absolute',
+    bottom: '50px',
+    left: '300px',
   },
 })
 
-function UserInput({ hiddenWord }) {
+function UserInput() {
   const classes = useStyles()
 
   const inputRef = useRef('')
@@ -36,7 +36,7 @@ function UserInput({ hiddenWord }) {
   const handleValidation = () => {
     const { value } = inputRef.current
     if (!value) return
-    alert(`Vous avez saisi : ${value} , mot à trouver : ${hiddenWord}`)
+    alert(`Vous avez saisi ${value}`)
   }
   const handleKeyPressed = (e) => {
     if (e.key === 'Enter') {
@@ -44,16 +44,22 @@ function UserInput({ hiddenWord }) {
     }
   }
 
+  const [displayScore, setDisplayScore] = useState(false)
+
+  const handleClick = () => {
+    setDisplayScore(true)
+  }
+
   return (
-    <Container className={classes.container} maxWidth="xxl">
-      <Header />
-      <div className={classes.hiddenWord}>
-        <h1>
-          {hiddenWord}
-        </h1>
-      </div>
-      <Container className={classes.subcontainer} maxWidth="lg">
-        <TransparentContainer backgroundColor="#0000A5">
+    <>
+      {
+        (displayScore) && (
+          <ScoreBoard />
+        )
+      }
+
+      <Container className={classes.container} maxWidth="xxl">
+        <Container className={classes.subcontainer} maxWidth="lg">
           <TextField
             inputRef={inputRef}
             fullWidth
@@ -61,12 +67,23 @@ function UserInput({ hiddenWord }) {
             variant="outlined"
             onKeyPress={handleKeyPressed}
           />
-        </TransparentContainer>
-        <Button className={classes.sendButton} variant="contained" endIcon={<SendIcon />} onClick={handleValidation}>
-          Envoyer
+          <Button className={classes.sendButton} variant="contained" endIcon={<SendIcon />} onClick={handleValidation}>
+            Envoyer
+          </Button>
+
+        </Container>
+        <Button
+          className={classes.scores}
+          variant="contained"
+          name="click"
+          onClick={handleClick}
+
+        >
+          resultat
+
         </Button>
       </Container>
-    </Container>
+    </>
   )
 }
 

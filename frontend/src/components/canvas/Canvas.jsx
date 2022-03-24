@@ -21,7 +21,7 @@ const useStyles = makeStyles({
   },
 })
 
-function Canvas({ socket }) {
+function Canvas({ socket, userRole }) {
   // Canvas
   const canvasRef = useRef(null)
 
@@ -232,6 +232,7 @@ function Canvas({ socket }) {
 
   /** Start the drawing */
   const handleTouchStart = (e) => {
+    if (userRole === 'server') return
     setIsInAction(true)
 
     saveCanvas(false)
@@ -294,16 +295,18 @@ function Canvas({ socket }) {
           height={canvasDim.height}
         />
       </div>
-
-      <Menu
-        userDraw={userDraw}
-        setUserDraw={setUserDraw}
-        setIsInAction={setIsInAction}
-        clear={clear}
-        socket={socket}
-        undoCanvas={undoCanvas}
-        redoCanvas={redoCanvas}
-      />
+      {(userRole !== 'server')
+      && (
+        <Menu
+          userDraw={userDraw}
+          setUserDraw={setUserDraw}
+          setIsInAction={setIsInAction}
+          clear={clear}
+          socket={socket}
+          undoCanvas={undoCanvas}
+          redoCanvas={redoCanvas}
+        />
+      )}
     </Container>
   )
 }

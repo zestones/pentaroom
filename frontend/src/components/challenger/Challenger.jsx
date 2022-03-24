@@ -60,7 +60,7 @@ function Challenger({
 
   return (
     <>
-      <Canvas socket={socket} />
+      <Canvas socket={socket} userRole="client" />
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

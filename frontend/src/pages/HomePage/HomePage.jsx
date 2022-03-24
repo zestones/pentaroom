@@ -8,7 +8,7 @@ import Header from './header/Header'
 import TransparentContainer from './transparentContainer/TransparentContainer'
 import AvatarPicker from './avatarPicker/AvatarPicker'
 import PlayButton from './playButton/PlayButton'
-import Icon from '../../components/animation/Icon'
+import Icon from './animation/Icon'
 
 const useStyles = makeStyles({
   superContainer: {

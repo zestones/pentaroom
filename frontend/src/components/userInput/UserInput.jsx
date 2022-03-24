@@ -21,6 +21,10 @@ const useStyles = makeStyles({
   sendButton: {
     marginTop: '30px',
   },
+  hiddenWord: {
+    color: 'black',
+    textAlign: 'center',
+  },
   scores: {
     position: 'absolute',
     bottom: '50px',
@@ -28,7 +32,7 @@ const useStyles = makeStyles({
   },
 })
 
-function UserInput() {
+function UserInput({ hiddenWord }) {
   const classes = useStyles()
 
   const inputRef = useRef('')
@@ -59,6 +63,11 @@ function UserInput() {
           : (
             <>
               <Container className={classes.subcontainer} maxWidth="lg">
+                <div className={classes.hiddenWord}>
+                  <h1>
+                    {hiddenWord}
+                  </h1>
+                </div>
                 <TextField
                   inputRef={inputRef}
                   fullWidth

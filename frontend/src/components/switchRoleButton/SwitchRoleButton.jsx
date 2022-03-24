@@ -10,11 +10,12 @@ const useStyles = makeStyles({
   },
 })
 
-function SwitchRoleButton({ isDrawer, setIsDrawer }) {
+function SwitchRoleButton({ isDrawer, setIsDrawer, sendNewDrawer }) {
   const classes = useStyles()
 
   const handleClick = () => {
     setIsDrawer(!isDrawer)
+    if (isDrawer) sendNewDrawer()
   }
   return (
 

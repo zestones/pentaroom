@@ -86,7 +86,7 @@ function Chat({
         <div className={classes.messageContainer}>
           <ol className={classes.ol}>
             {messages.map((message) => (
-              <Message message={message} />
+              <Message key={message.id} message={message} />
             ))}
           </ol>
           <div ref={messageRef} />
@@ -96,7 +96,6 @@ function Chat({
             className={classes.messageInput}
             id="message"
             label="Message"
-            placeholder="enter message here"
             variant="outlined"
             value={newMessage}
             onChange={handleNewMessageChange}

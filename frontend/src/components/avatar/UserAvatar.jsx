@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useState } from 'react'
 import { makeStyles } from '@mui/styles'
@@ -47,7 +48,7 @@ const useStyles = makeStyles({
 })
 
 function UserAvatar({
-  setUserRole, socket, isConnected, users, messages,
+  setUserRole, socket, isConnected, users, messages, hiddenWord, userDrawer,
 }) {
   const [config, setAvatarData] = useState({
     sex: 'woman',
@@ -77,6 +78,8 @@ function UserAvatar({
     disconnect: 'disconnect',
     updateUsers: 'update-users',
     newMessage: 'new-message',
+    findWord: 'find-word',
+    drawerUsers: 'drawer-users',
     registration: 'registration',
   }
 
@@ -97,43 +100,47 @@ function UserAvatar({
 
   return (
     <>
-      {(isReady) && (
+      {(isReady) ? (
         <UserView
           setUserRole={setUserRole}
           socket={socket}
           isConnected={isConnected}
           users={users}
           messages={messages}
+          hiddenWord={hiddenWord}
+          userDrawer={userDrawer}
         />
-      )}
-      <Container className={classes.container} maxWidth="xxl">
-        <div className={classes.headerText}>
-          <h1>
-            Bienvenue
-            {' '}
+      )
+        : (
+          <>
+            <div className={classes.headerText}>
+              <h1>
+                Bienvenue
+                {' '}
 
-            {getUsername()}
-          </h1>
-          <p> Configurer votre avatar </p>
-        </div>
-        <Avatar className={classes.avatar} {...myAvatar} />
-        <Container className={classes.subcontainer} maxWidth="lg">
-          <Stack direction="row" spacing={2}>
-            <AvatarColor setAvatarData={setAvatarData} />
-            <AvatarAttribute myAvatar={myAvatar} setAvatarData={setAvatarData} />
+                {getUsername()}
+              </h1>
+              <p> Configurer votre avatar </p>
+            </div>
+            <Avatar className={classes.avatar} {...myAvatar} />
+            <Container className={classes.subcontainer} maxWidth="lg">
+              <Stack direction="row" spacing={2}>
+                <AvatarColor setAvatarData={setAvatarData} />
+                <AvatarAttribute myAvatar={myAvatar} setAvatarData={setAvatarData} />
 
-          </Stack>
+              </Stack>
 
-        </Container>
-        <Button
-          className={classes.letsGo}
-          variant="outlined"
-          name="click"
-          onClick={handleValidation}
-        >
-          LETS GO
-        </Button>
-      </Container>
+            </Container>
+            <Button
+              className={classes.letsGo}
+              variant="outlined"
+              name="click"
+              onClick={handleValidation}
+            >
+              LETS GO
+            </Button>
+          </>
+        )}
     </>
   )
 }

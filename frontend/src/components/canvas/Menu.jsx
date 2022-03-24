@@ -7,6 +7,10 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import Chip from '@mui/material/Chip'
 import Zoom from '@mui/material/Zoom'
 import Box from '@mui/material/Box'
+import FormatColorFillIcon from '@mui/icons-material/FormatColorFill'
+import RedoIcon from '@mui/icons-material/Redo'
+import UndoIcon from '@mui/icons-material/Undo'
+import IconButton from '@mui/material/IconButton'
 import clsx from 'clsx'
 
 const useStyles = makeStyles({
@@ -41,7 +45,7 @@ const useStyles = makeStyles({
 function Menu(props) {
   const classes = useStyles()
   const {
-    userDraw, setUserDraw, setIsInAction, clear,
+    userDraw, setUserDraw, setIsInAction, clear, socket, undoCanvas, redoCanvas,
   } = props
 
   const [anchorEl, setAnchorEl] = useState(null)
@@ -59,6 +63,10 @@ function Menu(props) {
       ...userDraw,
       pen: { ...userDraw.pen, isActive: true },
       eraser: { ...userDraw.eraser, isActive: false },
+      fill: { ...userDraw.fill, isActive: false },
+      clear: { ...userDraw.clear, isActive: false },
+      undo: { ...userDraw.undo, isActive: false },
+      redo: { ...userDraw.redo, isActive: false },
     })
     setIsInAction(false)
   }
@@ -67,12 +75,61 @@ function Menu(props) {
       ...userDraw,
       pen: { ...userDraw.pen, isActive: false },
       eraser: { ...userDraw.eraser, isActive: true },
+      fill: { ...userDraw.fill, isActive: false },
+      clear: { ...userDraw.clear, isActive: false },
+      undo: { ...userDraw.undo, isActive: false },
+      redo: { ...userDraw.redo, isActive: false },
+    })
+    setIsInAction(false)
+  }
+  const activeFill = () => {
+    setUserDraw({
+      ...userDraw,
+      pen: { ...userDraw.pen, isActive: false },
+      eraser: { ...userDraw.eraser, isActive: false },
+      fill: { ...userDraw.fill, isActive: true },
+      clear: { ...userDraw.clear, isActive: false },
+      undo: { ...userDraw.undo, isActive: false },
+      redo: { ...userDraw.redo, isActive: false },
     })
     setIsInAction(false)
   }
 
-  const checked = userDraw.pen.isActive || userDraw.eraser.isActive
+  const activeClear = () => {
+    /** set Dont work ??!! */
+    userDraw.pen.isActive = false
+    userDraw.fill.isActive = false
+    userDraw.eraser.isActive = false
+    userDraw.clear.isActive = true
+    userDraw.undo.isActive = false
+    userDraw.redo.isActive = false
+    userDraw.redo.redoList = []
+    userDraw.undo.undoList = []
+    clear({ ...userDraw, senderId: socket.id })
+  }
 
+  const activeUndo = () => {
+    userDraw.pen.isActive = false
+    userDraw.fill.isActive = false
+    userDraw.eraser.isActive = false
+    userDraw.redo.isActive = false
+    userDraw.undo.isActive = true
+
+    undoCanvas({ ...userDraw, senderId: socket.id })
+  }
+  const activeRedo = () => {
+    userDraw.pen.isActive = false
+    userDraw.fill.isActive = false
+    userDraw.eraser.isActive = false
+    userDraw.redo.isActive = false
+    userDraw.undo.isActive = false
+    userDraw.redo.isActive = true
+
+    redoCanvas({ ...userDraw, senderId: socket.id })
+  }
+
+  const checked = userDraw.pen.isActive || userDraw.eraser.isActive
+   || userDraw.fill.isActive
   return (
     <Container
       maxWidth="sm"
@@ -85,9 +142,11 @@ function Menu(props) {
       <Box className={classes.chipsContainer}>
         <Chip className={clsx(classes.chip, userDraw.pen.isActive && 'active')} color="primary" icon={<BrushIcon />} label="Pinceau" onClick={() => { activePen() }} />
         <Chip className={clsx(classes.chip, userDraw.eraser.isActive && 'active')} color="primary" icon={<AutoFixNormalIcon />} label="Gomme" onClick={() => { activeEraser() }} />
-        <Chip className={classes.chip} color="primary" icon={<HighlightOffIcon />} label="Effacer tout" onClick={() => { clear() }} />
+        <Chip className={clsx(classes.chip, userDraw.fill.isActive && 'active')} color="primary" icon={<FormatColorFillIcon />} label="Remplissage" onClick={() => { activeFill() }} />
+        <Chip className={classes.chip} color="primary" icon={<HighlightOffIcon />} label="Effacer tout" onClick={() => { activeClear() }} />
+        <IconButton className={classes.undo} color="primary" aria-label="undo action" component="span" onClick={() => activeUndo()}><UndoIcon /></IconButton>
+        <IconButton className={classes.redo} color="primary" aria-label="redo action" component="span" onClick={() => activeRedo()}><RedoIcon /></IconButton>
       </Box>
-
       <Box className={classes.tools}>
         <Zoom in={checked} style={{ transitionDelay: checked ? '500ms' : '0ms' }}>
           <Box>
@@ -127,6 +186,17 @@ function Menu(props) {
                   eraser: { ...userDraw.eraser, width: e.target.value },
                 })}
 
+              />
+            )}
+
+            {userDraw.fill.isActive && (
+              <input
+                type="color"
+                value={userDraw.fill.color}
+                onChange={(e) => setUserDraw({
+                  ...userDraw,
+                  fill: { ...userDraw.fill, color: e.target.value },
+                })}
               />
             )}
 

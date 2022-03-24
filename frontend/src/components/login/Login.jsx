@@ -27,13 +27,15 @@ const useStyles = makeStyles({
 })
 
 function Login({
-  setUserRole, socket, isConnected, users, messages,
+  setUserRole, socket, isConnected, users, messages, hiddenWord, userDrawer,
 }) {
   const events = {
     connect: 'connect',
     disconnect: 'disconnect',
     updateUsers: 'update-users',
     newMessage: 'new-message',
+    findWord: 'find-word',
+    drawerUsers: 'drawer-users',
     registration: 'registration',
   }
 
@@ -47,7 +49,7 @@ function Login({
     socket.emit(events.registration, {
       id: socket.id,
       pseudo: value,
-      avatar: '',
+      avatar: undefined,
     })
     setIsRegistered(true)
   }
@@ -59,38 +61,42 @@ function Login({
   }
 
   return (
-    <>
+    <Container className={classes.container} maxWidth="xxl">
       {(registered)
-      && (
-        <UserAvatar
-          setUserRole={setUserRole}
-          socket={socket}
-          isConnected={isConnected}
-          users={users}
-          messages={messages}
-        />
-      )}
-      <Container className={classes.container} maxWidth="xxl">
-        <div className={classes.hiddenWord}>
-          <h1> Pentaroom </h1>
-          <p> Réveille le picasso en toi </p>
-        </div>
-
-        <Container className={classes.subcontainer} maxWidth="lg">
-
-          <TextField
-            inputRef={inputRef}
-            fullWidth
-            label="Saisissez votre pseudo"
-            variant="outlined"
-            onKeyPress={handleKeyPressed}
+        ? (
+          <UserAvatar
+            setUserRole={setUserRole}
+            socket={socket}
+            isConnected={isConnected}
+            users={users}
+            messages={messages}
+            hiddenWord={hiddenWord}
+            userDrawer={userDrawer}
           />
-          <Button className={classes.sendButton} variant="contained" endIcon={<SendIcon />} onClick={handleValidation}>
-            Envoyer
-          </Button>
-        </Container>
-      </Container>
-    </>
+        )
+        : (
+          <>
+            <div className={classes.hiddenWord}>
+              <h1> Pentaroom </h1>
+              <p> Réveille le picasso en toi </p>
+            </div>
+
+            <Container className={classes.subcontainer} maxWidth="lg">
+
+              <TextField
+                inputRef={inputRef}
+                fullWidth
+                label="Saisissez votre pseudo"
+                variant="outlined"
+                onKeyPress={handleKeyPressed}
+              />
+              <Button className={classes.sendButton} variant="contained" endIcon={<SendIcon />} onClick={handleValidation}>
+                Envoyer
+              </Button>
+            </Container>
+          </>
+        )}
+    </Container>
   )
 }
 

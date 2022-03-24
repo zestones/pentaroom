@@ -14,6 +14,8 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     alignItems: 'center',
     padding: '0',
+    flexDirection: 'column',
+
   },
   subcontainer: {
     textAlign: 'center',
@@ -21,14 +23,13 @@ const useStyles = makeStyles({
   sendButton: {
     marginTop: '30px',
   },
-  scores: {
-    position: 'absolute',
-    bottom: '50px',
-    left: '300px',
+  hiddenWord: {
+    color: 'black',
+    textAlign: 'center',
   },
 })
 
-function UserInput() {
+function UserInput({ hiddenWord }) {
   const classes = useStyles()
 
   const inputRef = useRef('')
@@ -36,7 +37,7 @@ function UserInput() {
   const handleValidation = () => {
     const { value } = inputRef.current
     if (!value) return
-    alert(`Vous avez saisi ${value}`)
+    alert(`Vous avez saisi : ${value} , mot à trouver : ${hiddenWord}`)
   }
   const handleKeyPressed = (e) => {
     if (e.key === 'Enter') {
@@ -51,36 +52,22 @@ function UserInput() {
   }
 
   return (
-    <>
-      {
-        (displayScore) && (
-          <ScoreBoard />
-        )
-      }
-
-      <Container className={classes.container} maxWidth="xxl">
-        <Container className={classes.subcontainer} maxWidth="lg">
-          <TextField
-            inputRef={inputRef}
-            fullWidth
-            label="Saisissez votre mot"
-            variant="outlined"
-            onKeyPress={handleKeyPressed}
-          />
-          <Button className={classes.sendButton} variant="contained" endIcon={<SendIcon />} onClick={handleValidation}>
-            Envoyer
-          </Button>
-
-        </Container>
-        <Button
-          className={classes.scores}
-          variant="contained"
-          name="click"
-          onClick={handleClick}
-
-        >
-          resultat
-
+    <Container className={classes.container} maxWidth="xxl">
+      <div className={classes.hiddenWord}>
+        <h1>
+          {hiddenWord}
+        </h1>
+      </div>
+      <Container className={classes.subcontainer} maxWidth="lg">
+        <TextField
+          inputRef={inputRef}
+          fullWidth
+          label="Saisissez votre mot"
+          variant="outlined"
+          onKeyPress={handleKeyPressed}
+        />
+        <Button className={classes.sendButton} variant="contained" endIcon={<SendIcon />} onClick={handleValidation}>
+          Envoyer
         </Button>
       </Container>
     </>

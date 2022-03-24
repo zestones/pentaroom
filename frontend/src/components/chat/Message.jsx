@@ -17,7 +17,6 @@ const useStyles = makeStyles({
     borderRadius: '20px',
     color: '#FFF',
     wordBreak: 'break-word',
-    maxWidth: '65%',
     width: 'fit-content',
     marginLeft: 'auto',
   },
@@ -29,41 +28,45 @@ const useStyles = makeStyles({
     borderRadius: '20px',
     color: '#FFF',
     wordBreak: 'break-word',
-    maxWidth: '65%',
     width: 'fit-content',
     marginRight: 'auto',
   },
   guestUsername: {
     paddingTop: '0.5em',
-    paddingLeft: '2em',
+    paddingLeft: '1em',
     margin: '0px',
     borderRadius: '20px',
     color: 'black',
     maxWidth: '65%',
-    width: 'fit-content',
-    marginRight: 'auto',
+    overflow: 'hidden',
+    paddingBottom: '5px',
+
   },
   guestAvatar: {
     color: 'transparent',
     backgroundColor: 'transparent',
     width: '2rem',
     height: '2rem',
+    marginRight: '5px',
   },
   messageDisplay: {
+    fontFamily: 'Sans-serif',
     display: 'flex',
     flexDirection: 'row',
+    alignItems: 'center',
   },
   guestDisplay: {
     flexDirection: 'column',
   },
   guestMessageTime: {
-    paddingLeft: '2em',
+    paddingLeft: '1em',
     margin: '0px',
     color: 'gray',
     fontSize: '15px',
     marginLeft: '0',
     marginRight: 'auto',
     maxWidth: '80px',
+    paddingTop: '5px',
   },
   ownerMessageTime: {
     padding: '0px',
@@ -73,6 +76,7 @@ const useStyles = makeStyles({
     marginLeft: 'auto',
     marginRight: '0',
     maxWidth: '80px',
+    paddingTop: '5px',
   },
   ownerDisplay: {
     marginLeft: 'auto',
@@ -84,9 +88,8 @@ function Message({ message }) {
   const classes = useStyles()
 
   const getMessageTime = () => {
-    const separateDate = message.time.split(' ')
-    const separateTime = separateDate[separateDate.length - 1].split(':')
-    return `${separateTime[0]}:${separateTime[1]}`
+    const date = new Date(message.time)
+    return `${date.getHours()}:${date.getMinutes()}`
   }
   return (
     <div className={classes.messageDisplay}>

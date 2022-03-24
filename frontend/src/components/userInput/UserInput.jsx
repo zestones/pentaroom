@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import Container from '@mui/material/Container'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
@@ -44,12 +44,6 @@ function UserInput({ hiddenWord }) {
     }
   }
 
-  const [displayScore, setDisplayScore] = useState(false)
-
-  const handleClick = () => {
-    setDisplayScore(true)
-  }
-
   return (
     <Container className={classes.container} maxWidth="xxl">
       <Header />
@@ -72,7 +66,7 @@ function UserInput({ hiddenWord }) {
           Envoyer
         </Button>
       </Container>
-    </>
+    </Container>
   )
 }
 

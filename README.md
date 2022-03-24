@@ -2,7 +2,7 @@
 
 Le projet Pentaroom.io est déployé sur des serveurs Heroku (backend) et O2Switch (frontend).
 
-De fait, il est accessible à l'adresse suivante: <a href="http://pentaroomio.jkhq4735.odns.fr/">pentaroomio.jkhq4735.odns.fr</a>
+De fait, il est accessible à l'adresse suivante: [pentaroomio.jkhq4735.odns.fr](http://pentaroomio.jkhq4735.odns.fr/)
 
 ## Technologies
 ### Backend
@@ -16,4 +16,4 @@ De fait, il est accessible à l'adresse suivante: <a href="http://pentaroomio.jk
 
 
 ## SonarCloud.io
-Retrouvez le projet Pentaroom sur SonarCloud.io : <a href="https://sonarcloud.io/project/overview?id=kiitoss_pentaroom" target="_blank">SonarCloud.io - Pentaroom</a>
+Retrouvez le projet Pentaroom sur SonarCloud.io : [SonarCloud.io - Pentaroom](https://sonarcloud.io/project/overview?id=kiitoss_pentaroom)

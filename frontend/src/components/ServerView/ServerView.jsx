@@ -42,7 +42,7 @@ const useStyles = makeStyles({
     paddingBottom: '10px',
   },
 })
-function ServerView({ socket, users }) {
+function ServerView({ socket, users, userRole }) {
   const classes = useStyles()
   return (
     <Box className={classes.row}>
@@ -60,7 +60,7 @@ function ServerView({ socket, users }) {
           ))}
         </ul>
       </div>
-      <Canvas socket={socket} />
+      <Canvas socket={socket} userRole={userRole} />
     </Box>
   )
 }

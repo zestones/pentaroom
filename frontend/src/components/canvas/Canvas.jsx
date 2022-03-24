@@ -232,6 +232,7 @@ function Canvas({ socket, userRole }) {
 
   /** Start the drawing */
   const handleTouchStart = (e) => {
+    if (userRole === 'server') return
     setIsInAction(true)
 
     saveCanvas(false)
@@ -290,20 +291,22 @@ function Canvas({ socket, userRole }) {
           onTouchEnd={handleTouchEnd}
           onMouseUp={handleTouchEnd}
           ref={canvasRef}
-          width={(userRole === 'server' ? 'auto' : canvasDim.width)}
+          width={canvasDim.width}
           height={canvasDim.height}
         />
       </div>
-
-      <Menu
-        userDraw={userDraw}
-        setUserDraw={setUserDraw}
-        setIsInAction={setIsInAction}
-        clear={clear}
-        socket={socket}
-        undoCanvas={undoCanvas}
-        redoCanvas={redoCanvas}
-      />
+      {(userRole !== 'server')
+      && (
+        <Menu
+          userDraw={userDraw}
+          setUserDraw={setUserDraw}
+          setIsInAction={setIsInAction}
+          clear={clear}
+          socket={socket}
+          undoCanvas={undoCanvas}
+          redoCanvas={redoCanvas}
+        />
+      )}
     </Container>
   )
 }

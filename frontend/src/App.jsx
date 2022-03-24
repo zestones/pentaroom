@@ -5,7 +5,6 @@ import './App.css'
 import io from 'socket.io-client'
 import ServerView from './components/ServerView/ServerView'
 import UserView from './components/UserView/UserView'
-
 import HomePage from './pages/HomePage/HomePage'
 
 const SERVER = process.env.REACT_APP_ENDPOINT || 'http://localhost:8080'
@@ -63,7 +62,7 @@ function App({ initialUserRole }) {
   return (
 
     userRole === 'server'
-      ? <ServerView socket={socket} />
+      ? <ServerView socket={socket} users={users} />
       : (isRegistered
         ? (
           <UserView

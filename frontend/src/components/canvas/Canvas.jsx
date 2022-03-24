@@ -21,7 +21,7 @@ const useStyles = makeStyles({
   },
 })
 
-function Canvas({ socket }) {
+function Canvas({ socket, userRole }) {
   // Canvas
   const canvasRef = useRef(null)
 
@@ -290,7 +290,7 @@ function Canvas({ socket }) {
           onTouchEnd={handleTouchEnd}
           onMouseUp={handleTouchEnd}
           ref={canvasRef}
-          width={canvasDim.width}
+          width={(userRole === 'server' ? 'auto' : canvasDim.width)}
           height={canvasDim.height}
         />
       </div>

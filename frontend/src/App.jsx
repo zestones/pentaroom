@@ -62,7 +62,7 @@ function App({ initialUserRole }) {
   return (
 
     userRole === 'server'
-      ? <ServerView socket={socket} users={users} />
+      ? <ServerView socket={socket} users={users} userRole={userRole} />
       : (isRegistered
         ? (
           <UserView

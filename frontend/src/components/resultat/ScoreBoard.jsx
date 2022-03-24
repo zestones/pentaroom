@@ -2,7 +2,6 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react'
 import { makeStyles } from '@mui/styles'
-import Container from '@mui/material/Container'
 import { styled } from '@mui/material/styles'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -15,6 +14,7 @@ import Avatar from '@mui/material/Avatar'
 import Stack from '@mui/material/Stack'
 import Confetti from 'react-confetti'
 import { deepOrange } from '@mui/material/colors'
+import useWindowDimensions from './ScreenDimension'
 
 const useStyles = makeStyles({
   main: {
@@ -148,14 +148,14 @@ function ScoreBoard() {
       border: 0,
     },
   }))
-  const width = '2000'
-  const height = '2080'
+
+  const dimension = useWindowDimensions()
 
   return (
-    <Container maxWidth="xl" className={classes.main}>
+    <>
       <Confetti
-        width={width}
-        height={height}
+        width={dimension.width}
+        height={dimension.height}
       />
 
       <TableContainer component={Paper}>
@@ -192,7 +192,7 @@ function ScoreBoard() {
           </TableBody>
         </Table>
       </TableContainer>
-    </Container>
+    </>
   )
 }
 

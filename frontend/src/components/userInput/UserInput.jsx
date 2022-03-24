@@ -51,39 +51,39 @@ function UserInput() {
   }
 
   return (
-    <>
+    <Container className={classes.container} maxWidth="xxl">
       {
-        (displayScore) && (
+        (displayScore) ? (
           <ScoreBoard />
         )
+          : (
+            <>
+              <Container className={classes.subcontainer} maxWidth="lg">
+                <TextField
+                  inputRef={inputRef}
+                  fullWidth
+                  label="Saisissez votre mot"
+                  variant="outlined"
+                  onKeyPress={handleKeyPressed}
+                />
+                <Button className={classes.sendButton} variant="contained" endIcon={<SendIcon />} onClick={handleValidation}>
+                  Envoyer
+                </Button>
+
+              </Container>
+              <Button
+                className={classes.scores}
+                variant="contained"
+                name="click"
+                onClick={handleClick}
+              >
+                resultat
+
+              </Button>
+            </>
+          )
       }
-
-      <Container className={classes.container} maxWidth="xxl">
-        <Container className={classes.subcontainer} maxWidth="lg">
-          <TextField
-            inputRef={inputRef}
-            fullWidth
-            label="Saisissez votre mot"
-            variant="outlined"
-            onKeyPress={handleKeyPressed}
-          />
-          <Button className={classes.sendButton} variant="contained" endIcon={<SendIcon />} onClick={handleValidation}>
-            Envoyer
-          </Button>
-
-        </Container>
-        <Button
-          className={classes.scores}
-          variant="contained"
-          name="click"
-          onClick={handleClick}
-
-        >
-          resultat
-
-        </Button>
-      </Container>
-    </>
+    </Container>
   )
 }
 

@@ -28,6 +28,9 @@ const useStyles = makeStyles({
   currentUser: {
     color: 'purple',
   },
+  guestColor: {
+    color: 'black',
+  },
 })
 
 function ListUsers({ users, userID }) {
@@ -55,7 +58,11 @@ function ListUsers({ users, userID }) {
         <Box className={classes.box}>
           <ul className={classes.listUsers}>
             {users.map((user) => (
-              <li className={user.id === userID && classes.currentUser} key={user.id}>
+              <li
+                className={user.id === userID
+                  ? classes.currentUser : classes.guestColor}
+                key={user.id}
+              >
                 {user.pseudo}
 
               </li>

@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "react-confetti": "^6.0.1",
     "react-nice-avatar": "^1.2.4"
   }
 }

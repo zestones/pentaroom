@@ -21,6 +21,9 @@
     "rules": {
         // force single quote
         "quotes": ["error", "single"],
+
+        "linebreak-style": 0,
+
         // remove semi-columns
         "semi": ["error", "never"],
         // force indent 2 spaces

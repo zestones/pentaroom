@@ -13,13 +13,12 @@ const useStyles = makeStyles({
     padding: '1em',
   },
   column: {
-    padding: '1em',
     border: 'solid',
     width: '25%',
   },
   listPlayers: {
     listStyle: 'none',
-    padding: '20px 0',
+    padding: '20px 1em',
     margin: '0',
     fontSize: 'x-large',
   },

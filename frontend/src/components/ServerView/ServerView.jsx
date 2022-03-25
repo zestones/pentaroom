@@ -29,8 +29,10 @@ const useStyles = makeStyles({
     '-webkit-text-stroke-color': 'black',
   },
   h1: {
-    textDecoration: 'underline white',
     textAlign: 'center',
+    '-webkit-text-stroke-width': '1px',
+    '-webkit-text-stroke-color': 'black',
+
   },
   userAvatar: {
     color: 'transparent',

@@ -6,18 +6,41 @@ const useStyles = makeStyles({
     display: 'flex',
     justifyContent: 'center',
   },
+
+  header: {
+    maxHeight: '50px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+
+  },
+  pentaboy: {
+    height: '70px',
+    width: 'auto',
+    objectFit: 'contain',
+    marginRight: '-20px',
+    position: 'relative',
+    zIndex: '2',
+    transform: 'rotate(-8deg)',
+  },
   title: {
-    '-webkit-text-stroke-width': '1px',
+    '-webkit-text-stroke-width': '1.5px',
     '-webkit-text-stroke-color': 'black',
-    'text-shadow': '2px 2px 0 yellow',
+
+    fontSize: '40px',
+    margin: '0',
+
   },
 })
 
 function Header() {
   const classes = useStyles()
   return (
-    <header className={classes.headers}>
-      <h1 className={classes.title}>PENTAROOM</h1>
+    <header className={classes.header}>
+      <img src="/pentaboy.svg" alt="pentaboy" className={classes.pentaboy} />
+      <h1 className={classes.title}>
+        PentaRoom
+      </h1>
     </header>
   )
 }

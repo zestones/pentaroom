@@ -12,7 +12,7 @@ const useStyles = makeStyles({
     backgroundColor: '#fc0',
     padding: '0.5em 1.5em',
     borderRadius: '20px',
-    color: '#0085FF',
+    color: 'black',
     wordBreak: 'break-word',
     marginRight: 'auto',
     width: '100%',
@@ -48,7 +48,7 @@ const useStyles = makeStyles({
   guestMessageTime: {
     paddingLeft: '1em',
     margin: '0px',
-    color: 'gray',
+    color: 'black',
     fontSize: '15px',
     marginLeft: '0',
     marginRight: 'auto',

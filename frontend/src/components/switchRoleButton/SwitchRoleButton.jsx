@@ -10,12 +10,15 @@ const useStyles = makeStyles({
   },
 })
 
-function SwitchRoleButton({ isDrawer, setIsDrawer, sendNewDrawer }) {
+function SwitchRoleButton({
+  isDrawer, setIsDrawer, sendNewDrawer, sendUserDrawerId,
+}) {
   const classes = useStyles()
 
   const handleClick = () => {
     setIsDrawer(!isDrawer)
     if (isDrawer) sendNewDrawer()
+    else sendUserDrawerId()
   }
   return (
     <Button variant="contained" className={classes.button} onClick={handleClick}>{isDrawer ? 'Passer spectateur' : 'Passer dessinateur'}</Button>

@@ -70,6 +70,12 @@ function UserView({
     socket.emit(events.findWord, (myWord))
   }
 
+  const sendUserDrawerId = () => {
+    if (!socket) return
+
+    socket.emit(events.drawerUsers, { id: socket.id })
+  }
+
   // Init the user who is going to draw
   useEffect(() => {
     if (!isDrawer && userDrawer !== undefined && userDrawer.id === socket.id) { setIsDrawer(true) }
@@ -100,7 +106,7 @@ function UserView({
           setUserRole={setUserRole}
         />
       </Drawer>
-      <SwitchRoleButton title="Switch mode" isDrawer={isDrawer} setIsDrawer={setIsDrawer} sendNewDrawer={sendNewDrawer} />
+      <SwitchRoleButton title="Switch mode" isDrawer={isDrawer} setIsDrawer={setIsDrawer} sendNewDrawer={sendNewDrawer} sendUserDrawerId={sendUserDrawerId} />
     </>
   )
 }

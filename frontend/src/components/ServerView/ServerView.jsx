@@ -55,12 +55,21 @@ const useStyles = makeStyles({
     height: '100%%',
     border: 'solid',
   },
+  pentaboy: {
+    height: '50px',
+    width: 'auto',
+    objectFit: 'contain',
+    position: 'relative',
+    zIndex: '2',
+    transform: 'rotate(-8deg)',
+  },
 })
 function ServerView({
-  socket, users, userRole, messages,
+  socket, users, userRole, messages, userDrawer,
 }) {
   const classes = useStyles()
   const messageRef = useRef()
+  const isUserDrawer = (userId) => (userDrawer !== undefined && userId === userDrawer.id)
 
   // allow scrolling to the bottom of the container when a new message arrived.
   useEffect(() => messageRef.current.scrollIntoView({ behavior: 'smooth' }))
@@ -76,6 +85,8 @@ function ServerView({
               <Box className={classes.userBox}>
                 <Avatar fontSize="medium" className={classes.userAvatar} {...user.avatar} />
                 <li className={classes.player} key={user.id}>{user.pseudo}</li>
+                {(isUserDrawer(user.id))
+                      && <img src="/pentaboy.svg" alt="pentaboy" className={classes.pentaboy} />}
               </Box>
             )
           ))}

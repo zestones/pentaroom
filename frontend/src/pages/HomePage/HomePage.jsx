@@ -86,7 +86,7 @@ function HomePage({ socket, setRegistered }) {
 
   const handleValidation = () => {
     const { value } = inputRef.current
-    if (!value || !socket) return
+    if (!value || !socket || value.length < 5 || value.length > 10) return
 
     socket.emit(events.registration, {
       id: socket.id,

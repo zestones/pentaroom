@@ -6,7 +6,7 @@ const useStyles = makeStyles({
   message: {
     listStyle: 'none',
   },
-  guest: {
+  li: {
     margin: '0px',
     marginTop: '0px',
     backgroundColor: '#fc0',
@@ -17,7 +17,7 @@ const useStyles = makeStyles({
     marginRight: 'auto',
     width: '100%',
   },
-  guestUsername: {
+  username: {
     paddingTop: '0.5em',
     paddingLeft: '1em',
     margin: '0px',
@@ -26,14 +26,6 @@ const useStyles = makeStyles({
     maxWidth: '65%',
     overflow: 'hidden',
     paddingBottom: '5px',
-
-  },
-  guestAvatar: {
-    color: 'transparent',
-    backgroundColor: 'transparent',
-    width: '2rem',
-    height: '2rem',
-    marginRight: '5px',
   },
   messageDisplay: {
     fontFamily: 'Sans-serif',
@@ -45,15 +37,14 @@ const useStyles = makeStyles({
     padding: '15px 15px',
     width: '100%',
   },
-  guestMessageTime: {
-    paddingLeft: '1em',
+  messageTime: {
     margin: '0px',
     color: 'black',
-    fontSize: '15px',
-    marginLeft: '0',
+    fontSize: '100%',
     marginRight: 'auto',
-    maxWidth: '80px',
     paddingTop: '5px',
+    display: 'flex',
+    justifyContent: 'right',
   },
 })
 
@@ -68,22 +59,21 @@ function ServerViewMessage({ message }) {
     <div className={classes.messageDisplay}>
       <div className={classes.guestDisplay}>
         <h5 className={
-          clsx(classes.message, classes.guestUsername)
+          clsx(classes.message, classes.username)
         }
         >
           {message.pseudo}
         </h5>
         <li
           key={message.id}
-          className={clsx(classes.message, classes.guest)}
+          className={clsx(classes.message, classes.li)}
         >
           <span>{message.body}</span>
         </li>
-        <p className={classes.guestMessageTime}>
+        <p className={classes.messageTime}>
           {getMessageTime()}
         </p>
       </div>
-
     </div>
   )
 }

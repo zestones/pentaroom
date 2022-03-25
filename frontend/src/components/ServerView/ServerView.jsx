@@ -25,6 +25,8 @@ const useStyles = makeStyles({
   player: {
     textAlign: 'center',
     padding: '5px',
+    '-webkit-text-stroke-width': '1px',
+    '-webkit-text-stroke-color': 'black',
   },
   h1: {
     textDecoration: 'underline white',
@@ -36,6 +38,7 @@ const useStyles = makeStyles({
     minWidth: '2rem',
     height: '2rem',
     marginRight: '5px',
+    border: '1px solid black',
   },
   userBox: {
     display: 'flex',

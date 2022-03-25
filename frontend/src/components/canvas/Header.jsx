@@ -6,13 +6,18 @@ const useStyles = makeStyles({
     display: 'flex',
     justifyContent: 'center',
   },
+  title: {
+    '-webkit-text-stroke-width': '1px',
+    '-webkit-text-stroke-color': 'black',
+    'text-shadow': '2px 2px 0 yellow',
+  },
 })
 
 function Header() {
   const classes = useStyles()
   return (
     <header className={classes.headers}>
-      <h1>PENTAROOM</h1>
+      <h1 className={classes.title}>PENTAROOM</h1>
     </header>
   )
 }

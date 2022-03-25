@@ -4,6 +4,7 @@ import Container from '@mui/material/Container'
 import { fillCanvas } from './FillCanvas'
 import Menu from './Menu'
 import Header from './Header'
+import Icon from '../../pages/HomePage/animation/Icon'
 
 /** Canvas Styles */
 const useStyles = makeStyles({
@@ -18,6 +19,10 @@ const useStyles = makeStyles({
     position: 'relative',
     backgroundColor: 'white',
     marginTop: '5px',
+  },
+  icon: {
+    margin: '0 auto',
+    padding: '20px 40px',
   },
 })
 
@@ -296,17 +301,22 @@ function Canvas({ socket, userRole }) {
         />
       </div>
       {(userRole !== 'server')
-      && (
-        <Menu
-          userDraw={userDraw}
-          setUserDraw={setUserDraw}
-          setIsInAction={setIsInAction}
-          clear={clear}
-          socket={socket}
-          undoCanvas={undoCanvas}
-          redoCanvas={redoCanvas}
-        />
-      )}
+        ? (
+          <Menu
+            userDraw={userDraw}
+            setUserDraw={setUserDraw}
+            setIsInAction={setIsInAction}
+            clear={clear}
+            socket={socket}
+            undoCanvas={undoCanvas}
+            redoCanvas={redoCanvas}
+          />
+        )
+        : (
+          <div className={classes.icon}>
+            <Icon />
+          </div>
+        )}
     </Container>
   )
 }

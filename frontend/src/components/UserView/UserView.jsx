@@ -2,17 +2,28 @@ import React, { useState, useEffect } from 'react'
 
 import { v4 as uuid } from 'uuid'
 
+import { makeStyles } from '@mui/styles'
+import Box from '@mui/material/Box'
 import Drawer from '../drawer/Drawer'
 import Chat from '../chat/Chat'
 import SwitchRoleButton from '../switchRoleButton/SwitchRoleButton'
 import UserInput from '../userInput/UserInput'
 import Challenger from '../challenger/Challenger'
 
+const useStyles = makeStyles({
+  row: {
+    display: 'flex',
+    height: '100%',
+    padding: '1em',
+  },
+})
+
 function UserView({
   setUserRole, socket, isConnected, users, messages, hiddenWord, userDrawer,
 }) {
   // init all the used variables
   const [isDrawer, setIsDrawer] = useState(false)
+  const classes = useStyles()
 
   const events = {
     connect: 'connect',
@@ -70,6 +81,12 @@ function UserView({
     socket.emit(events.findWord, (myWord))
   }
 
+  const sendUserDrawerId = () => {
+    if (!socket) return
+
+    socket.emit(events.drawerUsers, { id: socket.id })
+  }
+
   // Init the user who is going to draw
   useEffect(() => {
     if (!isDrawer && userDrawer !== undefined && userDrawer.id === socket.id) { setIsDrawer(true) }
@@ -77,7 +94,7 @@ function UserView({
 
   // return our application
   return (
-    <>
+    <Box className={classes.row}>
       {isDrawer
         ? (
           <Challenger
@@ -100,8 +117,8 @@ function UserView({
           setUserRole={setUserRole}
         />
       </Drawer>
-      <SwitchRoleButton title="Switch mode" isDrawer={isDrawer} setIsDrawer={setIsDrawer} sendNewDrawer={sendNewDrawer} />
-    </>
+      <SwitchRoleButton title="Switch mode" isDrawer={isDrawer} setIsDrawer={setIsDrawer} sendNewDrawer={sendNewDrawer} sendUserDrawerId={sendUserDrawerId} />
+    </Box>
   )
 }
 

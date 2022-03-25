@@ -300,21 +300,23 @@ function Canvas({ socket, userRole }) {
           height={canvasDim.height}
         />
       </div>
-      <div className={classes.icon}>
-        <Icon />
-      </div>
       {(userRole !== 'server')
-      && (
-        <Menu
-          userDraw={userDraw}
-          setUserDraw={setUserDraw}
-          setIsInAction={setIsInAction}
-          clear={clear}
-          socket={socket}
-          undoCanvas={undoCanvas}
-          redoCanvas={redoCanvas}
-        />
-      )}
+        ? (
+          <Menu
+            userDraw={userDraw}
+            setUserDraw={setUserDraw}
+            setIsInAction={setIsInAction}
+            clear={clear}
+            socket={socket}
+            undoCanvas={undoCanvas}
+            redoCanvas={redoCanvas}
+          />
+        )
+        : (
+          <div className={classes.icon}>
+            <Icon />
+          </div>
+        )}
     </Container>
   )
 }

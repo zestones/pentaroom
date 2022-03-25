@@ -9,13 +9,13 @@ const useStyles = makeStyles({
   guest: {
     margin: '0px',
     marginTop: '0px',
-    backgroundColor: '#0091EA',
+    backgroundColor: '#fc0',
     padding: '0.5em 1.5em',
     borderRadius: '20px',
-    color: '#FFF',
+    color: '#0085FF',
     wordBreak: 'break-word',
-    width: 'fit-content',
     marginRight: 'auto',
+    width: '100%',
   },
   guestUsername: {
     paddingTop: '0.5em',
@@ -42,7 +42,8 @@ const useStyles = makeStyles({
     alignItems: 'center',
   },
   guestDisplay: {
-    flexDirection: 'column',
+    padding: '15px 15px',
+    width: '100%',
   },
   guestMessageTime: {
     paddingLeft: '1em',

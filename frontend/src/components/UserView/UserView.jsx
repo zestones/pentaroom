@@ -15,7 +15,6 @@ const useStyles = makeStyles({
     display: 'flex',
     height: '100%',
     padding: '1em',
-    backgroundColor: '#fff0',
   },
 })
 

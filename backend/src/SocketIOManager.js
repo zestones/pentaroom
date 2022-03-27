@@ -4,6 +4,7 @@ class SocketIOManager {
     this.io = io
     this.dictionaryManager = dictionaryManager
     this.drawer = {}
+    this.findWord = ''
   }
 
   /**
@@ -27,8 +28,21 @@ class SocketIOManager {
     socket.on('draw', (drawObject) => this.globalEmitDraw(drawObject))
     socket.on('find-word', (findWord) => this.globalEmitWord(findWord))
     socket.on('drawer-users', (drawerUsers) => this.globalEmitDrawerUsers(drawerUsers))
+    socket.on('proposed-word', (finder) => this.checkProposedWord(finder))
   }
 
+  /**
+   * check if the user finded the word and send a reponse
+   * @param {*} finder
+   */
+  checkProposedWord(finder) {
+    const userID = finder.id
+    const finded = finder.word.toUpperCase() === this.findWord.toUpperCase()
+
+    this.io.sockets.emit('response-proposition', { id: userID, status: finded })
+  }
+
+  /** Register a new user */
   registration(user) {
     console.log(`Update => id :  ${user.id} pseudo :${user.pseudo}`)
     const index = this.users.map((x) => x.id).indexOf(user.id)
@@ -57,7 +71,8 @@ class SocketIOManager {
 
   /**
    * Send a message to connected users containing the new drawer user id
-   * @param {*} newWord : the new user Drawer
+   * and a list of 3 words
+   * @param {*} newDrawer : the new user Drawer
    */
   globalEmitDrawerUsers(newDrawer) {
     const words = this.dictionaryManager.getRandomWords()
@@ -70,7 +85,8 @@ class SocketIOManager {
    * @param {*} newWord : the new word
    */
   globalEmitWord(newWord) {
-    this.io.sockets.emit('find-word', newWord)
+    this.findWord = newWord
+    this.io.sockets.emit('find-word', newWord) // ! Not needed, just for testing
   }
 
   /**

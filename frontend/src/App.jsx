@@ -21,6 +21,7 @@ function App({ initialUserRole }) {
   const [userRole, setUserRole] = useState(initialUserRole)
 
   const [isRegistered, setRegistered] = useState(false)
+  const [response, setReponse] = useState()
 
   const events = {
     connect: 'connect',
@@ -30,6 +31,7 @@ function App({ initialUserRole }) {
     findWord: 'find-word',
     drawerUsers: 'drawer-users',
     registration: 'registration',
+    reponseProp: 'response-proposition',
   }
 
   // initialize the socket IO connection
@@ -56,6 +58,9 @@ function App({ initialUserRole }) {
         isOwner: message.senderId === socket.id,
       }])
     })
+    socket.on(events.reponseProp, (rep) => {
+      setReponse(rep)
+    })
   }, [socket])
 
   // return our application
@@ -81,6 +86,7 @@ function App({ initialUserRole }) {
             messages={messages}
             hiddenWord={hiddenWord}
             userDrawer={userDrawer}
+            response={response}
           />
         )
 

@@ -57,15 +57,20 @@ const useStyles = makeStyles({
   },
 })
 
-function UserInput({ hiddenWord }) {
+function UserInput({ hiddenWord, socket }) {
   const classes = useStyles()
-
   const inputRef = useRef('')
+
+  const events = {
+    proposeWord: 'proposed-word',
+  }
 
   const handleValidation = () => {
     const { value } = inputRef.current
-    if (!value) return
-    alert(`Vous avez saisi ${value}`)
+    if (!value || !socket) return
+
+    socket.emit(events.proposeWord, ({ id: socket.id, word: value }))
+    console.log(`Vous avez saisi ${value}`)
   }
   const handleKeyPressed = (e) => {
     if (e.key === 'Enter') {

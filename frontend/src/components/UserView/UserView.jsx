@@ -19,7 +19,7 @@ const useStyles = makeStyles({
 })
 
 function UserView({
-  setUserRole, socket, isConnected, users, messages, hiddenWord, userDrawer,
+  setUserRole, socket, isConnected, users, messages, hiddenWord, userDrawer, response,
 }) {
   // init all the used variables
   const [isDrawer, setIsDrawer] = useState(false)
@@ -90,7 +90,10 @@ function UserView({
   // Init the user who is going to draw
   useEffect(() => {
     if (!isDrawer && userDrawer !== undefined && userDrawer.id === socket.id) { setIsDrawer(true) }
-  }, [userDrawer])
+    if (response !== undefined && response.status === true && socket.id === response.id) {
+      sendMessage('PENTA-PENTI .. J\'AI TROUVER !')
+    }
+  }, [userDrawer, response])
 
   // return our application
   return (
@@ -105,7 +108,7 @@ function UserView({
             userDrawer={userDrawer}
           />
         )
-        : <UserInput hiddenWord={hiddenWord} /> }
+        : <UserInput hiddenWord={hiddenWord} socket={socket} /> }
 
       <Drawer
         userID={socket?.id}

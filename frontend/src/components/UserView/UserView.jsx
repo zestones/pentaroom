@@ -95,13 +95,14 @@ function UserView({
   // return our application
   return (
     <Box className={classes.row}>
-      {isDrawer
+      {isDrawer && userDrawer !== undefined
         ? (
           <Challenger
             socket={socket}
             setIsDrawer={setIsDrawer}
             sendChosenWord={sendChosenWord}
             sendNewDrawer={sendNewDrawer}
+            userDrawer={userDrawer}
           />
         )
         : <UserInput hiddenWord={hiddenWord} /> }

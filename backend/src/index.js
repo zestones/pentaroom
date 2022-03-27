@@ -19,6 +19,9 @@ const DictionaryManager = require('./DictionaryManager')
 const dictionaryManager = new DictionaryManager()
 const socketManager = new SocketIOManager(io, dictionaryManager)
 
+// init the dictionary
+dictionaryManager.initDictionary()
+
 // init the socket connexion
 socketManager.init()
 

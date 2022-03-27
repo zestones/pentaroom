@@ -1,4 +1,5 @@
 const fs = require('fs')
+const path = require('path')
 
 class DictionaryManager {
   constructor() {
@@ -7,10 +8,8 @@ class DictionaryManager {
 
   // Look up a word in the dictionary
   initDictionary() {
-    fs.readFile('../dictionary.json', (err, data) => {
-      if (err) throw err
-      this.Words = JSON.parse(data)
-    })
+    // get the dictionary with absolute path
+    this.dictionary = JSON.parse(fs.readFileSync(path.join(__dirname, '../dictionary.json'), 'utf-8'))
   }
 
   getRandomWords() {

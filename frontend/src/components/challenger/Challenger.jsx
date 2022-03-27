@@ -38,12 +38,9 @@ const modalStyle = {
 }
 
 function Challenger({
-  socket, setIsDrawer, sendChosenWord, sendNewDrawer,
+  socket, setIsDrawer, sendChosenWord, sendNewDrawer, userDrawer,
 }) {
   const [open, setOpen] = useState(true)
-
-  // Liste envoyer par le serveur
-  const words = ['Camion', 'Voiture', 'Pompier']
 
   // Chose the right action to do when the modal is closed
   const handleClose = (event) => {
@@ -74,7 +71,7 @@ function Challenger({
         <Fade in={open}>
           <Box sx={modalStyle}>
             <Stack className={classes.wordsProposition} direction="row" spacing={2}>
-              {words.map((word) => (
+              {userDrawer.words.map((word) => (
                 <Button variant="contained" color="success" value={word} onClick={handleClose}>
                   {word}
                 </Button>

@@ -51,16 +51,15 @@ function UserView({
     return true
   }
 
-  const sendNewDrawer = (userId) => {
+  const sendNewDrawer = () => {
     if (!socket) return
 
     const index = Math.floor(Math.random() * (users.length))
     const senderId = users[index].id
 
     // TODO : list of users that has already been drawer
-    if (userId !== undefined && users.length > 2 && userId === senderId) sendNewDrawer()
-
-    if (isFullyRegistered(index)) {
+    if (userDrawer !== undefined && users.length > 2 && userDrawer.id === senderId) sendNewDrawer()
+    else if (isFullyRegistered(index)) {
       socket.emit(events.drawerUsers, { id: senderId })
     } else sendNewDrawer()
   }
@@ -94,7 +93,7 @@ function UserView({
   useEffect(() => {
     if (response !== undefined && response.status === true && socket.id === response.id) {
       sendMessage('PENTA-PENTI .. J\'AI TROUVER !')
-      sendNewDrawer(response.id)
+      sendNewDrawer()
       setResponse({})
     }
 

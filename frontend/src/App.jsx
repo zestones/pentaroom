@@ -21,7 +21,7 @@ function App({ initialUserRole }) {
   const [userRole, setUserRole] = useState(initialUserRole)
 
   const [isRegistered, setRegistered] = useState(false)
-  const [response, setReponse] = useState()
+  const [response, setResponse] = useState()
 
   const events = {
     connect: 'connect',
@@ -58,8 +58,9 @@ function App({ initialUserRole }) {
         isOwner: message.senderId === socket.id,
       }])
     })
+
     socket.on(events.reponseProp, (rep) => {
-      setReponse(rep)
+      setResponse(rep)
     })
   }, [socket])
 
@@ -87,6 +88,7 @@ function App({ initialUserRole }) {
             hiddenWord={hiddenWord}
             userDrawer={userDrawer}
             response={response}
+            setResponse={setResponse}
           />
         )
 

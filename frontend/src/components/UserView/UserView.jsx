@@ -19,7 +19,7 @@ const useStyles = makeStyles({
 })
 
 function UserView({
-  setUserRole, socket, isConnected, users, messages, hiddenWord, userDrawer, response,
+  setUserRole, socket, isConnected, users, messages, hiddenWord, userDrawer, response, setResponse,
 }) {
   // init all the used variables
   const [isDrawer, setIsDrawer] = useState(false)
@@ -51,11 +51,14 @@ function UserView({
     return true
   }
 
-  const sendNewDrawer = () => {
+  const sendNewDrawer = (userId) => {
     if (!socket) return
 
     const index = Math.floor(Math.random() * (users.length))
     const senderId = users[index].id
+
+    // TODO : list of users that has already been drawer
+    if (userId !== undefined && users.length > 2 && userId === senderId) sendNewDrawer()
 
     if (isFullyRegistered(index)) {
       socket.emit(events.drawerUsers, { id: senderId })
@@ -89,10 +92,14 @@ function UserView({
 
   // Init the user who is going to draw
   useEffect(() => {
-    if (!isDrawer && userDrawer !== undefined && userDrawer.id === socket.id) { setIsDrawer(true) }
     if (response !== undefined && response.status === true && socket.id === response.id) {
       sendMessage('PENTA-PENTI .. J\'AI TROUVER !')
+      sendNewDrawer(response.id)
+      setResponse({})
     }
+
+    if (!isDrawer && userDrawer !== undefined && userDrawer.id === socket.id) setIsDrawer(true)
+    else if (userDrawer !== undefined && userDrawer.id !== socket.id) setIsDrawer(false)
   }, [userDrawer, response])
 
   // return our application

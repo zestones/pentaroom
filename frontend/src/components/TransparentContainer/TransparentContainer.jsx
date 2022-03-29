@@ -14,6 +14,7 @@ const useStyles = makeStyles({
 
 function transparentContainer({ backgroundColor, children, className }) {
   const classes = useStyles()
+  console.log(backgroundColor)
   return (
     <Container style={{ backgroundColor: `${backgroundColor}46` }} className={clsx(className, classes.transparentContainer)}>
       {children}

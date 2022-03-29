@@ -3,8 +3,7 @@ import Box from '@mui/material/Box'
 import SwipeableDrawer from '@mui/material/SwipeableDrawer'
 import Button from '@mui/material/Button'
 import { makeStyles } from '@mui/styles'
-import ListUsers from '../listUsers/ListUsers'
-import UserInfos from '../userInfos/UserInfos'
+import ListMessages from '../ListMessages/ListMessages'
 
 const useStyles = makeStyles({
   button: {
@@ -21,9 +20,7 @@ const useStyles = makeStyles({
   },
 })
 
-function Drawer({
-  userID, isConnected, users, children,
-}) {
+function Chat() {
   const classes = useStyles()
 
   const [isOpen, setOpen] = useState(false)
@@ -38,16 +35,6 @@ function Drawer({
     }
 
     setOpen(open)
-  }
-
-  const getUsername = () => {
-    const index = users.map((x) => x.id).indexOf(userID)
-    return users[index].pseudo
-  }
-
-  const getUserAvatar = () => {
-    const index = users.map((x) => x.id).indexOf(userID)
-    return users[index].avatar
   }
 
   return (
@@ -70,17 +57,11 @@ function Drawer({
           className={classes.box}
           role="presentation"
         >
-          <UserInfos
-            username={getUsername()}
-            isConnected={isConnected}
-            myAvatar={getUserAvatar()}
-          />
-          <ListUsers userID={userID} users={users} />
-          {children}
+          <ListMessages />
         </Box>
       </SwipeableDrawer>
     </>
   )
 }
 
-export default Drawer
+export default Chat

@@ -1,33 +1,30 @@
+/* eslint-disable react/jsx-no-undef */
 import React from 'react'
+
 import { makeStyles } from '@mui/styles'
 
 const useStyles = makeStyles({
-  headers: {
-    display: 'flex',
-    justifyContent: 'center',
-  },
-
   header: {
-    maxHeight: '50px',
+    maxHeight: '300px',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
 
   },
   pentaboy: {
-    height: '70px',
+    height: '150px',
     width: 'auto',
     objectFit: 'contain',
-    marginRight: '-20px',
+    marginRight: '-40px',
     position: 'relative',
     zIndex: '2',
     transform: 'rotate(-8deg)',
   },
   title: {
-    '-webkit-text-stroke-width': '1.5px',
+    '-webkit-text-stroke-width': '2px',
     '-webkit-text-stroke-color': 'black',
-
-    fontSize: '40px',
+    letterSpacing: '2px',
+    fontSize: '60px',
     margin: '0',
 
   },
@@ -39,10 +36,11 @@ function Header() {
     <header className={classes.header}>
       <img src="/pentaboy.svg" alt="pentaboy" className={classes.pentaboy} />
       <h1 className={classes.title}>
-        PentaRoom
+        Penta
+        <br />
+        Room
       </h1>
     </header>
   )
 }
-
 export default Header

@@ -1,6 +1,5 @@
 import React, { useState, useRef, useContext } from 'react'
 import '../../App.css'
-import { makeStyles } from '@mui/styles'
 import { genConfig } from 'react-nice-avatar'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import Container from '@mui/material/Container'
@@ -9,37 +8,8 @@ import AvatarPicker from '../AvatarPicker/AvatarPicker'
 import PlayButton from '../PlayButton/PlayButton'
 import { SocketContext } from '../../context/socket'
 
-const useStyles = makeStyles({
-  mainContainer: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '0',
-  },
-  container: {
-    margin: '20px auto',
-  },
-  title: {
-    fontSize: '30px',
-    margin: '0',
-    marginBottom: '30px',
-    '-webkit-text-stroke-width': '2px',
-    '-webkit-text-stroke-color': 'black',
-    letterSpacing: '1px',
-  },
-  inputName: {
-    borderRadius: '50px',
-    backgroundColor: '#cce3f6',
-    border: '1px solid black',
-    padding: '0px 15px',
-    fontSize: '20px',
-  },
-})
-
 function Login({ setIsLogged }) {
   const socket = useContext(SocketContext)
-  const classes = useStyles()
 
   const [avatar, setConfig] = useState(genConfig(
     {
@@ -82,18 +52,18 @@ function Login({ setIsLogged }) {
 
   return (
     <>
-      <Container maxWidth="xxl" className={classes.mainContainer}>
-        <TransparentContainer backgroundColor="#0000A5" className={classes.container}>
-          <h2 className={classes.title}>1.Personnalise ton avatar :</h2>
+      <Container maxWidth="xxl" className="mainContainer">
+        <TransparentContainer backgroundColor="#0000A5" className="container">
+          <h2 className="title">1.Personnalise ton avatar :</h2>
           <AvatarPicker avatar={avatar} setConfig={setConfig} />
         </TransparentContainer>
-        <TransparentContainer backgroundColor="#0000A5" className={classes.container}>
-          <h2 className={classes.title}>2.Choisis un pseudo : </h2>
+        <TransparentContainer backgroundColor="#0000A5" className="container">
+          <h2 className="title">2.Choisis un pseudo : </h2>
           <OutlinedInput
             inputRef={inputRef}
             fullWidth
             placeholder="Tape ton pseudo ici ..."
-            className={classes.inputName}
+            className="inputName"
             onKeyPress={handleKeyPressed}
           />
         </TransparentContainer>

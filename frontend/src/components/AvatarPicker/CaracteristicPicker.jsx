@@ -1,28 +1,11 @@
 import React from 'react'
 
-import { makeStyles } from '@mui/styles'
 import Box from '@mui/material/Box'
-
-const useStyles = makeStyles({
-  caracteristicPicker: {
-    width: '80px',
-    height: '80px',
-    borderRadius: '100%',
-    backgroundColor: '#ffcc00',
-    padding: '15px',
-
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-
-  },
-})
+import './CaracteristicPicker.scss'
 
 function CaracteristicPicker({ children }) {
-  const classes = useStyles()
-
   return (
-    <Box className={classes.caracteristicPicker}>
+    <Box className="caracteristicPicker">
       {children}
     </Box>
   )

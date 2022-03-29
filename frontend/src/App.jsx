@@ -1,8 +1,8 @@
 import React from 'react'
 import './App.css'
 import { SocketContext, socket } from './context/socket'
-import ServerView from './views/server/ServerView'
-import ClientView from './views/client/ClientView'
+import ServerView from './views/ServerView'
+import ClientView from './views/ClientView'
 
 function App({ userRole }) {
   return (

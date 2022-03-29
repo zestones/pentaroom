@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import Backdrop from '@mui/material/Backdrop'
 import Modal from '@mui/material/Modal'
 import Fade from '@mui/material/Fade'
@@ -6,7 +6,7 @@ import { makeStyles } from '@mui/styles'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
-import { SocketContext } from '../../context/socket'
+// import { SocketContext } from '../../context/socket'
 import Canvas from '../Canvas/Canvas'
 
 const useStyles = makeStyles({
@@ -44,7 +44,7 @@ const useStyles = makeStyles({
 })
 
 function Drawer({ setIsChallenged, words }) {
-  const socket = useContext(SocketContext)
+//   const socket = useContext(SocketContext)
   const classes = useStyles()
   const [open, setIsOpen] = useState(true)
 
@@ -55,7 +55,7 @@ function Drawer({ setIsChallenged, words }) {
   }
 
   const handleAccept = (word) => {
-    socket.emit('set-chosen-word', word)
+    // socket.emit('set-chosen-word', word)
     setIsOpen(false)
     chosenWord = word
   }
@@ -76,7 +76,7 @@ function Drawer({ setIsChallenged, words }) {
           <Box className={classes.modal}>
             <Stack className={classes.wordsProposition} direction="row" spacing={2}>
               {words.map((word) => (
-                <Button variant="contained" color="success" value={word} onClick={handleAccept}>
+                <Button key={word} variant="contained" color="success" value={word} onClick={handleAccept}>
                   {word}
                 </Button>
               ))}

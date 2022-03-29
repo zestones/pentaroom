@@ -2,27 +2,9 @@ import React, { useState } from 'react'
 import Box from '@mui/material/Box'
 import SwipeableDrawer from '@mui/material/SwipeableDrawer'
 import Button from '@mui/material/Button'
-import { makeStyles } from '@mui/styles'
 import ListMessages from '../ListMessages/ListMessages'
 
-const useStyles = makeStyles({
-  button: {
-    position: 'absolute',
-    bottom: '25px',
-    right: '25px',
-  },
-  box: {
-    width: '500px',
-    maxWidth: '100vw',
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-})
-
 function Chat() {
-  const classes = useStyles()
-
   const [isOpen, setOpen] = useState(false)
 
   const toggleDrawer = (open) => (event) => {
@@ -41,7 +23,7 @@ function Chat() {
     <>
       <Button
         variant="contained"
-        className={classes.button}
+        className="button"
         onClick={toggleDrawer(true)}
       >
         Chat
@@ -54,7 +36,7 @@ function Chat() {
         onOpen={toggleDrawer(true)}
       >
         <Box
-          className={classes.box}
+          className="box"
           role="presentation"
         >
           <ListMessages />

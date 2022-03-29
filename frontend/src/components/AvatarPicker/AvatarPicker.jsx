@@ -1,6 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
 
 import React from 'react'
+import './AvatarPicker.scss'
+
 import Avatar from 'react-nice-avatar'
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
@@ -10,8 +12,6 @@ import Face from './Face'
 import Hair from './Hair'
 import Eyes from './Eyes'
 import Glasses from './Glasses'
-
-import './AvatarPicker.scss'
 
 const faceColor = ['#f9c9b6', '#e0ac69', '#ac6651', '#8d5524']
 const hairStyles = ['normal', 'thick', 'mohawk', 'womanLong', 'womanShort']

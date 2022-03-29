@@ -5,7 +5,7 @@ import './CaracteristicPicker.scss'
 
 function CaracteristicPicker({ children }) {
   return (
-    <Box className="caracteristicPicker">
+    <Box className="caracteristic-picker-box">
       {children}
     </Box>
   )

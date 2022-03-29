@@ -24,7 +24,7 @@ function Chat() {
     <>
       <Button
         variant="contained"
-        className="button"
+        className="chat-btn"
         onClick={toggleDrawer(true)}
       >
         Chat

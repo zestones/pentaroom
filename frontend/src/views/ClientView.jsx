@@ -64,7 +64,6 @@ function ClientView() {
                 setIsChallenged={setIsChallenged}
                 setWords={setWords}
               />
-              {' '}
               {isChallenged
                 ? <Drawer setIsChallenged={setIsChallenged} words={words} />
                 : <UserInput />}

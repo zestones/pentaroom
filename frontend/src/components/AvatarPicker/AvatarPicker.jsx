@@ -4,7 +4,6 @@ import React from 'react'
 import Avatar from 'react-nice-avatar'
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
-import { makeStyles } from '@mui/styles'
 import CaracteristicPicker from './CaracteristicPicker'
 
 import Face from './Face'
@@ -12,29 +11,7 @@ import Hair from './Hair'
 import Eyes from './Eyes'
 import Glasses from './Glasses'
 
-const useStyles = makeStyles({
-  container: {
-    display: 'flex',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-  },
-  avatar: {
-    width: '180px',
-    height: '180px',
-    border: '5px solid black',
-    background: '#ffcc00 !important',
-  },
-  caracteristicPicker: {
-    marginLeft: '15px',
-    textAlign: 'center',
-
-  },
-  caracteristicTitle: {
-    fontSize: '20px',
-    margin: '10px 0',
-  },
-})
+import './AvatarPicker.scss'
 
 const faceColor = ['#f9c9b6', '#e0ac69', '#ac6651', '#8d5524']
 const hairStyles = ['normal', 'thick', 'mohawk', 'womanLong', 'womanShort']
@@ -42,8 +19,6 @@ const eyeStyles = ['normal', 'circle', 'oval', 'smile']
 const glassesStyles = ['none', 'round', 'square']
 
 function AvatarPicker({ avatar, setConfig }) {
-  const classes = useStyles()
-
   const caracteristics = [
     { id: 'face', title: 'Visage' },
     { id: 'hair', title: 'Cheveux' },
@@ -72,14 +47,14 @@ function AvatarPicker({ avatar, setConfig }) {
   }
 
   return (
-    <Container className={classes.container}>
+    <Container className="container">
       <Box>
-        <Avatar className={classes.avatar} {...avatar} />
+        <Avatar className="avatar" {...avatar} />
       </Box>
 
       {caracteristics.map((carac) => (
-        <Box key={carac.id} className={classes.caracteristicPicker}>
-          <h3 className={classes.caracteristicTitle}>{carac.title}</h3>
+        <Box key={carac.id} className="caracteristic-picker">
+          <h3 className="caracteristic-title">{carac.title}</h3>
           <CaracteristicPicker>
             {carac.id === 'face' && <Box onClick={handleFaceClick}><Face faceColor={avatar.faceColor} /></Box>}
             {carac.id === 'hair' && <Box onClick={handleHairClick}><Hair hairColor={avatar.hairColor} /></Box>}

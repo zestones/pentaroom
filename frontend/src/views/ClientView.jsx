@@ -28,14 +28,23 @@ function ClientView() {
   const [isLogged, setIsLogged] = useState(false)
   const [isChallenged, setIsChallenged] = useState(false)
 
+  const [user, setUser] = useState({})
+
   const [words, setWords] = useState([])
 
   const handleUpdateDrawer = (data) => {
     setWords(data)
     setIsChallenged(true)
   }
+
+  const handleRetrieveUser = (oldUser) => {
+    const newUser = { ...user, pseudo: oldUser.pseudo, avatar: oldUser.avatar }
+    setUser(newUser)
+  }
+
   useEffect(() => {
     socket.on('update-drawer', handleUpdateDrawer)
+    socket.on('retrieve-user', handleRetrieveUser)
 
     return () => {
       socket.off('update-drawer', handleUpdateDrawer)

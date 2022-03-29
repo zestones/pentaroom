@@ -3,20 +3,20 @@
       display: flex;
       justify-content: center;
       align-items: center;
-}
-.pentaboy {
-      height: 150px;
-      width: auto;
-      object-fit: contain;
-      margin-right: -40px;
-      position: relative;
-      z-index: 2;
-      transform: rotate(-8deg);
-}
-.title {
-      -webkit-text-stroke-width: 2px;
-      -webkit-text-stroke-color: black;
-      letter-spacing: 2px;
-      font-size: 60px;
-      margin: 0;
+      .pentaboy {
+            height: 150px;
+            width: auto;
+            object-fit: contain;
+            margin-right: -40px;
+            position: relative;
+            z-index: 2;
+            transform: rotate(-8deg);
+      }
+      .title {
+            -webkit-text-stroke-width: 2px;
+            -webkit-text-stroke-color: black;
+            letter-spacing: 2px;
+            font-size: 60px;
+            margin: 0;
+      }
 }

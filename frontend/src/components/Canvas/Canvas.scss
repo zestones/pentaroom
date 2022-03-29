@@ -1,0 +1,17 @@
+.main{
+      display: 'flex';
+      flex-direction: 'column';
+      height: '100%';
+}
+.drawArea {
+      flex-grow: '1';
+      max-width: '100%';
+      position: 'relative';
+      background-color: 'white';
+      margin-top: '5px';
+}
+.icon {
+      margin: '0 auto';
+      padding: '20px 40px';
+}
+  

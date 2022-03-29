@@ -1,31 +1,11 @@
 import React, {
   useState, useRef, useEffect, useContext,
 } from 'react'
-import { makeStyles } from '@mui/styles'
 import Container from '@mui/material/Container'
 import { fillCanvas } from './FillCanvas'
 import Menu from './Menu'
 import { SocketContext } from '../../context/socket'
-
-/** Canvas Styles */
-const useStyles = makeStyles({
-  main: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
-  },
-  drawArea: {
-    flexGrow: '1',
-    maxWidth: '100%',
-    position: 'relative',
-    backgroundColor: 'white',
-    marginTop: '5px',
-  },
-  icon: {
-    margin: '0 auto',
-    padding: '20px 40px',
-  },
-})
+import './Canvas.scss'
 
 function Canvas({ userRole }) {
   const socket = useContext(SocketContext)
@@ -284,11 +264,9 @@ function Canvas({ userRole }) {
     setIsInAction(false)
   }
 
-  const classes = useStyles()
-
   return (
-    <Container maxWidth="xl" className={classes.main}>
-      <div id="draw" className={classes.drawArea}>
+    <Container maxWidth="xl" className="main">
+      <div id="draw" className="drawArea">
         <canvas
           id="myCanvas"
           onTouchStart={handleTouchStart}
@@ -315,7 +293,7 @@ function Canvas({ userRole }) {
           />
         )
         : (
-          <div className={classes.icon} />
+          <div className="icon" />
         )}
     </Container>
   )

@@ -8,7 +8,6 @@ import {
 } from 'react-router-dom'
 import StyledEngineProvider from '@mui/material/StyledEngineProvider'
 import App from './App'
-import HomePage from './pages/HomePage/HomePage'
 import reportWebVitals from './reportWebVitals'
 
 ReactDOM.render(
@@ -16,9 +15,8 @@ ReactDOM.render(
     <StyledEngineProvider injectFirst>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<App initialUserRole="client" />} />
-          <Route path="/server" element={<App initialUserRole="server" />} />
-          <Route path="/home" element={<HomePage />} />
+          <Route path="/" element={<App userRole="client" />} />
+          <Route path="/server" element={<App userRole="server" />} />
         </Routes>
       </BrowserRouter>
     </StyledEngineProvider>

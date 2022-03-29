@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import './Drawer.scss'
+
 import Backdrop from '@mui/material/Backdrop'
 import Modal from '@mui/material/Modal'
 import Fade from '@mui/material/Fade'
@@ -38,14 +40,14 @@ function Drawer({ setIsChallenged, words }) {
       >
         <Fade in={open}>
           <Box className="modal">
-            <Stack className="wordsProposition" direction="row" spacing={2}>
+            <Stack className="words-proposition" direction="row" spacing={2}>
               {words.map((word) => (
                 <Button key={word} variant="contained" color="success" value={word} onClick={handleAccept}>
                   {word}
                 </Button>
               ))}
             </Stack>
-            <Button className="rejectProposition" variant="outlined" color="error" onClick={handleDecline}>
+            <Button className="reject-proposition" variant="outlined" color="error" onClick={handleDecline}>
               Refuser
             </Button>
           </Box>
@@ -54,7 +56,6 @@ function Drawer({ setIsChallenged, words }) {
 
       <h1>
         Le mot que vous avez choisis est
-        {' '}
         {chosenWord}
       </h1>
       <Canvas userRole="client" />

@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { makeStyles } from '@mui/styles'
 import Container from '@mui/material/Container'
 import BrushIcon from '@mui/icons-material/Brush'
 import AutoFixNormalIcon from '@mui/icons-material/AutoFixNormal'
@@ -11,39 +10,9 @@ import FormatColorFillIcon from '@mui/icons-material/FormatColorFill'
 import RedoIcon from '@mui/icons-material/Redo'
 import UndoIcon from '@mui/icons-material/Undo'
 import IconButton from '@mui/material/IconButton'
-import clsx from 'clsx'
-
-const useStyles = makeStyles({
-  menuBar: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    borderRadius: '5px',
-    alignItems: 'center',
-    margin: '5px auto 30px auto',
-  },
-  chipsContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-  },
-  chip: {
-    margin: '5px',
-    padding: '15px 30px',
-    height: '35px',
-    '&.active': {
-      backgroundColor: 'purple',
-    },
-  },
-  tools: {
-    marginTop: '15px',
-    height: '50px',
-  },
-})
+import './Menu.scss'
 
 function Menu(props) {
-  const classes = useStyles()
   const {
     userDraw, setUserDraw, setIsInAction, clear, socket, undoCanvas, redoCanvas,
   } = props
@@ -133,21 +102,21 @@ function Menu(props) {
   return (
     <Container
       maxWidth="sm"
-      className={classes.menuBar}
+      className="menuBar"
       aria-owns={open ? 'tool-popover' : undefined}
       aria-haspopup="true"
       onMouseEnter={handlePopoverOpen}
       onMouseLeave={handlePopoverClose}
     >
-      <Box className={classes.chipsContainer}>
-        <Chip className={clsx(classes.chip, userDraw.pen.isActive && 'active')} color="primary" icon={<BrushIcon />} label="Pinceau" onClick={() => { activePen() }} />
-        <Chip className={clsx(classes.chip, userDraw.eraser.isActive && 'active')} color="primary" icon={<AutoFixNormalIcon />} label="Gomme" onClick={() => { activeEraser() }} />
-        <Chip className={clsx(classes.chip, userDraw.fill.isActive && 'active')} color="primary" icon={<FormatColorFillIcon />} label="Remplissage" onClick={() => { activeFill() }} />
-        <Chip className={classes.chip} color="primary" icon={<HighlightOffIcon />} label="Effacer tout" onClick={() => { activeClear() }} />
-        <IconButton className={classes.undo} color="primary" aria-label="undo action" component="span" onClick={() => activeUndo()}><UndoIcon /></IconButton>
-        <IconButton className={classes.redo} color="primary" aria-label="redo action" component="span" onClick={() => activeRedo()}><RedoIcon /></IconButton>
+      <Box className="chipsContainer">
+        <Chip className="active" color="primary" icon={<BrushIcon />} label="Pinceau" onClick={() => { activePen() }} />
+        <Chip className="active" color="primary" icon={<AutoFixNormalIcon />} label="Gomme" onClick={() => { activeEraser() }} />
+        <Chip className="active" color="primary" icon={<FormatColorFillIcon />} label="Remplissage" onClick={() => { activeFill() }} />
+        <Chip className="chip" color="primary" icon={<HighlightOffIcon />} label="Effacer tout" onClick={() => { activeClear() }} />
+        <IconButton className="undo" color="primary" aria-label="undo action" component="span" onClick={() => activeUndo()}><UndoIcon /></IconButton>
+        <IconButton className="redo" color="primary" aria-label="redo action" component="span" onClick={() => activeRedo()}><RedoIcon /></IconButton>
       </Box>
-      <Box className={classes.tools}>
+      <Box className="tools">
         <Zoom in={checked} style={{ transitionDelay: checked ? '500ms' : '0ms' }}>
           <Box>
             {userDraw.pen.isActive && (

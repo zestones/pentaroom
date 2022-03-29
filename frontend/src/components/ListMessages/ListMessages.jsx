@@ -24,7 +24,7 @@ function ListMessages() {
   }, [socket, messages])
 
   return (
-    <div className="container">
+    <div className="msg-container">
       <Paper elevation={5} className="paper">
         <div className="messageContainer">
           <ol className="ol">

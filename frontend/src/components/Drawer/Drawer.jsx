@@ -14,18 +14,16 @@ function Drawer({ setIsChallenged, words }) {
   const socket = useContext(SocketContext)
 
   const [open, setIsOpen] = useState(true)
-  let chosenWord = null
 
   const handleDecline = () => {
     setIsChallenged(false)
-    socket.emit('new-drawer')
+    socket.emit('refuse-challenge')
   }
 
   const handleAccept = (word) => {
-    // socket.emit('set-chosen-word', word)
     setIsOpen(false)
-    chosenWord = word
-    console.log(chosenWord)
+    socket.emit('accept-challenge', word)
+    console.log(`Mot choisis: ${word}`)
   }
 
   return (

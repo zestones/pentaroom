@@ -37,7 +37,7 @@ function Login({ setIsLogged }) {
     const { value } = inputRef.current
     if (!value || !socket || value.length < 5 || value.length > 10) return
 
-    socket.emit('registration', {
+    socket.emit('update-user', {
       id: socket.id,
       pseudo: value,
       avatar,

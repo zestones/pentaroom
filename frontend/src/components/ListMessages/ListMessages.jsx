@@ -16,7 +16,7 @@ function ListMessages() {
   }
 
   useEffect(() => {
-    socket.on('new-message', handleNewMessages)
+    socket.on('message', handleNewMessages)
 
     return () => {
       socket.off('message', handleNewMessages)

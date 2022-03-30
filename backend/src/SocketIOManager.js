@@ -32,6 +32,8 @@ class SocketIOManager {
     socket.on('draw', (drawObject) => this.io.emit('draw', drawObject))
     socket.on('check-word', (word, success, failure) => this.checkWord(word, success, failure))
     socket.on('update-drawer', () => this.updateDrawer())
+    socket.on('accept-challenge', (chosenWord) => this.updateCurrentWord(chosenWord))
+    socket.on('refuse-challenge', () => this.updateDrawer())
   }
 
   /**
@@ -133,6 +135,9 @@ class SocketIOManager {
    * @returns
    */
   updateDrawer() {
+    // reinitialize the current word
+    this.currentWord = undefined
+
     // get a random user
     const user = this.getRandomDrawer()
 
@@ -142,12 +147,8 @@ class SocketIOManager {
     // get random words
     const words = this.dictionaryManager.getRandomWords()
 
-    // callback send to the front
-    const acceptChallenge = (chosenWord) => this.updateCurrentWord(chosenWord)
-    const refuseChallenge = () => this.updateDrawer()
-
     // send the request
-    this.io.emit('challenge', user.id, words, acceptChallenge, refuseChallenge)
+    this.io.emit('challenge', user.id, words)
   }
 
   /**

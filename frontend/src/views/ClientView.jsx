@@ -12,44 +12,28 @@ import SwitchRoleButton from '../components/temp/SwitchRoleButton/SwitchRoleButt
 import { SocketContext } from '../context/socket'
 
 function ClientView() {
-  console.log('JE SUIS ICI')
   const socket = useContext(SocketContext)
 
   const [isLogged, setIsLogged] = useState(false)
   const [isChallenged, setIsChallenged] = useState(false)
 
-  const [user, setUser] = useState({})
   const [words, setWords] = useState([])
-  const [drawerId, setDrawerId] = useState()
 
-  const handleUpdateDrawer = (data) => {
-    console.log('------------CIICICICICICI')
-    setWords(data.words)
-    setDrawerId(data.id)
-    if (drawerId === socket.id) setIsChallenged(true)
-    else setIsChallenged(false)
-
-    console.log(`${data.id}-->${isChallenged}`)
-  }
-
-  const handleRetrieveUser = (oldUser) => {
-    const newUser = { ...user, pseudo: oldUser.pseudo, avatar: oldUser.avatar }
-    setUser(newUser)
+  const handleUpdateDrawer = (userId, randomWords) => {
+    if (userId !== socket.id) return
+    setWords(randomWords)
   }
 
   useEffect(() => {
-    console.log('-------HERRREE')
     console.log(isLogged)
     if (isLogged) {
-      socket.on('update-drawer', handleUpdateDrawer)
+      socket.on('challenge', handleUpdateDrawer)
     }
-
-    socket.on('retrieve-user', handleRetrieveUser)
 
     return () => {
-      socket.off('update-drawer', handleUpdateDrawer)
+      socket.off('challenge', handleUpdateDrawer)
     }
-  }, [socket, isChallenged])
+  }, [socket])
 
   return (
     <>
@@ -64,7 +48,12 @@ function ClientView() {
                 setIsChallenged={setIsChallenged}
               />
               {isChallenged
-                ? <Drawer setIsChallenged={setIsChallenged} words={words} />
+                ? (
+                  <Drawer
+                    setIsChallenged={setIsChallenged}
+                    words={words}
+                  />
+                )
                 : <UserInput />}
             </>
           )

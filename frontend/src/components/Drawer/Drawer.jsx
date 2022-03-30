@@ -20,7 +20,9 @@ function Drawer({ setIsChallenged, words }) {
     socket.emit('refuse-challenge')
   }
 
-  const handleAccept = (word) => {
+  const handleAccept = (button) => {
+    const word = button.target.value
+    console.log(word)
     setIsOpen(false)
     socket.emit('accept-challenge', word)
     console.log(`Mot choisis: ${word}`)

@@ -103,6 +103,7 @@ class SocketIOManager {
    */
   updateCurrentWord(word) {
     this.currentWord = word
+    console.log(`Mot à deviner: ${this.currentWord}`)
   }
 
   /**
@@ -113,7 +114,10 @@ class SocketIOManager {
     // get all available users in the list of users
     // an available user is a logged user (with avatar and pseudo)
     // AND an user not chosen in the past
-    const availableUsers = this.users.filter((user) => user.pseudo !== '' && user.avatar !== undefined && this.previousDrawers.indexOf(user.id) === -1)
+
+    // uncomment this line after user loggin validation
+    // const availableUsers = this.users.filter((user) => user.pseudo !== '' && user.avatar !== undefined && this.previousDrawers.indexOf(user.id) === -1)
+    const availableUsers = this.users
 
     // if there is no available user
     if (availableUsers.length === 0) return null
@@ -147,6 +151,10 @@ class SocketIOManager {
     // get random words
     const words = this.dictionaryManager.getRandomWords()
 
+    console.log('random drawer user :')
+    console.log(user)
+    console.log('random words :')
+    console.log(words)
     // send the request
     this.io.emit('challenge', user.id, words)
   }

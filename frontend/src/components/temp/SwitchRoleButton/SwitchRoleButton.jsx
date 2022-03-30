@@ -1,10 +1,19 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Button from '@mui/material/Button'
 import './SwitchRoleButton.scss'
 
+import { SocketContext } from '../../../context/socket'
+
 function SwitchRoleButton({ isChallenged, setIsChallenged }) {
+  const socket = useContext(SocketContext)
+
   const handleClick = () => {
-    setIsChallenged(!isChallenged)
+    if (!isChallenged) {
+      socket.emit('update-drawer')
+    } else {
+      setIsChallenged(false)
+      socket.emit('update-drawer')
+    }
   }
 
   return (

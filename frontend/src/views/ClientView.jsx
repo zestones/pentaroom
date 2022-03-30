@@ -21,11 +21,11 @@ function ClientView() {
 
   const handleUpdateDrawer = (userId, randomWords) => {
     if (userId !== socket.id) return
+    setIsChallenged(true)
     setWords(randomWords)
   }
 
   useEffect(() => {
-    console.log(isLogged)
     if (isLogged) {
       socket.on('challenge', handleUpdateDrawer)
     }

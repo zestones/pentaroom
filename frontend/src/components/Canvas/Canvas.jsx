@@ -171,7 +171,6 @@ function Canvas({ userRole }) {
     activeDefaultTool()
   }
 
-  /** Init/Update values */
   useEffect(() => {
     const canvas = canvasRef.current
     const context = canvas.getContext('2d')
@@ -182,10 +181,15 @@ function Canvas({ userRole }) {
     setCanvasDim({ width: document.getElementById('draw').offsetWidth, height: document.getElementById('draw').offsetHeight })
 
     setCtx(context)
+  }, [setCtx])
 
+  /** Init/Update values */
+  useEffect(() => {
     if (socket) {
       socket.on('draw', (drawObject) => {
+        console.log('avannt okokok')
         if (drawObject.senderId !== socket.id) {
+          console.log('okokokokokok')
           if (drawObject.pen.isActive) {
             draw(drawObject)
           } else if (drawObject.eraser.isActive) {
@@ -202,7 +206,7 @@ function Canvas({ userRole }) {
         }
       })
     }
-  }, [socket, setCtx, setCanvasDim])
+  }, [socket, setCanvasDim])
 
   /** get current position on the screen */
   const getPositionOnEvent = (e) => {
@@ -269,8 +273,7 @@ function Canvas({ userRole }) {
 
   return (
     <Container maxWidth="xl" className="canvas-container">
-      <Header styles="in-line" />
-
+      {userRole === 'server' && <Header styles="in-line" /> }
       <div id="draw" className="draw-area">
         <canvas
           id="myCanvas"

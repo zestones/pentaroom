@@ -26,7 +26,7 @@ class SocketIOManager {
     socket.on('new-message', (message) => this.globalEmitMessage(message))
     socket.on('draw', (drawObject) => this.globalEmitDraw(drawObject))
     socket.on('find-word', (findWord) => this.globalEmitWord(findWord))
-    socket.on('drawer-users', (drawerUsers) => this.globalEmitDrawerUsers(drawerUsers))
+    socket.on('new-drawer', () => this.globalEmitDrawerUsers())
   }
 
   registration(user) {
@@ -55,14 +55,28 @@ class SocketIOManager {
     this.io.emit('new-message', message)
   }
 
+  // Check if the user is fully registered (Pseudo + Avatar)
+  isFullyRegistered(index) {
+    if (this.users[index].pseudo === '' || this.users[index].avatar === undefined) return false
+    return true
+  }
+
   /**
    * Send a message to connected users containing the new drawer user id
    * @param {*} newWord : the new user Drawer
    */
-  globalEmitDrawerUsers(newDrawer) {
-    const words = this.dictionaryManager.getRandomWords()
-    this.drawer = { id: newDrawer.id, words }
-    this.io.sockets.emit('drawer-users', this.drawer)
+  globalEmitDrawerUsers() {
+    const index = Math.floor(Math.random() * (this.users.length))
+
+    if (!this.isFullyRegistered(index)) {
+      this.globalEmitDrawerUsers()
+    } else {
+      const senderId = this.users[index].id
+      const words = this.dictionaryManager.getRandomWords()
+
+      this.drawer = { id: senderId, words }
+      this.io.sockets.emit('update-drawer', this.drawer)
+    }
   }
 
   /**

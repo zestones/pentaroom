@@ -1,6 +1,8 @@
 /* eslint-disable no-nested-ternary */
 import React, { useState, useEffect, useContext } from 'react'
+
 import '../App.css'
+
 import Header from '../components/Header/Header'
 import Login from '../components/Login/Login'
 import UserInput from '../components/UserInput/UserInput'
@@ -10,17 +12,24 @@ import SwitchRoleButton from '../components/temp/SwitchRoleButton/SwitchRoleButt
 import { SocketContext } from '../context/socket'
 
 function ClientView() {
+  console.log('JE SUIS ICI')
   const socket = useContext(SocketContext)
+
   const [isLogged, setIsLogged] = useState(false)
   const [isChallenged, setIsChallenged] = useState(false)
 
   const [user, setUser] = useState({})
-
   const [words, setWords] = useState([])
+  const [drawerId, setDrawerId] = useState()
 
   const handleUpdateDrawer = (data) => {
-    setWords(data)
-    setIsChallenged(true)
+    console.log('------------CIICICICICICI')
+    setWords(data.words)
+    setDrawerId(data.id)
+    if (drawerId === socket.id) setIsChallenged(true)
+    else setIsChallenged(false)
+
+    console.log(`${data.id}-->${isChallenged}`)
   }
 
   const handleRetrieveUser = (oldUser) => {
@@ -29,17 +38,22 @@ function ClientView() {
   }
 
   useEffect(() => {
-    socket.on('update-drawer', handleUpdateDrawer)
+    console.log('-------HERRREE')
+    console.log(isLogged)
+    if (isLogged) {
+      socket.on('update-drawer', handleUpdateDrawer)
+    }
+
     socket.on('retrieve-user', handleRetrieveUser)
 
     return () => {
       socket.off('update-drawer', handleUpdateDrawer)
     }
-  }, [socket])
+  }, [socket, isChallenged])
 
   return (
     <>
-      {!isChallenged && <Header styles="in-column" />}
+      <Header styles={isChallenged ? 'in-line' : 'in-column'} />
       {
         isLogged
           ? (
@@ -48,7 +62,6 @@ function ClientView() {
               <SwitchRoleButton
                 isChallenged={isChallenged}
                 setIsChallenged={setIsChallenged}
-                setWords={setWords}
               />
               {isChallenged
                 ? <Drawer setIsChallenged={setIsChallenged} words={words} />

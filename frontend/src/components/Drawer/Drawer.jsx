@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import './Drawer.scss'
 
 import Backdrop from '@mui/material/Backdrop'
@@ -7,17 +7,18 @@ import Fade from '@mui/material/Fade'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
-// import { SocketContext } from '../../context/socket'
 import Canvas from '../Canvas/Canvas'
+import { SocketContext } from '../../context/socket'
 
 function Drawer({ setIsChallenged, words }) {
-//   const socket = useContext(SocketContext)
-  const [open, setIsOpen] = useState(true)
+  const socket = useContext(SocketContext)
 
+  const [open, setIsOpen] = useState(true)
   let chosenWord = null
 
   const handleDecline = () => {
     setIsChallenged(false)
+    socket.emit('new-drawer')
   }
 
   const handleAccept = (word) => {

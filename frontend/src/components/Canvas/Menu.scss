@@ -5,21 +5,6 @@
     border-radius: 5px;
     align-items: center;
     margin: 5px auto 30px auto;
-<<<<<<< HEAD
-}
-.chipsContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-}
-.chip {
-    margin: 5px;
-    padding: 15px 30px;
-    height: 35px;
-    &.active {
-    background-color: purple;
-=======
     
     .chipsContainer {
         display: flex;
@@ -41,6 +26,5 @@
     .tools {
         margin-top: 15px;
         height: 50px;
->>>>>>> c2106304d046fa036424f54763d6fbaabb289bae
     }
 }

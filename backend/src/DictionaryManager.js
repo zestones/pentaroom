@@ -3,27 +3,34 @@ const path = require('path')
 
 class DictionaryManager {
   constructor() {
-    this.WordsUsed = []
+    this.alreadyUsed = []
+    this.dictionary = []
   }
 
-  // Look up a word in the dictionary
+  /**
+   * Load the dictionnary
+   */
   initDictionary() {
-    // get the dictionary with absolute path
     this.dictionary = JSON.parse(fs.readFileSync(path.join(__dirname, '../dictionary.json'), 'utf-8'))
   }
 
-  getRandomWords() {
-    let i = 0
-    const Words = []
-    while (i < 3) {
-      const alea = Math.floor(Math.random() * this.dictionary.length)
-      if (!this.WordsUsed.includes(this.dictionary[alea])) {
-        this.WordsUsed.push(this.dictionary[alea])
-        Words.push(this.dictionary[alea])
-        i += 1
-      }
-    }
-    return Words
+  /**
+   * Return n random words from the dictionnary
+   * @param {int} n nb of random words
+   * @returns an array of random words
+   */
+  getRandomWords(n = 3) {
+    // shuffle the dictionnary
+    const shuffled = this.dictionary.sort(() => 0.5 - Math.random())
+
+    // get random words
+    const randomWords = shuffled.slice(0, n)
+
+    // push random words in the already used array
+    this.alreadyUsed.concat(randomWords)
+
+    // return random words
+    return randomWords
   }
 }
 

@@ -9,7 +9,6 @@ function App({ userRole }) {
   return (
     <SocketContext.Provider value={socket}>
       <Box className="app-container">
-
         {
           userRole === 'server'
             ? <ServerView />

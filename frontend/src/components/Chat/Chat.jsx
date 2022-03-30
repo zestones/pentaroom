@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import './Chat.scss'
 import Box from '@mui/material/Box'
 import SwipeableDrawer from '@mui/material/SwipeableDrawer'
 import Button from '@mui/material/Button'
@@ -23,7 +24,7 @@ function Chat() {
     <>
       <Button
         variant="contained"
-        className="button"
+        className="chat-btn"
         onClick={toggleDrawer(true)}
       >
         Chat

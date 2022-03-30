@@ -1,0 +1,48 @@
+.super-container {
+	display: flex;
+	flex-direction: column;
+	min-height: 100%;
+	padding: 30px 0;
+	
+	.subcontainer {
+		text-align: center;
+
+		.hidden-word {
+			color: black;
+			text-align: center;
+		}
+
+		.input-container {
+			margin: 20px auto;
+			
+			.title {
+				font-size: 30px;
+				margin: 0;
+				margin-bottom: 30px;
+				-webkit-text-stroke-width: 2px;
+				-webkit-text-stroke-color: black;
+				letter-spacing: 1px;
+			}
+			
+			.input-word {
+			border-radius: 50px;
+			background-color: #cce3f6;
+			border: 1px solid black;
+			padding: 0px 15px;
+			font-size: 20px;
+			}
+		}
+		
+		.send-btn {
+			margin-top: 30px;
+		}
+		
+	}
+}
+
+// ? What is it using for ?
+.scores {
+	position: absolute;
+	bottom: 50px;
+	left: 300px;
+}

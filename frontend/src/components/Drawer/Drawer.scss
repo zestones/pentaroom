@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .container {
     display: flex;
     flex-direction: column;
@@ -16,6 +17,8 @@
     right: 35;
     bottom: 35;
 }
+=======
+>>>>>>> c2106304d046fa036424f54763d6fbaabb289bae
 .modal {
     position: absolute;
     top: 50%;
@@ -23,8 +26,27 @@
     transform: translate(-50%, -50%);
     width: 80%;
     height: 25%;
+<<<<<<< HEAD
     background-color: #404040;
     border: 2px solid #000;
     box-shadow: 24;
     padding: 4;
 }
+=======
+    background-Color: #404040;
+    border: 2px solid #000;
+    box-shadow: 24;
+    padding: 4px;
+    .words-proposition {
+        display: flex;
+        flex-Direction: row;
+        justify-Content: center;
+        align-Items: center;
+    }
+    .reject-proposition {
+        position: absolute;
+        right: 35px;
+        bottom: 35px;
+    }
+}
+>>>>>>> c2106304d046fa036424f54763d6fbaabb289bae

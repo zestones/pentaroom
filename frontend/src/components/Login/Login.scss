@@ -1,16 +1,17 @@
+
 .mainContainer {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    padding: 0; 
+    padding: 0;
     .container {
         margin: 20px auto;
         .title {
             font-size: 30px;
             margin: 0;
             margin-bottom: 30px;
-            -webkit-text-stroke-color: 2px;
+            -webkit-text-stroke-width: 2px;
             -webkit-text-stroke-color: black;
             letter-spacing: 1px;
         }

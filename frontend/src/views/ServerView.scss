@@ -1,0 +1,23 @@
+.server-container {
+    display: flex;
+    height: 100%;
+    padding: 1em;
+
+    .column {
+      border: solid;
+      width: 25%;
+    }
+
+    .message-container {
+        width: 25%;
+        overflow-y: auto;
+        height: 100%;
+        border: solid;
+    }
+    
+    h1 {
+        text-align: center;
+        -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-color: black;
+    }   
+}

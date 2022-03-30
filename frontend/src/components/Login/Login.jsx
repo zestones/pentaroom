@@ -1,5 +1,6 @@
 import React, { useState, useRef, useContext } from 'react'
 import '../../App.css'
+import './Login.scss'
 import { genConfig } from 'react-nice-avatar'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import Container from '@mui/material/Container'

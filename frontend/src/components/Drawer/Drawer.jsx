@@ -24,6 +24,7 @@ function Drawer({ setIsChallenged, words }) {
     // socket.emit('set-chosen-word', word)
     setIsOpen(false)
     chosenWord = word
+    console.log(chosenWord)
   }
 
   return (
@@ -53,11 +54,6 @@ function Drawer({ setIsChallenged, words }) {
           </Box>
         </Fade>
       </Modal>
-
-      <h1>
-        Le mot que vous avez choisis est
-        {chosenWord}
-      </h1>
       <Canvas userRole="client" />
     </>
   )

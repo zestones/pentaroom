@@ -1,8 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React, { useState, useEffect, useContext } from 'react'
 import '../App.css'
-import { makeStyles } from '@mui/styles'
-import Container from '@mui/material/Container'
 import Header from '../components/Header/Header'
 import Login from '../components/Login/Login'
 import UserInput from '../components/UserInput/UserInput'
@@ -11,20 +9,8 @@ import Drawer from '../components/Drawer/Drawer'
 import SwitchRoleButton from '../components/temp/SwitchRoleButton/SwitchRoleButton'
 import { SocketContext } from '../context/socket'
 
-const useStyles = makeStyles({
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-    minHeight: '100%',
-    padding: '30px 0',
-  },
-
-})
-
 function ClientView() {
   const socket = useContext(SocketContext)
-  const classes = useStyles()
   const [isLogged, setIsLogged] = useState(false)
   const [isChallenged, setIsChallenged] = useState(false)
 
@@ -52,8 +38,8 @@ function ClientView() {
   }, [socket])
 
   return (
-    <Container maxWidth="xxl" className={classes.container}>
-      <Header />
+    <>
+      {!isChallenged && <Header styles="in-column" />}
       {
         isLogged
           ? (
@@ -71,7 +57,7 @@ function ClientView() {
           )
           : <Login setIsLogged={setIsLogged} />
       }
-    </Container>
+    </>
   )
 }
 export default ClientView

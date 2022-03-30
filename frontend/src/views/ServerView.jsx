@@ -1,33 +1,29 @@
 import React from 'react'
-import { makeStyles } from '@mui/styles'
+
+import './ServerView.scss'
+
 import Box from '@mui/material/Box'
-import Header from '../components/Header/Header'
 import Canvas from '../components/Canvas/Canvas'
 import ListUsers from '../components/ListUsers/ListUsers'
 import ListMessages from '../components/ListMessages/ListMessages'
 
-const useStyles = makeStyles({
-  row: {
-    display: 'flex',
-    height: '100%',
-    padding: '1em',
-  },
-})
-
 function ServerView() {
-  const classes = useStyles()
-
   return (
-    <>
+    <Box className="server-container">
 
-      <Header />
-      <Box className={classes.row}>
-
+      <div className="column">
+        <h1>Joueurs</h1>
         <ListUsers />
-        <Canvas userRole="server" />
+      </div>
+
+      <Canvas userRole="server" />
+
+      <div className="message-container">
+        <h1>Chat</h1>
         <ListMessages />
-      </Box>
-    </>
+      </div>
+
+    </Box>
   )
 }
 export default ServerView

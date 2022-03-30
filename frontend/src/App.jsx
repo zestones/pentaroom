@@ -1,5 +1,6 @@
 import React from 'react'
 import './App.css'
+import Box from '@mui/material/Box'
 import { SocketContext, socket } from './context/socket'
 import ServerView from './views/ServerView'
 import ClientView from './views/ClientView'
@@ -7,11 +8,14 @@ import ClientView from './views/ClientView'
 function App({ userRole }) {
   return (
     <SocketContext.Provider value={socket}>
-      {
-        userRole === 'server'
-          ? <ServerView />
-          : <ClientView />
-      }
+      <Box className="app-container">
+
+        {
+          userRole === 'server'
+            ? <ServerView />
+            : <ClientView />
+        }
+      </Box>
     </SocketContext.Provider>
   )
 }

@@ -1,11 +1,14 @@
 import React, {
   useState, useRef, useEffect, useContext,
 } from 'react'
+
+import './Canvas.scss'
+
 import Container from '@mui/material/Container'
 import { fillCanvas } from './FillCanvas'
 import Menu from './Menu'
 import { SocketContext } from '../../context/socket'
-import './Canvas.scss'
+import Header from '../Header/Header'
 
 function Canvas({ userRole }) {
   const socket = useContext(SocketContext)
@@ -265,8 +268,10 @@ function Canvas({ userRole }) {
   }
 
   return (
-    <Container maxWidth="xl" className="main">
-      <div id="draw" className="drawArea">
+    <Container maxWidth="xl" className="canvas-container">
+      <Header styles="in-line" />
+
+      <div id="draw" className="draw-area">
         <canvas
           id="myCanvas"
           onTouchStart={handleTouchStart}

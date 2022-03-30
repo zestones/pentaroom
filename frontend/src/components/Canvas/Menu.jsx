@@ -1,4 +1,7 @@
 import React, { useState } from 'react'
+
+import './Menu.scss'
+
 import Container from '@mui/material/Container'
 import BrushIcon from '@mui/icons-material/Brush'
 import AutoFixNormalIcon from '@mui/icons-material/AutoFixNormal'
@@ -10,7 +13,7 @@ import FormatColorFillIcon from '@mui/icons-material/FormatColorFill'
 import RedoIcon from '@mui/icons-material/Redo'
 import UndoIcon from '@mui/icons-material/Undo'
 import IconButton from '@mui/material/IconButton'
-import './Menu.scss'
+import clsx from 'clsx'
 
 function Menu(props) {
   const {
@@ -109,9 +112,9 @@ function Menu(props) {
       onMouseLeave={handlePopoverClose}
     >
       <Box className="chipsContainer">
-        <Chip className="active" color="primary" icon={<BrushIcon />} label="Pinceau" onClick={() => { activePen() }} />
-        <Chip className="active" color="primary" icon={<AutoFixNormalIcon />} label="Gomme" onClick={() => { activeEraser() }} />
-        <Chip className="active" color="primary" icon={<FormatColorFillIcon />} label="Remplissage" onClick={() => { activeFill() }} />
+        <Chip className={clsx('chip', userDraw.pen.isActive && 'active')} color="primary" icon={<BrushIcon />} label="Pinceau" onClick={() => { activePen() }} />
+        <Chip className={clsx('chip', userDraw.eraser.isActive && 'active')} color="primary" icon={<AutoFixNormalIcon />} label="Gomme" onClick={() => { activeEraser() }} />
+        <Chip className={clsx('chip', userDraw.fill.isActive && 'active')} color="primary" icon={<FormatColorFillIcon />} label="Remplissage" onClick={() => { activeFill() }} />
         <Chip className="chip" color="primary" icon={<HighlightOffIcon />} label="Effacer tout" onClick={() => { activeClear() }} />
         <IconButton className="undo" color="primary" aria-label="undo action" component="span" onClick={() => activeUndo()}><UndoIcon /></IconButton>
         <IconButton className="redo" color="primary" aria-label="redo action" component="span" onClick={() => activeRedo()}><RedoIcon /></IconButton>

@@ -2,13 +2,15 @@
 import React from 'react'
 import './Header.scss'
 
-function Header() {
+function Header({ styles }) {
+  const isInLine = styles === 'in-line'
+
   return (
-    <header className="header">
-      <img src="/pentaboy.svg" alt="pentaboy" className="pentaboy" />
-      <h1 className="title">
+    <header className={isInLine ? 'header-in-line' : 'header-in-column'}>
+      <img src="/pentaboy.svg" alt="pentaboy" className={isInLine ? 'pentaboy-in-line' : 'pentaboy-in-column'} />
+      <h1 className={isInLine ? 'title-in-line' : 'title-in-column'}>
         Penta
-        <br />
+        {!isInLine && <br />}
         Room
       </h1>
     </header>

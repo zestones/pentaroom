@@ -2,50 +2,12 @@
 import React, { useState, useContext, useEffect } from 'react'
 import Avatar from 'react-nice-avatar'
 import Box from '@mui/material/Box'
-import { makeStyles } from '@mui/styles'
 import { SocketContext } from '../../context/socket'
-
-const useStyles = makeStyles({
-  box: {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    backgroundColor: 'white',
-    boxShadow: 24,
-    padding: '15px',
-  },
-  listPlayers: {
-    listStyle: 'none',
-    padding: '20px 1em',
-    margin: '0',
-    fontSize: 'x-large',
-  },
-  player: {
-    textAlign: 'center',
-    padding: '5px',
-    '-webkit-text-stroke-width': '1px',
-    '-webkit-text-stroke-color': 'black',
-  },
-  userAvatar: {
-    color: 'transparent',
-    backgroundColor: 'transparent',
-    minWidth: '2rem',
-    height: '2rem',
-    marginRight: '5px',
-    border: '1px solid black',
-  },
-  userBox: {
-    display: 'flex',
-    paddingBottom: '10px',
-  },
-})
+import './ListUsers.scss'
 
 function ListUsers() {
   const socket = useContext(SocketContext)
   const [users, setUsers] = useState([])
-  const classes = useStyles()
 
   // get the number of users registered
   const getNumberUser = () => users.filter((user) => user.pseudo !== '').length
@@ -70,13 +32,13 @@ function ListUsers() {
         {getNumberUser()}
       </h3>
 
-      <ul className={classes.listPlayers}>
+      <ul className="listPlayers">
         {users.map((user) => (
           (user.avatar)
             && (
-              <Box className={classes.userBox}>
-                <Avatar fontSize="medium" className={classes.userAvatar} {...user.avatar} />
-                <li className={classes.player} key={user.id}>{user.pseudo}</li>
+              <Box className="userBox">
+                <Avatar fontSize="medium" className="userAvatar" {...user.avatar} />
+                <li className="player" key={user.id}>{user.pseudo}</li>
               </Box>
             )
         ))}

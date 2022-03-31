@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import './Drawer.scss'
 
 import Backdrop from '@mui/material/Backdrop'
@@ -27,6 +27,18 @@ function Drawer({ setIsChallenged, words }) {
     socket.emit('accept-challenge', word)
     console.log(`Mot choisis: ${word}`)
   }
+
+  const handleUpdateDrawer = () => {
+    setIsChallenged(false)
+  }
+
+  useEffect(() => {
+    socket.on('update-drawer', handleUpdateDrawer)
+
+    return () => {
+      socket.off('update-drawer', handleUpdateDrawer)
+    }
+  }, [socket])
 
   return (
     <>

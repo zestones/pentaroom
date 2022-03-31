@@ -20,12 +20,14 @@ function ClientView() {
   const [words, setWords] = useState([])
 
   const handleUpdateDrawer = (userId, randomWords) => {
+    console.log(userId, randomWords, socket.id)
     if (userId !== socket.id) return
     setIsChallenged(true)
     setWords(randomWords)
   }
 
   useEffect(() => {
+    console.log(isLogged)
     if (isLogged) {
       socket.on('challenge', handleUpdateDrawer)
     }
@@ -33,7 +35,7 @@ function ClientView() {
     return () => {
       socket.off('challenge', handleUpdateDrawer)
     }
-  }, [socket])
+  }, [socket, isLogged])
 
   return (
     <>

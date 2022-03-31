@@ -30,7 +30,7 @@ class SocketIOManager {
     socket.on('update-user', (user) => this.updateUserById(user.id, user))
     socket.on('message', (message) => this.io.emit('message', message))
     socket.on('draw', (drawObject) => this.io.emit('draw', drawObject))
-    socket.on('check-word', (word, success, failure) => this.checkWord(word, success, failure))
+    socket.on('check-word', (word) => this.checkWord(socket, word))
     socket.on('update-drawer', () => this.updateDrawer())
     socket.on('accept-challenge', (chosenWord) => this.updateCurrentWord(chosenWord))
     socket.on('refuse-challenge', () => this.updateDrawer())
@@ -156,7 +156,7 @@ class SocketIOManager {
     console.log('random words :')
     console.log(words)
     // send the request
-    this.io.emit('challenge', user.id, words)
+    this.io.sockets.emit('challenge', user.id, words)
   }
 
   /**
@@ -166,13 +166,14 @@ class SocketIOManager {
    * @param {function} failure the failure callback
    * @returns
    */
-  checkWord(word, success, failure) {
-    if (!this.currentWord) failure()
+  checkWord(socket, word) {
+    if (!this.currentWord) socket.emit('failure-word')
 
-    if (word.toLower() === this.currentWord.toLower()) {
-      success()
+    if (word.toLowerCase() === this.currentWord.toLowerCase()) {
+      socket.emit('success-word')
+      this.updateDrawer()
     } else {
-      failure()
+      socket.emit('failure-word')
     }
   }
 

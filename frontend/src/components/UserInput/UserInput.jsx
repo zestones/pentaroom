@@ -1,24 +1,45 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect, useContext } from 'react'
 import './UserInput.scss'
 import Container from '@mui/material/Container'
 import Button from '@mui/material/Button'
 import SendIcon from '@mui/icons-material/Send'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import TransparentContainer from '../TransparentContainer/TransparentContainer'
+import { SocketContext } from '../../context/socket'
 
 function UserInput() {
+  const socket = useContext(SocketContext)
   const inputRef = useRef('')
 
+  const handleSuccess = () => {
+    alert('trouvé !!!!')
+  }
+
+  const handleFailure = () => {
+    alert('ce n\'est pas le bon mot')
+  }
+
   const handleValidation = () => {
-    const { value } = inputRef.current
-    if (!value) return
-    alert(`Vous avez saisi ${value}`)
+    const word = inputRef.current.value
+    if (!word) return
+    alert(`Vous avez saisi ${word}`)
+    socket.emit('check-word', word)
   }
   const handleKeyPressed = (e) => {
     if (e.key === 'Enter') {
       handleValidation()
     }
   }
+
+  useEffect(() => {
+    socket.on('success-word', handleSuccess)
+    socket.on('failure-word', handleFailure)
+
+    return () => {
+      socket.off('success-word', handleSuccess)
+      socket.off('failure-word', handleFailure)
+    }
+  }, [socket])
 
   return (
     <Container maxWidth="xxl" className="super-container">

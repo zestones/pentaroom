@@ -7,10 +7,16 @@ import Container from '@mui/material/Container'
 import TransparentContainer from '../TransparentContainer/TransparentContainer'
 import AvatarPicker from '../AvatarPicker/AvatarPicker'
 import PlayButton from '../PlayButton/PlayButton'
+import Alert from '../Alert/Alert'
+
 import { SocketContext } from '../../context/socket'
 
 function Login({ setIsLogged }) {
   const socket = useContext(SocketContext)
+
+  const [alertTitle, setAlertTitle] = useState('')
+  const [alertText, setAlertText] = useState('')
+  const [alertOpen, setAlertOpen] = useState(false)
 
   const [avatar, setConfig] = useState(genConfig(
     {
@@ -35,7 +41,24 @@ function Login({ setIsLogged }) {
 
   const handleValidation = () => {
     const { value } = inputRef.current
-    if (!value || !socket || value.length < 5 || value.length > 10) return
+
+    if (!value || !socket || value.length < 5 || value.length > 10) {
+      if (!socket) {
+        setAlertTitle('Login impossible')
+        setAlertText('Connexion impossible')
+      } else if (!value) {
+        setAlertTitle('Login impossible')
+        setAlertText('Vous devez rentrer un nom d\'utilisateur')
+      } else if (value.length < 5) {
+        setAlertTitle('Login impossible')
+        setAlertText('Votre pseudo doit contenir au moins 5 lettres')
+      } else if (value.length > 10) {
+        setAlertTitle('Login impossible')
+        setAlertText('Votre pseudo doit contenir moins de 10 lettres')
+      }
+      setAlertOpen(true)
+      return
+    }
 
     socket.emit('update-user', {
       id: socket.id,
@@ -70,6 +93,7 @@ function Login({ setIsLogged }) {
         </TransparentContainer>
       </Container>
       <PlayButton onClick={handleValidation} />
+      <Alert type="danger" open={alertOpen} setOpen={setAlertOpen} title={alertTitle} text={alertText} />
     </>
   )
 }

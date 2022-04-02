@@ -1,4 +1,22 @@
+@keyframes cloud-animation {
+    0% {
+        background-position-x: 0%, 10%, 50%, 60%, 75%, 65%, 77%, 98%, 65%;
+    }
+
+    100% {
+        background-position-x: 25%, 30%, 80%, 30%, 45%, 90%, 90%, 75%, 36%;
+    }
+}
+
 .app-container {
     height: 100%;
     padding: 1em;
+    background-image: url('../public/cloud.svg'), url('../public/cloud.svg'), url('../public/cloud.svg'), 
+    url('../public/cloud.svg'), url('../public/cloud.svg'), url('../public/cloud.svg'), 
+    url('../public/cloud.svg'), url('../public/cloud.svg'), url('../public/cloud.svg');
+    background-size: 320px, 150px, 170px, 150px, 250px, 180px, 130px, 170px, 70px;
+    background-position-x: 0%, 10%, 50%, 60%, 75%, 35%, 77%, 98%, 65%;
+    background-position-y: 40%, 0%, 25%, 55%, 75%, 90%, 98%, 10%, 35%;
+    background-repeat: no-repeat;
+    animation: cloud-animation 15s linear infinite alternate;
 }

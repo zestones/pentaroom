@@ -76,7 +76,7 @@ function Login({ setIsLogged }) {
   }
 
   return (
-    <div className="mainDiv">
+    <>
       <Container maxWidth="xxl" className="mainContainer">
         <TransparentContainer backgroundColor="#0000A5" className="container">
           <h2 className="title">1.Personnalise ton avatar :</h2>
@@ -98,7 +98,7 @@ function Login({ setIsLogged }) {
         <Tagline />
       </div>
       <Alert type="danger" open={alertOpen} setOpen={setAlertOpen} title={alertTitle} text={alertText} />
-    </div>
+    </>
   )
 }
 export default Login

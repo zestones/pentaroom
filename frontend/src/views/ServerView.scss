@@ -2,9 +2,13 @@
     display: flex;
     height: 100%;
     padding: 1em;
-    background-image: url('../nuage.svg');
-    background-size: 250px;
-    background-repeat: space;
+    background-image: url('../nuage.svg'),url('../nuage.svg'),url('../nuage.svg'),
+    url('../nuage.svg'),url('../nuage.svg'),url('../nuage.svg'),
+    url('../nuage.svg'),url('../nuage.svg'),url('../nuage.svg');
+    background-size: 320px,150px,170px,150px,250px,180px,130px,170px,70px;
+    background-position-x: 0%,90%,0%,90%,95%,10%,5%,98%,95%;
+    background-position-y: 40%,0%,25%,55%,75%,90%,98%,10%,35%;
+    background-repeat:no-repeat;
     .column {
       border: solid rgb(255, 174, 0);
       width: 25%;

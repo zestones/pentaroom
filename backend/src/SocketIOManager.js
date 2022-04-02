@@ -116,9 +116,11 @@ class SocketIOManager {
     // AND an user not chosen in the past
 
     // uncomment this line after user loggin validation
-    // const availableUsers = this.users.filter((user) => user.pseudo !== '' && user.avatar !== undefined && this.previousDrawers.indexOf(user.id) === -1)
-    const availableUsers = this.users
-
+    let availableUsers = this.users.filter((user) => user.pseudo !== '' && user.avatar !== undefined && this.previousDrawers.indexOf(user.id) === -1)
+    if (availableUsers.length === 0) {
+      availableUsers = this.users
+      this.previousDrawers = []
+    }
     // if there is no available user
     if (availableUsers.length === 0) return null
 
@@ -127,6 +129,7 @@ class SocketIOManager {
 
     // add the new user to previousDrawers
     this.previousDrawers.push(randomUser.id)
+
     // if the limit of previousDrawers is reach, the last one is removed
     if (this.previousDrawers.length > NB_SAVED_DRAWERS) this.previousDrawers.shift()
 

@@ -13,12 +13,14 @@ import Hair from './Hair'
 import Eyes from './Eyes'
 import Glasses from './Glasses'
 import Shirt from './Shirt'
+import Mouth from './Mouth'
 
 const faceColor = ['#f9c9b6', '#e0ac69', '#ac6651', '#8d5524']
 const hairStyles = ['normal', 'thick', 'mohawk', 'womanLong', 'womanShort']
 const eyeStyles = ['normal', 'circle', 'oval', 'smile']
 const glassesStyles = ['none', 'round', 'square']
 const shirtStyles = ['short', 'polo', 'hoody']
+const mouthStyles = ['laugh', 'smile', 'peace']
 
 function AvatarPicker({ avatar, setConfig }) {
   const caracteristics = [
@@ -27,6 +29,7 @@ function AvatarPicker({ avatar, setConfig }) {
     { id: 'eyes', title: 'Yeux' },
     { id: 'glasses', title: 'Lunettes' },
     { id: 'shirt', title: 'T-Shirt' },
+    { id: 'mouth', title: 'Bouche' },
   ]
 
   const handleFaceClick = () => {
@@ -54,6 +57,11 @@ function AvatarPicker({ avatar, setConfig }) {
     setConfig({ ...avatar, shirtStyle: shirtStyles[index] })
   }
 
+  const handleMouthClick = () => {
+    const index = (mouthStyles.indexOf(avatar.mouthStyle) + 1) % mouthStyles.length
+    setConfig({ ...avatar, mouthStyle: mouthStyles[index] })
+  }
+
   return (
     <Container className="container">
       <Box>
@@ -69,6 +77,7 @@ function AvatarPicker({ avatar, setConfig }) {
             {carac.id === 'eyes' && <Box onClick={handleEyesClick}><Eyes /></Box>}
             {carac.id === 'glasses' && <Box onClick={handleGlassesClick}><Glasses /></Box>}
             {carac.id === 'shirt' && <Box onClick={handleShirtClick}><Shirt /></Box>}
+            {carac.id === 'mouth' && <Box onClick={handleMouthClick}><Mouth /></Box>}
           </CaracteristicPicker>
         </Box>
       ))}

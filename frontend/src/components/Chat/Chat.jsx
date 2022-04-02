@@ -1,4 +1,4 @@
-import React, { useRef, useContext } from 'react'
+import React, { useEffect, createRef, useContext } from 'react'
 import './Chat.scss'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
@@ -8,10 +8,19 @@ import { SocketContext } from '../../context/socket'
 
 function Chat() {
   const [open, setOpen] = React.useState(false)
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
-  const inputRef = useRef('')
+
+  const inputRef = createRef()
   const socket = useContext(SocketContext)
+
+  const handleClick = () => {
+    setOpen(true)
+  }
+
+  useEffect(() => {
+    inputRef?.current?.focus()
+  }, [inputRef])
+
+  const handleClose = () => setOpen(false)
 
   const handleValidation = () => {
     const message = inputRef.current.value
@@ -31,11 +40,13 @@ function Chat() {
       <Button
         variant="contained"
         className="chat-btn"
-        onClick={handleOpen}
+        onClick={handleClick}
       >
         Chat
       </Button>
       <Modal
+        keepMounted
+        disableAutoFocus
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-chat"
@@ -46,8 +57,9 @@ function Chat() {
         <Box className="box-chat">
           <h2>Entrez un message pour le chat</h2>
           <OutlinedInput
-            inputRef={inputRef}
             fullWidth
+            type="text"
+            inputRef={inputRef}
             placeholder="Tape le mot ici ..."
             className="input-word"
             onKeyPress={handleKeyPressed}

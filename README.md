@@ -8,10 +8,10 @@ De fait, il est accessible à l'adresse suivante: [pentaroomio.jkhq4735.odns.fr]
 ### Backend
 - NodeJS
 
-### Frontent
+### Frontend
 - React
 
-### Communication backend / frontent
+### Communication backend / frontend
 - SocketIO
 
 

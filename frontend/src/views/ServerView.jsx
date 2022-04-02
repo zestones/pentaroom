@@ -19,8 +19,7 @@ function ServerView() {
       <Canvas userRole="server" />
 
       <div className="chat-container">
-        <h1>Chat</h1>
-        <ListMessages />
+        <ListMessages title="Chat" />
       </div>
 
     </Box>

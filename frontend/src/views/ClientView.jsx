@@ -4,7 +4,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import Header from '../components/Header/Header'
 import Login from '../components/Login/Login'
 import UserInput from '../components/UserInput/UserInput'
-import Chat from '../components/Chat/Chat'
+import ChatInput from '../components/ChatInput/ChatInput'
 import Drawer from '../components/Drawer/Drawer'
 import SwitchRoleButton from '../components/temp/SwitchRoleButton/SwitchRoleButton'
 import { SocketContext } from '../context/socket'
@@ -42,7 +42,7 @@ function ClientView() {
         isLogged
           ? (
             <>
-              <Chat />
+              <ChatInput />
               <SwitchRoleButton
                 isChallenged={isChallenged}
                 setIsChallenged={setIsChallenged}

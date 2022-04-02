@@ -5,7 +5,7 @@ import Message from './Message'
 import { SocketContext } from '../../context/socket'
 import styles from './ListMessages.module.scss'
 
-function ListMessages() {
+function ListMessages({ title }) {
   const socket = useContext(SocketContext)
   const [messages, setMessages] = useState([])
   const messageRef = useRef()
@@ -23,12 +23,15 @@ function ListMessages() {
   }, [socket, messages])
 
   return (
-    <div className={styles.overflowContainer}>
-      <ul className={styles.messageContainer} ref={messageRef}>
-        {messages.map((message) => (
-          <Message key={message.id} message={message} />
-        ))}
-      </ul>
+    <div className={styles.chatContainer}>
+      {title && <h2 className={styles.chatTitle}>{title}</h2> }
+      <div className={styles.overflowContainer}>
+        <ul className={styles.messageContainer} ref={messageRef}>
+          {messages.map((message) => (
+            <Message key={message.id} message={message} />
+          ))}
+        </ul>
+      </div>
     </div>
   )
 }

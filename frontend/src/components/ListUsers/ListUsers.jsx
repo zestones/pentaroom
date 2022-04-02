@@ -1,11 +1,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useState, useContext, useEffect } from 'react'
 import Avatar from 'react-nice-avatar'
-import Box from '@mui/material/Box'
 import { SocketContext } from '../../context/socket'
-import './ListUsers.scss'
+import styles from './ListUsers.module.scss'
 
-function ListUsers() {
+function ListUsers({ title }) {
   const socket = useContext(SocketContext)
   const [users, setUsers] = useState([])
 
@@ -26,20 +25,23 @@ function ListUsers() {
   }, [socket])
 
   return (
-    <div>
-      <h3>
+    <div className={styles.listUsersContainer}>
+      {title && <h2 className={styles.listUsersTitle}>{title}</h2> }
+      <h3 className={styles.nbUsers}>
         Utilsateurs :
+        {' '}
         {getNumberUser()}
       </h3>
 
-      <ul className="listPlayers">
+      <ul className={styles.listUsers}>
         {users.map((user) => (
           (user.avatar)
             && (
-              <Box key={user.id} className="userBox">
-                <Avatar fontSize="medium" className="userAvatar" {...user.avatar} />
-                <li className="player" key={user.id}>{user.pseudo}</li>
-              </Box>
+              <li key={user.id} className={styles.userContainer}>
+                <Avatar fontSize="medium" className={styles.avatar} {...user.avatar} />
+                <p className={styles.pseudo} key={user.id}>{user.pseudo}</p>
+                <p className={styles.score}>{user.score}</p>
+              </li>
             )
         ))}
       </ul>

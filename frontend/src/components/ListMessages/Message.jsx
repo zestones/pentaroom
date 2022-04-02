@@ -16,7 +16,6 @@ function Message({ message }) {
         <p className={styles.text}>{message.body}</p>
         <p className={styles.time}>{getMessageTime()}</p>
       </div>
-
     </div>
   )
 }

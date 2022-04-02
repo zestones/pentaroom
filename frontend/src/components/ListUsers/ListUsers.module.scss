@@ -1,0 +1,45 @@
+.listUsersContainer {
+  display: flex;
+  flex-direction:column;
+  width: 100%;
+  height: 100%;
+  .listUsersTitle {
+    text-align: center;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+  }
+  .nbUsers {
+    text-align: center;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+
+    margin: 0 auto;
+  }
+  .listUsers {
+    flex-grow: 1;
+    overflow: auto;
+    margin: 0;
+    padding: 15px;
+    .userContainer {
+      display: flex;
+      align-items: center;
+      .avatar {
+        color: transparent;
+        background-color: transparent;
+        min-width: 40px;
+        height: 40px;
+        margin-right: 10px;
+        border: 1px solid black;
+      }
+      .pseudo {
+        display: flex;
+        align-items: center;
+        flex-grow: 1;
+      }
+      .score {
+        margin-left: 10px;
+        text-align: right;
+      }
+    }
+  }
+}

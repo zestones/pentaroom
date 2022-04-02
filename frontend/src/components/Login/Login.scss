@@ -1,13 +1,19 @@
-
+.mainDiv{
+    background-image: url('../../nuage.svg'),url('../../nuage.svg'),url('../../nuage.svg'),
+    url('../../nuage.svg'),url('../../nuage.svg'),url('../../nuage.svg'),
+    url('../../nuage.svg'),url('../../nuage.svg'),url('../../nuage.svg');
+    background-size: 320px,150px,170px,150px,250px,180px,130px,170px,70px;
+    background-position-x: 0%,10%,50%,60%,75%,35%,77%,98%,65%;
+    background-position-y: 40%,0%,25%,55%,75%,90%,98%,10%,35%;
+    background-repeat:no-repeat;
+}
 .mainContainer {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     padding: 0;
-    background-image: url('../../nuage.svg');
-    background-size: 250px;
-    background-repeat: space;
+    
     .container {
         margin: 20px auto;
         .title {

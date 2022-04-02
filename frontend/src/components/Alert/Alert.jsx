@@ -24,9 +24,11 @@ function Alert({
         <Typography variant="h6" component="h2">
           {title}
         </Typography>
+
         <Typography sx={{ mt: 2 }}>
           {text}
         </Typography>
+        <img src="/pentaboy.svg" alt="pentaboy" className="pentaboy-in-line" />
       </Box>
     </Modal>
   )

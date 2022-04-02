@@ -1,4 +1,4 @@
-$bg: rgb(49, 49, 49);
+$bg: rgba(0, 24, 56, 0.89);
 .alert-box {
     position: absolute;
     top: 50%;
@@ -19,10 +19,19 @@ $bg: rgb(49, 49, 49);
     }
 
     &.danger {
-        border-color: rgb(204, 66, 66);
+        border-color: rgb(255, 208, 0);
         h2 {
-            color: rgb(204, 66, 66);
+            color: rgb(255, 208, 0);
         }
     }
+    .pentaboy-in-line {
+        height: 150px;
+        width: auto;
+        object-fit: contain;
+        margin-right: -20px;
+        position: relative;
+        z-index: 2;
+        transform: rotate(-8deg);
+  }
 }
     

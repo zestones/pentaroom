@@ -54,6 +54,7 @@ function Canvas({ userRole }) {
     },
   })
 
+  const getCanvasDimensions = () => ({ height: document.getElementById('draw').offsetHeight, width: document.getElementById('draw').offsetWidth })
   const getContext = () => {
     const canvas = canvasRef.current
     const context = canvas.getContext('2d')
@@ -120,8 +121,9 @@ function Canvas({ userRole }) {
 
   const clear = (drawObject) => {
     const context = getContext()
+    const canvasDimensions = getCanvasDimensions()
 
-    context.clearRect(0, 0, canvasDim.width, canvasDim.height)
+    context.clearRect(0, 0, canvasDimensions.width, canvasDimensions.height)
     if (socket && socket.id === drawObject.senderId) {
       socket.emit('draw', drawObject)
     }
@@ -143,6 +145,7 @@ function Canvas({ userRole }) {
     if (pop.length) {
       // get the context
       const context = getContext()
+      const canvasDimensions = getCanvasDimensions()
 
       // get the last image saved
       const restore = pop.pop()
@@ -154,7 +157,7 @@ function Canvas({ userRole }) {
       img.src = restore
 
       // clear the canvas
-      context.clearRect(0, 0, canvasDim.width, canvasDim.height)
+      context.clearRect(0, 0, canvasDimensions.width, canvasDimensions.height)
 
       // draw the previous canvas
       img.onload = function reDraw() {
@@ -162,12 +165,12 @@ function Canvas({ userRole }) {
           img,
           0,
           0,
-          canvasDim.width,
-          canvasDim.height,
+          canvasDimensions.width,
+          canvasDimensions.height,
           0,
           0,
-          canvasDim.width,
-          canvasDim.height,
+          canvasDimensions.width,
+          canvasDimensions.height,
         )
       }
     }
@@ -200,7 +203,7 @@ function Canvas({ userRole }) {
     if (socket) {
       const context = getContext()
 
-      const canvasDimension = { height: document.getElementById('draw').offsetHeight, width: document.getElementById('draw').offsetWidth }
+      const canvasDimensions = getCanvasDimensions()
 
       socket.on('draw', (drawObject) => {
         if (drawObject.senderId !== socket.id) {
@@ -209,7 +212,7 @@ function Canvas({ userRole }) {
           } else if (drawObject.eraser.isActive) {
             erase(drawObject)
           } else if (drawObject.fill.isActive) {
-            fillCanvas(drawObject, context, canvasDimension, socket)
+            fillCanvas(drawObject, context, canvasDimensions, socket)
           } else if (drawObject.clear.isActive) {
             clear(drawObject)
           } else if (drawObject.undo.isActive) {
@@ -241,6 +244,7 @@ function Canvas({ userRole }) {
 
   /** Start the drawing */
   const handleTouchStart = (e) => {
+    if (userRole === 'server') return
     const context = getContext()
     setIsInAction(true)
 

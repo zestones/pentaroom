@@ -6,8 +6,13 @@ class SocketIOManager {
     this.users = []
     this.io = io
     this.dictionaryManager = dictionaryManager
+<<<<<<< HEAD
     this.previousDrawers = []
     this.currentWord = null
+=======
+    this.drawer = {}
+    this.findWord = ''
+>>>>>>> 260d1777af1207c9bd8bfde8d572e9b98575e933
   }
 
   /**
@@ -23,6 +28,7 @@ class SocketIOManager {
    */
   connection(socket) {
     console.log(`+ : ${socket.id}`)
+<<<<<<< HEAD
 
     this.postUser(socket)
 
@@ -34,6 +40,37 @@ class SocketIOManager {
     socket.on('update-drawer', () => this.updateDrawer())
     socket.on('accept-challenge', (chosenWord) => this.updateCurrentWord(chosenWord))
     socket.on('refuse-challenge', () => this.updateDrawer())
+=======
+    this.users.push({ id: socket.id, pseudo: '', avatar: undefined })
+    this.globalEmitUsers()
+    socket.on('registration', (user) => this.registration(user))
+    socket.on('disconnect', () => this.disconnection(socket))
+    socket.on('new-message', (message) => this.globalEmitMessage(message))
+    socket.on('draw', (drawObject) => this.globalEmitDraw(drawObject))
+    socket.on('find-word', (findWord) => this.globalEmitWord(findWord))
+    socket.on('drawer-users', (drawerUsers) => this.globalEmitDrawerUsers(drawerUsers))
+    socket.on('proposed-word', (finder) => this.checkProposedWord(finder))
+  }
+
+  /**
+   * check if the user finded the word and send a reponse
+   * @param {*} finder
+   */
+  checkProposedWord(finder) {
+    const userID = finder.id
+    const finded = finder.word.toUpperCase() === this.findWord.toUpperCase()
+
+    this.io.sockets.emit('response-proposition', { id: userID, status: finded })
+  }
+
+  /** Register a new user */
+  registration(user) {
+    console.log(`Update => id :  ${user.id} pseudo :${user.pseudo}`)
+    const index = this.users.map((x) => x.id).indexOf(user.id)
+    this.users[index].pseudo = user.pseudo
+    this.users[index].avatar = user.avatar
+    this.globalEmitUsers()
+>>>>>>> 260d1777af1207c9bd8bfde8d572e9b98575e933
   }
 
   /**
@@ -74,10 +111,16 @@ class SocketIOManager {
   }
 
   /**
+<<<<<<< HEAD
    * Update an user with its id
    * @param {int} id the id of the user to update
    * @param {*} newUser the user object to assign to the old user
    * @returns
+=======
+   * Send a message to connected users containing the new drawer user id
+   * and a list of 3 words
+   * @param {*} newDrawer : the new user Drawer
+>>>>>>> 260d1777af1207c9bd8bfde8d572e9b98575e933
    */
   updateUserById(id, newUser) {
     const user = this.getUserById(id)
@@ -92,9 +135,15 @@ class SocketIOManager {
    * Remove an user with its id
    * @param {int} id the id uf the user to delete
    */
+<<<<<<< HEAD
   deleteUserById(id) {
     this.users = this.users.filter((user) => user.id !== id)
     this.globalEmitUsers()
+=======
+  globalEmitWord(newWord) {
+    this.findWord = newWord
+    this.io.sockets.emit('find-word', newWord) // ! Not needed, just for testing
+>>>>>>> 260d1777af1207c9bd8bfde8d572e9b98575e933
   }
 
   /**

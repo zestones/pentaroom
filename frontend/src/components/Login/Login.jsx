@@ -8,7 +8,6 @@ import TransparentContainer from '../TransparentContainer/TransparentContainer'
 import AvatarPicker from '../AvatarPicker/AvatarPicker'
 import PlayButton from '../PlayButton/PlayButton'
 import Alert from '../Alert/Alert'
-
 import { SocketContext } from '../../context/socket'
 import Tagline from '../Animation/Tagline'
 

@@ -5,6 +5,9 @@
     align-items: center;
     justify-content: center;
     padding: 0;
+    background-image: url('../../nuage.svg');
+    background-size: 250px;
+    background-repeat: space;
     .container {
         margin: 20px auto;
         .title {

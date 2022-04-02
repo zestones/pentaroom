@@ -28,7 +28,7 @@ function ListUsers() {
   return (
     <div>
       <h3>
-        Utilsateurs :
+        Utilisateurs :
         {getNumberUser()}
       </h3>
 

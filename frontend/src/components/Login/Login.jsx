@@ -10,6 +10,7 @@ import PlayButton from '../PlayButton/PlayButton'
 import Alert from '../Alert/Alert'
 
 import { SocketContext } from '../../context/socket'
+import Tagline from '../Animation/Tagline'
 
 function Login({ setIsLogged }) {
   const socket = useContext(SocketContext)
@@ -93,6 +94,9 @@ function Login({ setIsLogged }) {
         </TransparentContainer>
       </Container>
       <PlayButton onClick={handleValidation} />
+      <div className="tagline">
+        <Tagline />
+      </div>
       <Alert type="danger" open={alertOpen} setOpen={setAlertOpen} title={alertTitle} text={alertText} />
     </>
   )

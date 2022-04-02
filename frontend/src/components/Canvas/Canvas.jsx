@@ -171,6 +171,7 @@ function Canvas({ userRole }) {
     activeDefaultTool()
   }
 
+  /** Init/Update values */
   useEffect(() => {
     const canvas = canvasRef.current
     const context = canvas.getContext('2d')
@@ -179,12 +180,12 @@ function Canvas({ userRole }) {
     context.lineCap = 'round'
 
     setCanvasDim({ width: document.getElementById('draw').offsetWidth, height: document.getElementById('draw').offsetHeight })
-
+    console.log('USEEFFECT')
     setCtx(context)
-  }, [setCtx])
-
-  /** Init/Update values */
-  useEffect(() => {
+    setCtx(context)
+    console.log(context)
+    console.log('--------------------')
+    console.log(ctx)
     if (socket) {
       socket.on('draw', (drawObject) => {
         console.log('avannt okokok')
@@ -206,7 +207,7 @@ function Canvas({ userRole }) {
         }
       })
     }
-  }, [socket, setCanvasDim])
+  }, [socket, setCtx, setCanvasDim])
 
   /** get current position on the screen */
   const getPositionOnEvent = (e) => {

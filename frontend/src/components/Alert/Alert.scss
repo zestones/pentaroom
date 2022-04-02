@@ -24,14 +24,10 @@ $bg: rgba(0, 24, 56, 0.89);
             color: rgb(255, 208, 0);
         }
     }
-    .pentaboy-in-line {
+    .pentaboy {
         height: 150px;
-        width: auto;
-        object-fit: contain;
-        margin-right: -20px;
-        position: relative;
-        z-index: 2;
-        transform: rotate(-8deg);
+            width: auto;
+            transform: rotate(-8deg);
   }
 }
     

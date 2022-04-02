@@ -28,7 +28,7 @@ function Alert({
         <Typography sx={{ mt: 2 }}>
           {text}
         </Typography>
-        <img src="/pentaboy.svg" alt="pentaboy" className="pentaboy-in-line" />
+        <img src="/pentaboy.svg" alt="pentaboy" className="pentaboy" />
       </Box>
     </Modal>
   )

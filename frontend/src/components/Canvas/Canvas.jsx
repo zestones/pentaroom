@@ -9,14 +9,13 @@ import { fillCanvas } from './FillCanvas'
 import Menu from './Menu'
 import { SocketContext } from '../../context/socket'
 import Header from '../Header/Header'
+import Tagline from '../Animation/Tagline'
 
 function Canvas({ userRole }) {
   const socket = useContext(SocketContext)
 
   // Canvas
   const canvasRef = useRef(null)
-
-  const [ctx, setCtx] = useState(null)
 
   const [canvasDim, setCanvasDim] = useState({ width: 0, height: 0 })
 
@@ -55,8 +54,20 @@ function Canvas({ userRole }) {
     },
   })
 
+  const getContext = () => {
+    const canvas = canvasRef.current
+    const context = canvas.getContext('2d')
+
+    context.lineJoin = 'round'
+    context.lineCap = 'round'
+
+    return context
+  }
+
   const activeDefaultTool = () => {
-    ctx.strokeStyle = userDraw.pen.color
+    const context = getContext()
+
+    context.strokeStyle = userDraw.pen.color
     setUserDraw({
       ...userDraw,
       pen: { ...userDraw.pen, isActive: true },
@@ -65,18 +76,20 @@ function Canvas({ userRole }) {
 
   /** Draw */
   const draw = (drawObject) => {
-    ctx.beginPath()
+    const context = getContext()
 
-    ctx.moveTo(drawObject.x0, drawObject.y0)
-    ctx.lineTo(drawObject.x1, drawObject.y1)
+    context.beginPath()
 
-    ctx.strokeStyle = drawObject.pen.color
-    ctx.lineWidth = drawObject.pen.width
-    ctx.lineJoin = 'round'
-    ctx.lineCap = 'round'
+    context.moveTo(drawObject.x0, drawObject.y0)
+    context.lineTo(drawObject.x1, drawObject.y1)
 
-    ctx.stroke()
-    ctx.closePath()
+    context.strokeStyle = drawObject.pen.color
+    context.lineWidth = drawObject.pen.width
+    context.lineJoin = 'round'
+    context.lineCap = 'round'
+
+    context.stroke()
+    context.closePath()
 
     if (socket && socket.id === drawObject.senderId) {
       socket.emit('draw', drawObject)
@@ -85,18 +98,20 @@ function Canvas({ userRole }) {
 
   /** Clean the screen with the eraser */
   const erase = (drawObject) => {
-    ctx.beginPath()
+    const context = getContext()
 
-    ctx.moveTo(drawObject.x0, drawObject.y0)
-    ctx.lineTo(drawObject.x1, drawObject.y1)
+    context.beginPath()
 
-    ctx.strokeStyle = 'white'
-    ctx.lineWidth = drawObject.eraser.width
+    context.moveTo(drawObject.x0, drawObject.y0)
+    context.lineTo(drawObject.x1, drawObject.y1)
 
-    ctx.lineJoin = 'round'
-    ctx.lineCap = 'round'
-    ctx.stroke()
-    ctx.closePath()
+    context.strokeStyle = 'white'
+    context.lineWidth = drawObject.eraser.width
+
+    context.lineJoin = 'round'
+    context.lineCap = 'round'
+    context.stroke()
+    context.closePath()
 
     if (socket && socket.id === drawObject.senderId) {
       socket.emit('draw', drawObject)
@@ -104,7 +119,9 @@ function Canvas({ userRole }) {
   }
 
   const clear = (drawObject) => {
-    ctx.clearRect(0, 0, canvasDim.width, canvasDim.height)
+    const context = getContext()
+
+    context.clearRect(0, 0, canvasDim.width, canvasDim.height)
     if (socket && socket.id === drawObject.senderId) {
       socket.emit('draw', drawObject)
     }
@@ -124,6 +141,9 @@ function Canvas({ userRole }) {
   // push is the array which a new img will be added
   const restoreCanvas = (pop, push) => {
     if (pop.length) {
+      // get the context
+      const context = getContext()
+
       // get the last image saved
       const restore = pop.pop()
       // save a new image
@@ -134,11 +154,11 @@ function Canvas({ userRole }) {
       img.src = restore
 
       // clear the canvas
-      ctx.clearRect(0, 0, canvasDim.width, canvasDim.height)
+      context.clearRect(0, 0, canvasDim.width, canvasDim.height)
 
       // draw the previous canvas
       img.onload = function reDraw() {
-        ctx.drawImage(
+        context.drawImage(
           img,
           0,
           0,
@@ -171,32 +191,25 @@ function Canvas({ userRole }) {
     activeDefaultTool()
   }
 
+  useEffect(() => {
+    setCanvasDim({ width: document.getElementById('draw').offsetWidth, height: document.getElementById('draw').offsetHeight })
+  }, [setCanvasDim, socket])
+
   /** Init/Update values */
   useEffect(() => {
-    const canvas = canvasRef.current
-    const context = canvas.getContext('2d')
-
-    context.lineJoin = 'round'
-    context.lineCap = 'round'
-
-    setCanvasDim({ width: document.getElementById('draw').offsetWidth, height: document.getElementById('draw').offsetHeight })
-    console.log('USEEFFECT')
-    setCtx(context)
-    setCtx(context)
-    console.log(context)
-    console.log('-------------------')
-    console.log(ctx)
     if (socket) {
+      const context = getContext()
+
+      const canvasDimension = { height: document.getElementById('draw').offsetHeight, width: document.getElementById('draw').offsetWidth }
+
       socket.on('draw', (drawObject) => {
-        console.log('avannt okokok')
         if (drawObject.senderId !== socket.id) {
-          console.log('okokokokokok')
           if (drawObject.pen.isActive) {
             draw(drawObject)
           } else if (drawObject.eraser.isActive) {
             erase(drawObject)
           } else if (drawObject.fill.isActive) {
-            fillCanvas(drawObject, ctx, canvasDim, socket)
+            fillCanvas(drawObject, context, canvasDimension, socket)
           } else if (drawObject.clear.isActive) {
             clear(drawObject)
           } else if (drawObject.undo.isActive) {
@@ -207,7 +220,7 @@ function Canvas({ userRole }) {
         }
       })
     }
-  }, [socket, setCtx, setCanvasDim])
+  }, [socket, setCanvasDim])
 
   /** get current position on the screen */
   const getPositionOnEvent = (e) => {
@@ -228,7 +241,7 @@ function Canvas({ userRole }) {
 
   /** Start the drawing */
   const handleTouchStart = (e) => {
-    if (userRole === 'server') return
+    const context = getContext()
     setIsInAction(true)
 
     saveCanvas(false)
@@ -239,14 +252,14 @@ function Canvas({ userRole }) {
     })
     if (userDraw.fill.isActive) {
       setUserDraw({
-        ...userDraw, color: ctx.strokeStyle,
+        ...userDraw, color: context.strokeStyle,
       })
       fillCanvas({
         ...userDraw,
         x0: pos.X,
         y0: pos.Y,
         senderId: socket.id,
-      }, ctx, canvasDim, socket)
+      }, context, canvasDim, socket)
     }
   }
 
@@ -302,7 +315,9 @@ function Canvas({ userRole }) {
           />
         )
         : (
-          <div className="icon" />
+          <div className="icon">
+            <Tagline />
+          </div>
         )}
     </Container>
   )

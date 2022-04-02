@@ -184,7 +184,7 @@ function Canvas({ userRole }) {
     setCtx(context)
     setCtx(context)
     console.log(context)
-    console.log('--------------------')
+    console.log('-------------------')
     console.log(ctx)
     if (socket) {
       socket.on('draw', (drawObject) => {

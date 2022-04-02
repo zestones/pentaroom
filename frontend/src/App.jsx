@@ -1,5 +1,5 @@
 import React from 'react'
-import './App.css'
+import './App.scss'
 import Box from '@mui/material/Box'
 import { SocketContext, socket } from './context/socket'
 import ServerView from './views/ServerView'

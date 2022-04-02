@@ -13,12 +13,19 @@ function Alert({
     setOpen(false)
   }
 
+  const handleKeyPressed = (e) => {
+    if (e.key === 'Enter') {
+      handleClose()
+    }
+  }
+
   return (
     <Modal
       open={open}
       onClose={handleClose}
       aria-labelledby="modal-alert"
       aria-describedby="modal-alert"
+      onKeyPress={handleKeyPressed}
     >
       <Box className={`alert-box ${type}`}>
         <Typography variant="h6" component="h2">

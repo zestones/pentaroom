@@ -1,8 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React, { useState, useEffect, useContext } from 'react'
 
-import '../App.css'
-
 import Header from '../components/Header/Header'
 import Login from '../components/Login/Login'
 import UserInput from '../components/UserInput/UserInput'

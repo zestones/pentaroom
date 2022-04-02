@@ -36,7 +36,7 @@ function ListUsers() {
         {users.map((user) => (
           (user.avatar)
             && (
-              <Box className="userBox">
+              <Box key={user.id} className="userBox">
                 <Avatar fontSize="medium" className="userAvatar" {...user.avatar} />
                 <li className="player" key={user.id}>{user.pseudo}</li>
               </Box>

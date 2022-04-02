@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react'
 import Avatar from 'react-nice-avatar'
-import './Message.scss'
+import styles from './Message.module.scss'
 
 function Message({ message }) {
   const getMessageTime = () => {
@@ -9,40 +9,13 @@ function Message({ message }) {
     return `${date.getHours()}:${date.getMinutes()}`
   }
   return (
-    <div className="messageDisplay">
-      {(!message.isOwner)
-        ? (
-          <>
-            <Avatar fontSize="medium" className="guestAvatar" {...message.avatar} />
-            <div className="guestDisplay">
-              <h5 className="message guestUsername">
-                {message.pseudo}
-              </h5>
-              <li
-                key={message.id}
-                className="message guest"
-              >
-                <span>{message.body}</span>
-              </li>
-              <p className="guestMessageTime">
-                {getMessageTime()}
-              </p>
-            </div>
-          </>
-        )
-        : (
-          <div className="ownerDisplay">
-            <li
-              key={message.id}
-              className="message owner"
-            >
-              <span>{message.body}</span>
-            </li>
-            <p className="ownerMessageTime">
-              {getMessageTime()}
-            </p>
-          </div>
-        )}
+    <div className={styles.message}>
+      <Avatar fontSize="medium" className={styles.avatar} {...message.owner.avatar} />
+      <div className={styles.content}>
+        <h5 className={styles.pseudo}>{message.owner.pseudo}</h5>
+        <p className={styles.text}>{message.body}</p>
+        <p className={styles.time}>{getMessageTime()}</p>
+      </div>
 
     </div>
   )

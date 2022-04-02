@@ -118,7 +118,7 @@ class SocketIOManager {
     // uncomment this line after user loggin validation
     let availableUsers = this.users.filter((user) => user.pseudo !== '' && user.avatar !== undefined && this.previousDrawers.indexOf(user.id) === -1)
     if (availableUsers.length === 0) {
-      availableUsers = this.users
+      availableUsers = this.users.filter((user) => user.pseudo !== '' && user.avatar !== undefined)
       this.previousDrawers = []
     }
     // if there is no available user

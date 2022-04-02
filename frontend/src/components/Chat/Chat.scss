@@ -3,10 +3,29 @@
     bottom: 25px;
     right: 25px;
 }
-.box {
-    width: 500px;
-    max-width: 100vw;
-    height: 100%;
+.modal-chat {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .box-chat {
+        width: 700px;
+        max-width: 100vw;
+        background-color: rgb(255, 255, 255);
+        color: black;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 30px;
+        border-radius: 20px;
+    
+        h2 {
+            margin-bottom: 40px;
+            letter-spacing: 1.5px;
+        }
+
+        .send-btn {
+            margin-top: 30px;
+        }
+    }
 }

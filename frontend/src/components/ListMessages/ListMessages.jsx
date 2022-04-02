@@ -1,10 +1,9 @@
 import React, {
   useRef, useState, useEffect, useContext,
 } from 'react'
-import Paper from '@mui/material/Paper'
 import Message from './Message'
 import { SocketContext } from '../../context/socket'
-import './ListMessages.scss'
+import styles from './ListMessages.module.scss'
 
 function ListMessages() {
   const socket = useContext(SocketContext)
@@ -24,17 +23,12 @@ function ListMessages() {
   }, [socket, messages])
 
   return (
-    <div className="msg-container">
-      <Paper elevation={5} className="paper">
-        <div className="messageContainer">
-          <ol className="ol">
-            {messages.map((message) => (
-              <Message key={message.id} message={message} />
-            ))}
-          </ol>
-          <div ref={messageRef} />
-        </div>
-      </Paper>
+    <div className={styles.overflowContainer}>
+      <ul className={styles.messageContainer} ref={messageRef}>
+        {messages.map((message) => (
+          <Message key={message.id} message={message} />
+        ))}
+      </ul>
     </div>
   )
 }

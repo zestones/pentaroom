@@ -1,3 +1,5 @@
+const uniqid = require('uniqid')
+
 // set the number of previous drawers to keep in the history
 const NB_SAVED_DRAWERS = 3
 
@@ -28,12 +30,22 @@ class SocketIOManager {
 
     socket.on('disconnect', () => this.disconnection(socket))
     socket.on('update-user', (user) => this.updateUserById(user.id, user))
-    socket.on('message', (message) => this.io.emit('message', message))
+    socket.on('message', (message) => this.postMessage(socket, message))
     socket.on('draw', (drawObject) => this.io.emit('draw', drawObject))
     socket.on('check-word', (word) => this.checkWord(socket, word))
     socket.on('update-drawer', () => this.updateDrawer())
     socket.on('accept-challenge', (chosenWord) => this.updateCurrentWord(chosenWord))
     socket.on('refuse-challenge', () => this.updateDrawer())
+  }
+
+  postMessage(socket, message) {
+    console.log(this.getUserById(socket.id))
+    this.io.emit('message', {
+      id: uniqid(),
+      body: message,
+      time: new Date(),
+      owner: this.getUserById(socket.id),
+    })
   }
 
   /**
@@ -170,7 +182,10 @@ class SocketIOManager {
    * @returns
    */
   checkWord(socket, word) {
-    if (!this.currentWord) socket.emit('failure-word')
+    if (!this.currentWord) {
+      socket.emit('failure-word')
+      return
+    }
 
     if (word.toLowerCase() === this.currentWord.toLowerCase()) {
       socket.emit('success-word')

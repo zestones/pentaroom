@@ -11,13 +11,8 @@ function UserInput() {
   const socket = useContext(SocketContext)
   const inputRef = useRef('')
 
-  const handleSuccess = () => {
-    alert('trouvé !!!!')
-  }
-
-  const handleFailure = () => {
-    alert('ce n\'est pas le bon mot')
-  }
+  const handleSuccess = () => alert('trouvé !!!!')
+  const handleFailure = () => alert('ce n\'est pas le bon mot')
 
   const handleValidation = () => {
     const word = inputRef.current.value

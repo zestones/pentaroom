@@ -3,16 +3,13 @@
     height: 100%;
     padding: 1em;
 
-    .column {
+    .list-users-container {
       border: solid;
       width: 25%;
     }
 
     .chat-container {
         width: 25%;
-        overflow-y: auto;
-        height: 100%;
-
     }
     
     h1 {

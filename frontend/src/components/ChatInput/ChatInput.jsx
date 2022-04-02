@@ -1,12 +1,12 @@
 import React, { useEffect, createRef, useContext } from 'react'
-import './Chat.scss'
+import './ChatInput.scss'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import { SocketContext } from '../../context/socket'
 
-function Chat() {
+function ChatInput() {
   const [open, setOpen] = React.useState(false)
 
   const inputRef = createRef()
@@ -77,4 +77,4 @@ function Chat() {
   )
 }
 
-export default Chat
+export default ChatInput

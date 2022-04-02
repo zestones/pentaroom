@@ -11,16 +11,14 @@ function ServerView() {
   return (
     <Box className="server-container">
 
-      <div className="column">
-        <h1>Joueurs</h1>
-        <ListUsers />
+      <div className="list-users-container">
+        <ListUsers title="Joueurs" />
       </div>
 
       <Canvas userRole="server" />
 
       <div className="chat-container">
-        <h1>Chat</h1>
-        <ListMessages />
+        <ListMessages title="Chat" />
       </div>
 
     </Box>

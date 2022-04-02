@@ -3,7 +3,6 @@ const path = require('path')
 
 class DictionaryManager {
   constructor() {
-    this.alreadyUsed = []
     this.dictionary = []
   }
 
@@ -25,9 +24,6 @@ class DictionaryManager {
 
     // get random words
     const randomWords = shuffled.slice(0, n)
-
-    // push random words in the already used array
-    this.alreadyUsed.concat(randomWords)
 
     // return random words
     return randomWords

@@ -117,11 +117,16 @@ function Canvas({ userRole }) {
     }
   }
 
-  const clear = (drawObject) => {
+  const clearCanvas = () => {
     const context = getContext()
     const canvasDimensions = getCanvasDimensions()
 
     context.clearRect(0, 0, canvasDimensions.width, canvasDimensions.height)
+  }
+
+  const clear = (drawObject) => {
+    clearCanvas()
+
     if (socket && socket.id === drawObject.senderId) {
       socket.emit('draw', drawObject)
     }
@@ -198,29 +203,33 @@ function Canvas({ userRole }) {
     setCanvasDim({ width: document.getElementById('draw').offsetWidth, height: document.getElementById('draw').offsetHeight })
   }, [setCanvasDim, socket])
 
+  const handleDraw = (drawObject) => {
+    const context = getContext()
+    const canvasDimensions = getCanvasDimensions()
+
+    if (drawObject.senderId !== socket.id) {
+      if (drawObject.pen.isActive) {
+        draw(drawObject)
+      } else if (drawObject.eraser.isActive) {
+        erase(drawObject)
+      } else if (drawObject.fill.isActive) {
+        fillCanvas(drawObject, context, canvasDimensions, socket)
+      } else if (drawObject.clear.isActive) {
+        clear(drawObject)
+      } else if (drawObject.undo.isActive) {
+        undoCanvas(drawObject)
+      } else if (drawObject.redo.isActive) {
+        redoCanvas(drawObject)
+      }
+    }
+  }
   /** Init/Update values */
   useEffect(() => {
-    if (socket) {
-      const context = getContext()
-      const canvasDimensions = getCanvasDimensions()
-
-      socket.on('draw', (drawObject) => {
-        if (drawObject.senderId !== socket.id) {
-          if (drawObject.pen.isActive) {
-            draw(drawObject)
-          } else if (drawObject.eraser.isActive) {
-            erase(drawObject)
-          } else if (drawObject.fill.isActive) {
-            fillCanvas(drawObject, context, canvasDimensions, socket)
-          } else if (drawObject.clear.isActive) {
-            clear(drawObject)
-          } else if (drawObject.undo.isActive) {
-            undoCanvas(drawObject)
-          } else if (drawObject.redo.isActive) {
-            redoCanvas(drawObject)
-          }
-        }
-      })
+    socket.on('challenge', clearCanvas)
+    socket.on('draw', handleDraw)
+    return () => {
+      socket.off('challenge', clearCanvas)
+      socket.off('draw', handleDraw)
     }
   }, [socket, setCanvasDim])
 

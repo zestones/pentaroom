@@ -14,6 +14,7 @@ import Eyes from './Eyes'
 import Glasses from './Glasses'
 import Shirt from './Shirt'
 import Mouth from './Mouth'
+import Hat from './Hat'
 
 const faceColor = ['#f9c9b6', '#e0ac69', '#ac6651', '#8d5524']
 const hairStyles = ['normal', 'thick', 'mohawk', 'womanLong', 'womanShort']
@@ -21,6 +22,7 @@ const eyeStyles = ['normal', 'circle', 'oval', 'smile']
 const glassesStyles = ['none', 'round', 'square']
 const shirtStyles = ['short', 'polo', 'hoody']
 const mouthStyles = ['laugh', 'smile', 'peace']
+const hatStyles = ['none', 'turban', 'beanie']
 
 function AvatarPicker({ avatar, setConfig }) {
   const caracteristics = [
@@ -30,6 +32,7 @@ function AvatarPicker({ avatar, setConfig }) {
     { id: 'glasses', title: 'Lunettes' },
     { id: 'shirt', title: 'T-Shirt' },
     { id: 'mouth', title: 'Bouche' },
+    { id: 'hat', title: 'Chapeau' },
   ]
 
   const handleFaceClick = () => {
@@ -40,6 +43,11 @@ function AvatarPicker({ avatar, setConfig }) {
   const handleHairClick = () => {
     const index = (hairStyles.indexOf(avatar.hairStyle) + 1) % hairStyles.length
     setConfig({ ...avatar, hairStyle: hairStyles[index] })
+  }
+
+  const handleHatClick = () => {
+    const index = (hatStyles.indexOf(avatar.hatStyle) + 1) % hatStyles.length
+    setConfig({ ...avatar, hatStyle: hatStyles[index] })
   }
 
   const handleEyesClick = () => {
@@ -72,12 +80,13 @@ function AvatarPicker({ avatar, setConfig }) {
         <Box key={carac.id} className="caracteristic-picker">
           <h3 className="caracteristic-title">{carac.title}</h3>
           <CaracteristicPicker>
-            {carac.id === 'face' && <Box onClick={handleFaceClick}><Face faceColor={avatar.faceColor} /></Box>}
-            {carac.id === 'hair' && <Box onClick={handleHairClick}><Hair hairColor={avatar.hairColor} /></Box>}
-            {carac.id === 'eyes' && <Box onClick={handleEyesClick}><Eyes /></Box>}
-            {carac.id === 'glasses' && <Box onClick={handleGlassesClick}><Glasses /></Box>}
-            {carac.id === 'shirt' && <Box onClick={handleShirtClick}><Shirt /></Box>}
-            {carac.id === 'mouth' && <Box onClick={handleMouthClick}><Mouth /></Box>}
+            {carac.id === 'face' && <Box className="caracteristic-picker-box" onClick={handleFaceClick}><Face faceColor={avatar.faceColor} /></Box>}
+            {carac.id === 'hair' && <Box className="caracteristic-picker-box" onClick={handleHairClick}><Hair hairColor={avatar.hairColor} /></Box>}
+            {carac.id === 'hat' && <Box className="caracteristic-picker-box" onClick={handleHatClick}><Hat hatColor={avatar.hatColor} /></Box>}
+            {carac.id === 'eyes' && <Box className="caracteristic-picker-box" onClick={handleEyesClick}><Eyes /></Box>}
+            {carac.id === 'glasses' && <Box className="caracteristic-picker-box" onClick={handleGlassesClick}><Glasses /></Box>}
+            {carac.id === 'shirt' && <Box className="caracteristic-picker-box" onClick={handleShirtClick}><Shirt /></Box>}
+            {carac.id === 'mouth' && <Box className="caracteristic-picker-box" onClick={handleMouthClick}><Mouth /></Box>}
           </CaracteristicPicker>
         </Box>
       ))}

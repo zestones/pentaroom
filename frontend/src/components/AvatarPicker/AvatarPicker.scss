@@ -20,6 +20,17 @@
             -webkit-text-stroke-width: 1px;
             -webkit-text-stroke-color: black;
         }
+        .caracteristic-picker-box {
+            width: 80px;
+            height: 80px;
+            border-radius: 100%;
+            background-color: #ffcc00;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+          }
     }
 
 }

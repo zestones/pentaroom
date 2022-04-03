@@ -6,10 +6,10 @@ import './AvatarPicker.scss'
 import Avatar from 'react-nice-avatar'
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
+import clsx from 'clsx'
 import CaracteristicPicker from './CaracteristicPicker'
 
 import Option from './Option'
-
 import Face from './Face'
 import Hair from './Hair'
 import Eyes from './Eyes'
@@ -125,11 +125,11 @@ function AvatarPicker({ avatar, setConfig }) {
         <Box key={carac.id} className="caracteristic-picker">
           <h3 className="caracteristic-title">{carac.title}</h3>
           <CaracteristicPicker>
-            {carac.id === 'face' && <Box className="caracteristic-picker-box" onClick={handleFaceClick}><Face faceColor={avatar.faceColor} /></Box>}
+            {carac.id === 'face' && <Box className={clsx('caracteristic-picker-box', open.type === carac.id ? 'active' : '')} onClick={handleFaceClick}><Face faceColor={avatar.faceColor} /></Box>}
             {carac.id === 'hair' && (
               <>
                 <Box
-                  className="caracteristic-picker-box"
+                  className={clsx('caracteristic-picker-box', open.type === carac.id ? 'active' : '')}
                   onClick={() => handleBoxState(carac.id)}
                 >
                   <Hair hairColor={avatar.hairColor} />
@@ -148,7 +148,7 @@ function AvatarPicker({ avatar, setConfig }) {
             {carac.id === 'hat' && (
               <>
                 <Box
-                  className="caracteristic-picker-box"
+                  className={clsx('caracteristic-picker-box', open.type === carac.id ? 'active' : '')}
                   onClick={() => handleBoxState(carac.id)}
                 >
                   <Hat hatColor={avatar.hatColor} />
@@ -167,7 +167,7 @@ function AvatarPicker({ avatar, setConfig }) {
             {carac.id === 'shirt' && (
               <>
                 <Box
-                  className="caracteristic-picker-box"
+                  className={clsx('caracteristic-picker-box', open.type === carac.id ? 'active' : '')}
                   onClick={() => handleBoxState(carac.id)}
                 >
                   <Shirt shirtColor={avatar.shirtColor} />
@@ -184,11 +184,11 @@ function AvatarPicker({ avatar, setConfig }) {
               </>
             )}
 
-            {carac.id === 'eyes' && <Box className="caracteristic-picker-box" onClick={handleEyesClick}><Eyes /></Box>}
-            {carac.id === 'glasses' && <Box className="caracteristic-picker-box" onClick={handleGlassesClick}><Glasses /></Box>}
-            {carac.id === 'mouth' && <Box className="caracteristic-picker-box" onClick={handleMouthClick}><Mouth /></Box>}
-            {carac.id === 'background' && <Box className="caracteristic-picker-box" onClick={handlebgColorClick} />}
-            {carac.id === 'random' && <Box className="caracteristic-picker-box" onClick={handleRandomClick} />}
+            {carac.id === 'eyes' && <Box className={clsx('caracteristic-picker-box', open.type === carac.id ? 'active' : '')} onClick={handleEyesClick}><Eyes /></Box>}
+            {carac.id === 'glasses' && <Box className={clsx('caracteristic-picker-box', open.type === carac.id ? 'active' : '')} onClick={handleGlassesClick}><Glasses /></Box>}
+            {carac.id === 'mouth' && <Box className={clsx('caracteristic-picker-box', open.type === carac.id ? 'active' : '')} onClick={handleMouthClick}><Mouth /></Box>}
+            {carac.id === 'background' && <Box className={clsx('caracteristic-picker-box', open.type === carac.id ? 'active' : '')} onClick={handlebgColorClick} />}
+            {carac.id === 'random' && <Box className={clsx('caracteristic-picker-box', open.type === carac.id ? 'active' : '')} onClick={handleRandomClick} />}
           </CaracteristicPicker>
         </Box>
 

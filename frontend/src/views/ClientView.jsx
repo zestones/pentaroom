@@ -38,7 +38,7 @@ function ClientView() {
 
   return (
     <>
-      <Header styles={isChallenged ? 'in-line' : 'in-column'} />
+      <Header type={isChallenged ? 'in-line' : 'in-column'} />
       {
         isLogged
           ? (

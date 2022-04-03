@@ -1,14 +1,14 @@
 /* eslint-disable react/jsx-no-undef */
 import React from 'react'
-import './Header.scss'
+import styles from './Header.module.scss'
 
-function Header({ styles }) {
-  const isInLine = styles === 'in-line'
+function Header({ type }) {
+  const isInLine = type === 'in-line'
 
   return (
-    <header className={isInLine ? 'header-in-line' : 'header-in-column'}>
-      <img src="/pentaboy.svg" alt="pentaboy" className={isInLine ? 'pentaboy-in-line' : 'pentaboy-in-column'} />
-      <h1 className={isInLine ? 'title-in-line' : 'title-in-column'}>
+    <header className={isInLine ? styles.inLine : styles.inColumn}>
+      <img src="/pentaboy.svg" alt="pentaboy" className={styles.pentaboy} />
+      <h1 className={styles.title}>
         Penta
         {!isInLine && <br />}
         Room

@@ -299,7 +299,7 @@ function Canvas({ userRole }) {
 
   return (
     <Container maxWidth="xl" className="canvas-container">
-      {userRole === 'server' && <Header styles="in-line" /> }
+      {userRole === 'server' && <Header type="in-line" /> }
       <div id="draw" className="draw-area">
         <canvas
           id="myCanvas"

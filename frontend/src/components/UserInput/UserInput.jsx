@@ -5,6 +5,9 @@ import Button from '@mui/material/Button'
 import SendIcon from '@mui/icons-material/Send'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import TransparentContainer from '../TransparentContainer/TransparentContainer'
+
+import ChosenWord from '../temp/ChosenWord/ChosenWord'
+
 import { SocketContext } from '../../context/socket'
 
 function UserInput() {
@@ -39,7 +42,7 @@ function UserInput() {
   return (
     <Container maxWidth="xxl" className="super-container">
       <Container className="subcontainer" maxWidth="lg">
-        <div className="hidden-word" />
+        <ChosenWord />
         <TransparentContainer backgroundColor="#0000A5" className="input-container">
           <h2 className="title">Entre un mot : </h2>
           <OutlinedInput

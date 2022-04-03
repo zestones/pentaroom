@@ -12,7 +12,6 @@ function ListUsers({ title }) {
   const getNumberUser = () => users.filter((user) => user.pseudo !== '').length
 
   const handleUpdateUsers = (listUsers) => {
-    console.log(listUsers)
     setUsers(listUsers)
   }
 

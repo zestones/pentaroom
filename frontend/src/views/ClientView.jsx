@@ -18,7 +18,6 @@ function ClientView() {
   const [words, setWords] = useState([])
 
   const handleUpdateDrawer = (userId, randomWords) => {
-    console.log(userId, randomWords, socket.id)
     if (userId !== socket.id) return
     setIsChallenged(true)
     setWords(randomWords)

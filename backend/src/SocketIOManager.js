@@ -26,6 +26,8 @@ class SocketIOManager {
   connection(socket) {
     console.log(`+ : ${socket.id}`)
 
+    this.postUser(socket)
+
     socket.on('disconnect', () => this.disconnection(socket))
     socket.on('update-user', (user) => this.updateUserById(user.id, user))
     socket.on('message', (message) => this.postMessage(socket, message))
@@ -114,6 +116,7 @@ class SocketIOManager {
   updateCurrentWord(word) {
     this.currentWord = word
     console.log(`Mot à deviner: ${this.currentWord}`)
+    this.io.emit('temp-chosen-word', word)
   }
 
   /**

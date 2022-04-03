@@ -53,6 +53,7 @@ function Alert({
         <Typography sx={{ mt: 2 }} style={{ whiteSpace: 'pre-line' }}>
           {timeLeft !== undefined ? `${text} \n (${timeLeft}s)` : text}
         </Typography>
+        <img src="/pentaboy.svg" alt="pentaboy" className="pentaboy" />
       </Box>
     </Modal>
   )

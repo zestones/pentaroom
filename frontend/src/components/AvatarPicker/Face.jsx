@@ -3,6 +3,7 @@ import React from 'react'
 function Face({ faceColor }) {
   const maskId = `mask${Math.round(Math.random() * 9999999)}`
   const pathId = `path${Math.round(Math.random() * 9999999)}`
+
   return (
     <svg
       width="70%"

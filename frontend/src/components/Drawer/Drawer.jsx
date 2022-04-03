@@ -39,7 +39,7 @@ function Drawer({ setIsChallenged, words }) {
     const word = button.target.value
     setIsOpen(false)
     socket.emit('accept-challenge', word)
-    console.log(`Mot choisis: ${word}`)
+    console.log(`Mot choisi: ${word}`)
   }
 
   const handleUpdateDrawer = () => {
@@ -78,6 +78,7 @@ function Drawer({ setIsChallenged, words }) {
       >
         <Fade in={open}>
           <Box className="modal">
+            <h2>Choisis un mot !</h2>
             <Stack className="words-proposition" direction="row" spacing={2}>
               {words.map((word) => (
                 <Button key={word} variant="contained" color="success" value={word} onClick={handleAccept}>
@@ -85,7 +86,7 @@ function Drawer({ setIsChallenged, words }) {
                 </Button>
               ))}
             </Stack>
-            <Button className="reject-proposition" variant="outlined" color="error" onClick={handleDecline}>
+            <Button className="reject-proposition" variant="contained" color="error" onClick={handleDecline}>
               Refuser
             </Button>
           </Box>

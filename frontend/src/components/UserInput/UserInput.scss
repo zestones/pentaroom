@@ -4,8 +4,39 @@
 	padding: 30px 0;
 	
 	.subcontainer {
-		text-align: center;
+		
+		.user-infos {
+			max-width: 400px;
+			background-color:rgba(0, 24, 56, 0.89);
+			border: 2px solid rgba(0, 24, 56, 0.89);
+			box-shadow: rgb(0 0 0 / 20%) 0px 11px 15px -7px, rgb(0 0 0 / 14%) 0px 24px 38px 3px, rgb(0 0 0 / 12%) 0px 9px 46px 8px;
+			padding: 20px 32px 32px 32px;
+			outline: none;
+			display: flex;
+			flex-direction: column;
+			right: 0;
+			margin: 0 auto;
 
+			.avatar-container {
+				display: flex;
+				flex-direction: row;
+			
+				.avatar {		
+					height: 90px;
+					min-width: 90px;
+				}
+				.score {
+					margin: 25px;
+					text-align: center;
+				}
+			}
+			.username {
+				text-align: left;
+				margin: 0px;
+				margin-top: 10px;
+				margin-left: 21px;
+			}
+		}
 		.hidden-word {
 			color: black;
 			text-align: center;

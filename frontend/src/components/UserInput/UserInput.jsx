@@ -1,20 +1,27 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, {
   useRef, useState, useEffect, useContext,
 } from 'react'
+
 import './UserInput.scss'
+
+import Avatar from 'react-nice-avatar'
+import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Button from '@mui/material/Button'
 import SendIcon from '@mui/icons-material/Send'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import TransparentContainer from '../TransparentContainer/TransparentContainer'
 
-import ChosenWord from '../temp/ChosenWord/ChosenWord'
+// import ChosenWord from '../temp/ChosenWord/ChosenWord'
 import Alert from '../Alert/Alert'
 
 import { SocketContext } from '../../context/socket'
 
 function UserInput() {
   const socket = useContext(SocketContext)
+  const [users, setUsers] = useState([])
+
   const inputRef = useRef('')
 
   const [alert, setAlert] = useState({
@@ -57,13 +64,37 @@ function UserInput() {
     }
   }
 
+  const getUserIndex = () => users.map((x) => x.id).indexOf(socket.id)
+
+  const getUsername = () => {
+    const index = getUserIndex()
+    if (index !== -1) return users[index].pseudo
+    return 'none'
+  }
+
+  const getUserAvatar = () => {
+    const index = getUserIndex()
+    if (index !== -1) return users[index].avatar
+    return 'none'
+  }
+
+  const getUserScore = () => {
+    const index = getUserIndex()
+    if (index !== -1) return users[index].score
+    return 'none'
+  }
+
+  const handleUpdateUsers = (listUsers) => { setUsers(listUsers) }
+
   useEffect(() => {
     socket.on('success-word', handleSuccess)
     socket.on('failure-word', handleFailure)
+    socket.on('update-users', handleUpdateUsers)
 
     return () => {
       socket.off('success-word', handleSuccess)
       socket.off('failure-word', handleFailure)
+      socket.off('update-users', handleUpdateUsers)
     }
   }, [socket])
 
@@ -71,7 +102,19 @@ function UserInput() {
     <>
       <Container maxWidth="xxl" className="super-container">
         <Container className="subcontainer" maxWidth="lg">
-          <ChosenWord />
+
+          <Box className="user-infos">
+            <div className="avatar-container">
+              <Avatar fontSize="medium" className="avatar" {...getUserAvatar()} />
+              <h2 className="score">
+                SCORE :
+                {' '}
+                {getUserScore()}
+              </h2>
+            </div>
+            <h2 className="username">{getUsername()}</h2>
+            {/* <ChosenWord /> */}
+          </Box>
           <TransparentContainer backgroundColor="#0000A5" className="input-container">
             <h2 className="title">Entre un mot : </h2>
             <OutlinedInput

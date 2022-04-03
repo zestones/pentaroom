@@ -8,12 +8,26 @@ import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import Canvas from '../Canvas/Canvas'
+import Timer from '../Timer/Timer'
+import Alert from '../Alert/Alert'
 import { SocketContext } from '../../context/socket'
 
 function Drawer({ setIsChallenged, words }) {
   const socket = useContext(SocketContext)
 
   const [open, setIsOpen] = useState(true)
+  const [time, setTime] = useState(-1)
+  const [alert, setAlert] = useState({
+    open: false,
+    title: 'Temps écoulé',
+    text: 'Le temps pour dessiner est écoulé...',
+    type: 'danger',
+  })
+  const handleCloseAlert = () => {
+    setAlert({ ...alert, open: false })
+    setIsChallenged(false)
+    socket.emit('new-drawer')
+  }
 
   const handleDecline = () => {
     setIsChallenged(false)
@@ -22,7 +36,6 @@ function Drawer({ setIsChallenged, words }) {
 
   const handleAccept = (button) => {
     const word = button.target.value
-    console.log(word)
     setIsOpen(false)
     socket.emit('accept-challenge', word)
     console.log(`Mot choisis: ${word}`)
@@ -32,11 +45,21 @@ function Drawer({ setIsChallenged, words }) {
     setIsChallenged(false)
   }
 
+  const handleTimeLeft = (newTime) => setTime(newTime)
+
+  const handleNoTimeLeft = () => {
+    setAlert({ ...alert, open: true })
+  }
+
   useEffect(() => {
     socket.on('update-drawer', handleUpdateDrawer)
+    socket.on('time-left', handleTimeLeft)
+    socket.on('no-time-left', handleNoTimeLeft)
 
     return () => {
       socket.off('update-drawer', handleUpdateDrawer)
+      socket.off('time-left', handleTimeLeft)
+      socket.off('no-time-left', handleNoTimeLeft)
     }
   }, [socket])
 
@@ -67,6 +90,14 @@ function Drawer({ setIsChallenged, words }) {
           </Box>
         </Fade>
       </Modal>
+      <Alert
+        type={alert.type}
+        open={alert.open}
+        handleClose={handleCloseAlert}
+        title={alert.title}
+        text={alert.text}
+      />
+      <Timer time={time} />
       <Canvas userRole="client" />
     </>
   )

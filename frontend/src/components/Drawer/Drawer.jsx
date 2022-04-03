@@ -17,10 +17,11 @@ function Drawer({ setIsChallenged, words }) {
 
   const [open, setIsOpen] = useState(true)
   const [time, setTime] = useState(-1)
+
   const [alert, setAlert] = useState({
     open: false,
     title: 'Temps écoulé',
-    text: 'Le temps pour dessiner est écoulé...',
+    text: 'Le temps pour dessiner est écoulé... \n Appuyez sur une touche pour relancer une partie',
     type: 'danger',
   })
   const handleCloseAlert = () => {
@@ -48,7 +49,7 @@ function Drawer({ setIsChallenged, words }) {
   const handleTimeLeft = (newTime) => setTime(newTime)
 
   const handleNoTimeLeft = () => {
-    setAlert({ ...alert, open: true })
+    setAlert({ ...alert, open: true, time: 5 })
   }
 
   useEffect(() => {
@@ -96,6 +97,7 @@ function Drawer({ setIsChallenged, words }) {
         handleClose={handleCloseAlert}
         title={alert.title}
         text={alert.text}
+        time={alert.time}
       />
       <Timer time={time} />
       <Canvas userRole="client" />

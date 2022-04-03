@@ -29,7 +29,6 @@ function ListUsers({ title }) {
       {title && <h2 className={styles.listUsersTitle}>{title}</h2> }
       <h3 className={styles.nbUsers}>
         Utilsateurs :
-        {' '}
         {getNumberUser()}
       </h3>
 

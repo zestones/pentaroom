@@ -202,7 +202,6 @@ function Canvas({ userRole }) {
   useEffect(() => {
     if (socket) {
       const context = getContext()
-
       const canvasDimensions = getCanvasDimensions()
 
       socket.on('draw', (drawObject) => {

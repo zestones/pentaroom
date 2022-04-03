@@ -3,6 +3,8 @@ const uniqid = require('uniqid')
 // set the number of previous drawers to keep in the history
 const NB_SAVED_DRAWERS = 3
 const SCORE_INCREMENT = 5
+const TIMER_DURATION = 90
+let interval
 
 class SocketIOManager {
   constructor(io, dictionaryManager) {
@@ -35,8 +37,9 @@ class SocketIOManager {
     socket.on('draw', (drawObject) => this.io.emit('draw', drawObject))
     socket.on('check-word', (word) => this.checkWord(socket, word))
     socket.on('update-drawer', () => this.updateDrawer())
-    socket.on('accept-challenge', (chosenWord) => this.updateCurrentWord(chosenWord))
+    socket.on('accept-challenge', (chosenWord) => this.updateCurrentWord(socket, chosenWord))
     socket.on('refuse-challenge', () => this.updateDrawer())
+    socket.on('new-drawer', () => this.updateDrawer())
   }
 
   postMessage(socket, message) {
@@ -114,10 +117,20 @@ class SocketIOManager {
    * Update the current word
    * @param {string} word
    */
-  updateCurrentWord(word) {
+  updateCurrentWord(socket, word) {
     this.currentWord = word
     console.log(`Mot à deviner: ${this.currentWord}`)
     this.io.emit('temp-chosen-word', word)
+    let timer = TIMER_DURATION
+    interval = setInterval(() => {
+      timer -= 1
+      if (timer < 0) {
+        socket.emit('no-time-left', timer)
+        clearInterval(interval)
+      } else {
+        socket.emit('time-left', timer)
+      }
+    }, 1000)
   }
 
   /**
@@ -158,6 +171,7 @@ class SocketIOManager {
   updateDrawer() {
     // reinitialize the current word
     this.currentWord = undefined
+    clearInterval(interval)
     this.io.emit('temp-chosen-word', 'aucun mot')
 
     // get a random user

@@ -25,13 +25,16 @@
     text-align :center;
     margin-top: 20px;
     font-size: 30px;
+    &.danger, &.warning {
+        .time {
+            animation: zoom 1s infinite linear;
+        }
+    }
     &.danger .time {
         color: red;
-        animation: zoom 1s infinite linear;
     }
     &.warning .time {
         color: orange;
-        animation: zoom 2s infinite linear;
     }
 
     .time {

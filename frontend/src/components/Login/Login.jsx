@@ -41,7 +41,7 @@ function Login({ setIsLogged }) {
       hatColor: '#000',
       eyeBrowStyle: 'up',
       shirtColor: '#F4D150',
-      bgColor: 'linear-gradient(45deg, #176fff 0%, #68ffef 100%)',
+      bgColor: '#ffcc00',
     },
   ))
   const inputRef = useRef('')

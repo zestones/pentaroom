@@ -4,12 +4,18 @@
     padding: 1em;
 
     .list-users-container {
-      border: solid;
+      border: solid rgb(255, 174, 0);
       width: 25%;
+      background-color:rgba(0, 0, 0, 0.589);
+      padding-left: 1%;
     }
 
     .chat-container {
         width: 25%;
+        overflow-y: auto;
+        height: 100%;
+        border: solid rgb(255, 174, 0);
+        background-color:rgba(0, 0, 0, 0.589);
     }
     
     h1 {

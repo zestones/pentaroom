@@ -4,11 +4,9 @@
     left: 50%;
     transform: translate(-50%, -50%);
     width: 80%;
-    height: 25%;
-    background-Color: #404040;
-    border: 2px solid #000;
-    box-shadow: 24;
-    padding: 4px;
+    height: 20%;
+    background: linear-gradient(180deg, rgb(31, 47, 152) 0%, rgb(0, 81, 202) 36%, rgba(0,243,253,1) 100%);
+    padding: 1%;
     .words-proposition {
         display: flex;
         flex-Direction: row;
@@ -17,7 +15,8 @@
     }
     .reject-proposition {
         position: absolute;
-        right: 35px;
-        bottom: 35px;
+    }
+    h2{
+        text-align:center;
     }
 }

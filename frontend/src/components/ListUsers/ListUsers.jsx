@@ -7,6 +7,10 @@ import styles from './ListUsers.module.scss'
 function ListUsers({ title, order = false }) {
   const socket = useContext(SocketContext)
   const [users, setUsers] = useState([])
+  const [drawerId, setDrawerId] = useState(null)
+
+  // eslint-disable-next-line no-nested-ternary
+  users.sort((x, y) => (x.id === drawerId ? -1 : y.id === drawerId ? 1 : 0))
 
   // get the number of users registered
   const getNumberUser = () => users.filter((user) => user.pseudo !== '').length
@@ -20,11 +24,15 @@ function ListUsers({ title, order = false }) {
 
   const isRegister = (user) => user.pseudo !== undefined && user.pseudo !== ''
 
+  const handleUpdateDrawer = (userId) => setDrawerId(userId)
+
   useEffect(() => {
     socket.on('update-users', handleUpdateUsers)
+    socket.on('challenge', handleUpdateDrawer)
 
     return () => {
       socket.off('update-users', handleUpdateUsers)
+      socket.off('challenge', handleUpdateDrawer)
     }
   }, [socket])
 

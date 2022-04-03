@@ -54,6 +54,7 @@ function UserInput({ user }) {
     socket.emit('check-word', word)
     inputRef.current.value = ''
   }
+
   const handleKeyPressed = (e) => {
     if (e.key === 'Enter') {
       handleValidation()
@@ -74,7 +75,6 @@ function UserInput({ user }) {
     <>
       <Container maxWidth="xxl" className="super-container">
         <Container className="subcontainer" maxWidth="lg">
-
           <Box className="user-infos">
             <div className="avatar-container">
               <Avatar fontSize="medium" className="avatar" {...user.avatar} />

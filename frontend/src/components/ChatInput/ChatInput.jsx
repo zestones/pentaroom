@@ -71,9 +71,8 @@ function ChatInput() {
             type="text"
             inputRef={inputRef}
             placeholder="Tape le mot ici ..."
-            className="input-word"
             onKeyPress={handleKeyPressed}
-            color={send && 'success'}
+            color={send ? 'success' : ''}
           />
           <Button
             variant="contained"

@@ -10,13 +10,13 @@ import clsx from 'clsx'
 import CaracteristicPicker from './CaracteristicPicker'
 
 import Option from './Option'
-import Face from './Face'
-import Hair from './Hair'
-import Eyes from './Eyes'
-import Glasses from './Glasses'
-import Shirt from './Shirt'
-import Mouth from './Mouth'
-import Hat from './Hat'
+import Face from './Caracteristic/Face'
+import Hair from './Caracteristic/Hair'
+import Eyes from './Caracteristic/Eyes'
+import Glasses from './Caracteristic/Glasses'
+import Shirt from './Caracteristic/Shirt'
+import Mouth from './Caracteristic/Mouth'
+import Hat from './Caracteristic/Hat'
 
 const faceColor = ['#f9c9b6', '#e0ac69', '#ac6651', '#8d5524', '#e8beac']
 const hairStyles = ['normal', 'thick', 'mohawk', 'womanLong', 'womanShort']
@@ -112,7 +112,6 @@ function AvatarPicker({ avatar, setConfig }) {
   const handleBoxState = (id) => {
     if (open.type === id) setOpen({})
     else setOpen({ type: id })
-    console.log(open)
   }
 
   return (

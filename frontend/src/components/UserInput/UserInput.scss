@@ -4,7 +4,6 @@
 	padding: 30px 0;
 	
 	.subcontainer {
-		
 		.user-infos {
 			max-width: 400px;
 			background-color:rgba(0, 24, 56, 0.89);
@@ -25,13 +24,14 @@
 					min-width: 90px;
 				}
 			}
+
 			.score {
 				flex-grow: 1;
 				justify-content: center;
 				display: flex;
 				align-items: center;
-				
 			}
+
 			.username {
 				text-align: left;
 				margin: 0px;
@@ -39,40 +39,28 @@
 				text-align: center;
 			}
 		}
-		.hidden-word {
-			color: black;
-			text-align: center;
-		}
-		.mini-container {
-			display: flex;
-			flex-direction: column;
-
-			.input-container {
-				margin: 20px auto;
 				
-				.title {
-					font-size: 30px;
-					margin: 0;
-					margin-bottom: 30px;
-					-webkit-text-stroke-width: 2px;
-					-webkit-text-stroke-color: black;
-					letter-spacing: 1px;
-				}
-				
-				.input-word {
-				border-radius: 50px;
-				background-color: #cce3f6;
-				border: 1px solid black;
-				padding: 0px 15px;
-				font-size: 20px;
-				}
+		.input-container {
+			margin: 20px auto;
+			
+			.title {
+				font-size: 30px;
+				margin: 0;
+				margin-bottom: 30px;
+				-webkit-text-stroke-width: 2px;
+				-webkit-text-stroke-color: black;
+				letter-spacing: 1px;
 			}
 			
-			.send-btn {
-				margin-top: 30px;
-				right: 0;
+			.input-word {
+			border-radius: 50px;
+			background-color: #cce3f6;
+			border: 1px solid black;
+			padding: 0px 15px;
+			font-size: 20px;
 			}
+		}
 	}
-		
-	}
+	
+	
 }

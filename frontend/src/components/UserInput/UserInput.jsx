@@ -8,8 +8,6 @@ import './UserInput.scss'
 import Avatar from 'react-nice-avatar'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
-import Button from '@mui/material/Button'
-import SendIcon from '@mui/icons-material/Send'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import TransparentContainer from '../TransparentContainer/TransparentContainer'
 
@@ -17,6 +15,7 @@ import ChosenWord from '../temp/ChosenWord/ChosenWord'
 import Alert from '../Alert/Alert'
 
 import { SocketContext } from '../../context/socket'
+import PlayButton from '../PlayButton/PlayButton'
 
 function UserInput({ user }) {
   const socket = useContext(SocketContext)
@@ -47,9 +46,7 @@ function UserInput({ user }) {
     })
   }
 
-  const handleCloseAlert = () => {
-    setAlert({ ...alert, open: false })
-  }
+  const handleCloseAlert = () => { setAlert({ ...alert, open: false }) }
 
   const handleValidation = () => {
     const word = inputRef.current.value
@@ -90,21 +87,17 @@ function UserInput({ user }) {
             </h2>
           </Box>
           <ChosenWord />
-          <Box className="mini-container">
-            <TransparentContainer backgroundColor="#0000A5" className="input-container">
-              <h2 className="title">Entre un mot : </h2>
-              <OutlinedInput
-                inputRef={inputRef}
-                fullWidth
-                placeholder="Tape le mot ici ..."
-                className="input-word"
-                onKeyPress={handleKeyPressed}
-              />
-            </TransparentContainer>
-            <Button className="send-btn" variant="contained" endIcon={<SendIcon />} onClick={handleValidation}>
-              Envoyer
-            </Button>
-          </Box>
+          <TransparentContainer backgroundColor="#0000A5" className="input-container">
+            <h2 className="title">Entre un mot : </h2>
+            <OutlinedInput
+              inputRef={inputRef}
+              fullWidth
+              placeholder="Tape le mot ici ..."
+              className="input-word"
+              onKeyPress={handleKeyPressed}
+            />
+          </TransparentContainer>
+          <PlayButton className="send-btn" onClick={handleValidation} />
         </Container>
       </Container>
       <Alert

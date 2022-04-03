@@ -20,6 +20,10 @@
     overflow: auto;
     margin: 0;
     padding: 15px;
+    .userDrawer {
+      border: solid rgb(255, 208, 0);
+      padding: 10px;
+    }
     .userContainer {
       display: flex;
       align-items: center;
@@ -39,6 +43,11 @@
       .score {
         margin-left: 10px;
         text-align: right;
+      }
+      .pentaboy{
+        height: 50px;
+        width: 50px;
+        transform: rotate(-8deg);
       }
     }
   }

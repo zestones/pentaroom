@@ -32,7 +32,7 @@ class SocketIOManager {
     this.postUser(socket)
 
     socket.on('disconnect', () => this.disconnection(socket))
-    socket.on('update-user', (user) => this.updateUserById(user.id, user))
+    socket.on('update-user', (user) => this.updateUserById(socket, user.id, user))
     socket.on('message', (message) => this.postMessage(socket, message))
     socket.on('draw', (drawObject) => this.io.emit('draw', drawObject))
     socket.on('check-word', (word) => this.checkWord(socket, word))
@@ -95,12 +95,13 @@ class SocketIOManager {
    * @param {*} newUser the user object to assign to the old user
    * @returns
    */
-  updateUserById(id, newUser) {
+  updateUserById(socket, id, newUser) {
     const user = this.getUserById(id)
     if (!user) return
 
     user.pseudo = newUser.pseudo
     user.avatar = newUser.avatar
+    socket.emit('user-updated', user)
     this.globalEmitUsers()
   }
 
@@ -208,6 +209,7 @@ class SocketIOManager {
       socket.emit('success-word')
       const user = this.getUserById(socket.id)
       user.score += SCORE_INCREMENT
+      socket.emit('user-updated', user)
       this.globalEmitUsers()
       this.updateDrawer()
     } else {

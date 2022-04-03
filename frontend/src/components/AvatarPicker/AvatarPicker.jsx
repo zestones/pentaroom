@@ -10,13 +10,14 @@ import clsx from 'clsx'
 import CaracteristicPicker from './CaracteristicPicker'
 
 import Option from './Option'
-import Face from './Face'
-import Hair from './Hair'
-import Eyes from './Eyes'
-import Glasses from './Glasses'
-import Shirt from './Shirt'
-import Mouth from './Mouth'
-import Hat from './Hat'
+import Face from './Caracteristic/Face'
+import Hair from './Caracteristic/Hair'
+import Eyes from './Caracteristic/Eyes'
+import Glasses from './Caracteristic/Glasses'
+import Shirt from './Caracteristic/Shirt'
+import Mouth from './Caracteristic/Mouth'
+import Hat from './Caracteristic/Hat'
+import Random from './Caracteristic/Random'
 
 const faceColor = ['#f9c9b6', '#e0ac69', '#ac6651', '#8d5524', '#e8beac']
 const hairStyles = ['normal', 'thick', 'mohawk', 'womanLong', 'womanShort']
@@ -112,7 +113,6 @@ function AvatarPicker({ avatar, setConfig }) {
   const handleBoxState = (id) => {
     if (open.type === id) setOpen({})
     else setOpen({ type: id })
-    console.log(open)
   }
 
   return (
@@ -188,7 +188,13 @@ function AvatarPicker({ avatar, setConfig }) {
             {carac.id === 'glasses' && <Box className={clsx('caracteristic-picker-box', open.type === carac.id ? 'active' : '')} onClick={handleGlassesClick}><Glasses /></Box>}
             {carac.id === 'mouth' && <Box className={clsx('caracteristic-picker-box', open.type === carac.id ? 'active' : '')} onClick={handleMouthClick}><Mouth /></Box>}
             {carac.id === 'background' && <Box className={clsx('caracteristic-picker-box', open.type === carac.id ? 'active' : '')} onClick={handlebgColorClick} />}
-            {carac.id === 'random' && <Box className={clsx('caracteristic-picker-box', open.type === carac.id ? 'active' : '')} onClick={handleRandomClick} />}
+            {carac.id === 'random' && (
+              <Box className={clsx('caracteristic-picker-box', open.type === carac.id ? 'active' : '')} onClick={handleRandomClick}>
+                {' '}
+                <Random />
+                {' '}
+              </Box>
+            )}
           </CaracteristicPicker>
         </Box>
 

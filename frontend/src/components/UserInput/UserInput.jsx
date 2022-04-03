@@ -1,10 +1,13 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, {
   useRef, useState, useEffect, useContext,
 } from 'react'
+
 import './UserInput.scss'
+
+import Avatar from 'react-nice-avatar'
+import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
-import Button from '@mui/material/Button'
-import SendIcon from '@mui/icons-material/Send'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import TransparentContainer from '../TransparentContainer/TransparentContainer'
 
@@ -12,9 +15,11 @@ import ChosenWord from '../temp/ChosenWord/ChosenWord'
 import Alert from '../Alert/Alert'
 
 import { SocketContext } from '../../context/socket'
+import PlayButton from '../PlayButton/PlayButton'
 
-function UserInput() {
+function UserInput({ user }) {
   const socket = useContext(SocketContext)
+
   const inputRef = useRef('')
 
   const [alert, setAlert] = useState({
@@ -41,9 +46,7 @@ function UserInput() {
     })
   }
 
-  const handleCloseAlert = () => {
-    setAlert({ ...alert, open: false })
-  }
+  const handleCloseAlert = () => { setAlert({ ...alert, open: false }) }
 
   const handleValidation = () => {
     const word = inputRef.current.value
@@ -51,6 +54,7 @@ function UserInput() {
     socket.emit('check-word', word)
     inputRef.current.value = ''
   }
+
   const handleKeyPressed = (e) => {
     if (e.key === 'Enter') {
       handleValidation()
@@ -71,6 +75,17 @@ function UserInput() {
     <>
       <Container maxWidth="xxl" className="super-container">
         <Container className="subcontainer" maxWidth="lg">
+          <Box className="user-infos">
+            <div className="avatar-container">
+              <Avatar fontSize="medium" className="avatar" {...user.avatar} />
+              <h2 className="username">{user.pseudo}</h2>
+            </div>
+            <h2 className="score">
+              SCORE :
+              {' '}
+              {user.score}
+            </h2>
+          </Box>
           <ChosenWord />
           <TransparentContainer backgroundColor="#0000A5" className="input-container">
             <h2 className="title">Entre un mot : </h2>
@@ -82,9 +97,7 @@ function UserInput() {
               onKeyPress={handleKeyPressed}
             />
           </TransparentContainer>
-          <Button className="send-btn" variant="contained" endIcon={<SendIcon />} onClick={handleValidation}>
-            Envoyer
-          </Button>
+          <PlayButton className="send-btn" onClick={handleValidation} />
         </Container>
       </Container>
       <Alert

@@ -1,12 +1,18 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useState, useContext, useEffect } from 'react'
 import Avatar from 'react-nice-avatar'
-import { SocketContext } from '../../context/socket'
+import clsx from 'clsx'
 import styles from './ListUsers.module.scss'
+
+import { SocketContext } from '../../context/socket'
 
 function ListUsers({ title, order = false }) {
   const socket = useContext(SocketContext)
   const [users, setUsers] = useState([])
+  const [drawerId, setDrawerId] = useState(null)
+
+  // eslint-disable-next-line no-nested-ternary
+  users.sort((x, y) => (x.id === drawerId ? -1 : y.id === drawerId ? 1 : 0))
 
   // get the number of users registered
   const getNumberUser = () => users.filter((user) => user.pseudo !== '').length
@@ -20,11 +26,15 @@ function ListUsers({ title, order = false }) {
 
   const isRegister = (user) => user.pseudo !== undefined && user.pseudo !== ''
 
+  const handleUpdateDrawer = (userId) => setDrawerId(userId)
+
   useEffect(() => {
     socket.on('update-users', handleUpdateUsers)
+    socket.on('challenge', handleUpdateDrawer)
 
     return () => {
       socket.off('update-users', handleUpdateUsers)
+      socket.off('challenge', handleUpdateDrawer)
     }
   }, [socket])
 
@@ -40,9 +50,15 @@ function ListUsers({ title, order = false }) {
         {users.map((user) => (
           (isRegister(user))
             && (
-              <li key={user.id} className={styles.userContainer}>
+              <li
+                key={user.id}
+                className={
+                  clsx(styles.userContainer, (drawerId === user.id) && styles.userDrawer)
+                }
+              >
                 <Avatar fontSize="medium" className={styles.avatar} {...user.avatar} />
                 <p className={styles.pseudo} key={user.id}>{user.pseudo}</p>
+                {drawerId === user.id && <img src="/pentaboy.svg" alt="pentaboy" className={styles.pentaboy} />}
                 <p className={styles.score}>{user.score}</p>
               </li>
             )

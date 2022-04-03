@@ -1,5 +1,9 @@
-import React, { useEffect, createRef, useContext } from 'react'
+import React, {
+  useEffect, createRef, useContext, useState,
+} from 'react'
+
 import './ChatInput.scss'
+
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
@@ -7,29 +11,35 @@ import OutlinedInput from '@mui/material/OutlinedInput'
 import { SocketContext } from '../../context/socket'
 
 function ChatInput() {
-  const [open, setOpen] = React.useState(false)
-
-  const inputRef = createRef()
   const socket = useContext(SocketContext)
+  const inputRef = createRef()
 
-  const handleClick = () => {
-    setOpen(true)
-  }
+  const [open, setOpen] = useState(false)
+  const [send, setIsSend] = useState(false)
 
   useEffect(() => {
     inputRef?.current?.focus()
   }, [inputRef])
 
-  const handleClose = () => setOpen(false)
+  const handleClick = () => setOpen(true)
+  const handleClose = () => {
+    setOpen(false)
+    setIsSend(false)
+  }
 
   const handleValidation = () => {
     const message = inputRef.current.value
     if (!message) return
+
+    setIsSend(true)
+
     socket.emit('message', message)
     inputRef.current.value = ''
   }
 
   const handleKeyPressed = (e) => {
+    setIsSend(false)
+
     if (e.key === 'Enter') {
       handleValidation()
     }
@@ -61,8 +71,8 @@ function ChatInput() {
             type="text"
             inputRef={inputRef}
             placeholder="Tape le mot ici ..."
-            className="input-word"
             onKeyPress={handleKeyPressed}
+            color={send ? 'success' : ''}
           />
           <Button
             variant="contained"

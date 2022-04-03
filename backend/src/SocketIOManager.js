@@ -2,6 +2,7 @@ const uniqid = require('uniqid')
 
 // set the number of previous drawers to keep in the history
 const NB_SAVED_DRAWERS = 3
+const SCORE_INCREMENT = 5
 
 class SocketIOManager {
   constructor(io, dictionaryManager) {
@@ -190,6 +191,9 @@ class SocketIOManager {
 
     if (word.toLowerCase() === this.currentWord.toLowerCase()) {
       socket.emit('success-word')
+      const user = this.getUserById(socket.id)
+      user.score += SCORE_INCREMENT
+      this.globalEmitUsers()
       this.updateDrawer()
     } else {
       socket.emit('failure-word')

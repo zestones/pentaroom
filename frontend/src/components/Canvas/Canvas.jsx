@@ -21,8 +21,6 @@ function Canvas({ userRole }) {
 
   const [isInAction, setIsInAction] = useState(false)
 
-  const myCanvas = document.getElementById('myCanvas')
-
   const [userDraw, setUserDraw] = useState({
     x0: 0,
     y0: 0,
@@ -132,6 +130,8 @@ function Canvas({ userRole }) {
 
   /** save the canvas */
   const saveCanvas = (keepRedoList, list) => {
+    const myCanvas = document.getElementById('myCanvas')
+
     if (!keepRedoList) {
       userDraw.redo.redoList = []
     }

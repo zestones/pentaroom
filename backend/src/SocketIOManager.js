@@ -158,6 +158,7 @@ class SocketIOManager {
   updateDrawer() {
     // reinitialize the current word
     this.currentWord = undefined
+    this.io.emit('temp-chosen-word', 'aucun mot')
 
     // get a random user
     const user = this.getRandomDrawer()

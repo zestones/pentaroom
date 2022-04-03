@@ -14,9 +14,16 @@ import Tagline from '../Animation/Tagline'
 function Login({ setIsLogged }) {
   const socket = useContext(SocketContext)
 
-  const [alertTitle, setAlertTitle] = useState('')
-  const [alertText, setAlertText] = useState('')
-  const [alertOpen, setAlertOpen] = useState(false)
+  const [alert, setAlert] = useState({
+    open: false,
+    title: 'Login Impossible',
+    text: '',
+    type: 'danger',
+  })
+
+  const handleCloseAlert = () => {
+    setAlert({ ...alert, open: false })
+  }
 
   const [avatar, setConfig] = useState(genConfig(
     {
@@ -43,20 +50,18 @@ function Login({ setIsLogged }) {
     const { value } = inputRef.current
 
     if (!value || !socket || value.length < 5 || value.length > 10) {
+      const newAlert = { ...alert }
       if (!socket) {
-        setAlertTitle('Login impossible')
-        setAlertText('Connexion impossible')
+        newAlert.text = 'Connexion impossible'
       } else if (!value) {
-        setAlertTitle('Login impossible')
-        setAlertText('Vous devez rentrer un nom d\'utilisateur')
+        newAlert.text = 'Vous devez rentrer un nom d\'utilisateur'
       } else if (value.length < 5) {
-        setAlertTitle('Login impossible')
-        setAlertText('Votre pseudo doit contenir au moins 5 lettres')
+        newAlert.text = 'Votre pseudo doit contenir au moins 5 lettres'
       } else if (value.length > 10) {
-        setAlertTitle('Login impossible')
-        setAlertText('Votre pseudo doit contenir moins de 10 lettres')
+        newAlert.text = 'Votre pseudo doit contenir moins de 10 lettres'
       }
-      setAlertOpen(true)
+      newAlert.open = true
+      setAlert(newAlert)
       return
     }
 
@@ -96,7 +101,13 @@ function Login({ setIsLogged }) {
       <div className="tagline">
         <Tagline />
       </div>
-      <Alert type="danger" open={alertOpen} setOpen={setAlertOpen} title={alertTitle} text={alertText} />
+      <Alert
+        type={alert.type}
+        open={alert.open}
+        handleClose={handleCloseAlert}
+        title={alert.title}
+        text={alert.text}
+      />
     </>
   )
 }

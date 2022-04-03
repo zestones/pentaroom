@@ -6,7 +6,6 @@ import Login from '../components/Login/Login'
 import UserInput from '../components/UserInput/UserInput'
 import ChatInput from '../components/ChatInput/ChatInput'
 import Drawer from '../components/Drawer/Drawer'
-import SwitchRoleButton from '../components/temp/SwitchRoleButton/SwitchRoleButton'
 import { SocketContext } from '../context/socket'
 
 function ClientView() {
@@ -45,10 +44,6 @@ function ClientView() {
           ? (
             <>
               <ChatInput />
-              <SwitchRoleButton
-                isChallenged={isChallenged}
-                setIsChallenged={setIsChallenged}
-              />
               {isChallenged
                 ? (
                   <Drawer

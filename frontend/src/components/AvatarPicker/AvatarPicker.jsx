@@ -17,6 +17,7 @@ import Glasses from './Caracteristic/Glasses'
 import Shirt from './Caracteristic/Shirt'
 import Mouth from './Caracteristic/Mouth'
 import Hat from './Caracteristic/Hat'
+import Random from './Caracteristic/Random'
 
 const faceColor = ['#f9c9b6', '#e0ac69', '#ac6651', '#8d5524', '#e8beac']
 const hairStyles = ['normal', 'thick', 'mohawk', 'womanLong', 'womanShort']
@@ -187,7 +188,13 @@ function AvatarPicker({ avatar, setConfig }) {
             {carac.id === 'glasses' && <Box className={clsx('caracteristic-picker-box', open.type === carac.id ? 'active' : '')} onClick={handleGlassesClick}><Glasses /></Box>}
             {carac.id === 'mouth' && <Box className={clsx('caracteristic-picker-box', open.type === carac.id ? 'active' : '')} onClick={handleMouthClick}><Mouth /></Box>}
             {carac.id === 'background' && <Box className={clsx('caracteristic-picker-box', open.type === carac.id ? 'active' : '')} onClick={handlebgColorClick} />}
-            {carac.id === 'random' && <Box className={clsx('caracteristic-picker-box', open.type === carac.id ? 'active' : '')} onClick={handleRandomClick} />}
+            {carac.id === 'random' && (
+              <Box className={clsx('caracteristic-picker-box', open.type === carac.id ? 'active' : '')} onClick={handleRandomClick}>
+                {' '}
+                <Random />
+                {' '}
+              </Box>
+            )}
           </CaracteristicPicker>
         </Box>
 

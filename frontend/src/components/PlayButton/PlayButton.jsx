@@ -1,9 +1,13 @@
 import React from 'react'
 import './PlayButton.scss'
 
-function PlayButton({ onClick }) {
+function PlayButton({ onClick, active }) {
+  const hanleOnClick = () => {
+    if (active === false) return
+    onClick()
+  }
   return (
-    <button onClick={onClick} className="playButton" type="button">
+    <button onClick={hanleOnClick} className={`playButton ${active === false ? 'disable' : ''}`} type="button">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 238 53.35"

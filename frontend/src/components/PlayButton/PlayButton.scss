@@ -10,92 +10,157 @@
 
     &.disable {
         cursor: not-allowed;
-        svg, &:active svg, &:hover svg, &:focus svg {
-            .cls-2{
-                fill:#acacacb6;
-                stroke:#acacacb6;
+
+        svg,
+        &:active svg,
+        &:hover svg,
+        &:focus svg {
+            .cls-2 {
+                fill: #acacacb6;
+                stroke: #acacacb6;
             }
-            .cls-4{
-                fill:#acacacb6;
+
+            .cls-4 {
+                fill: #acacacb6;
             }
-            .cls-5{
-                fill:#acacacb6;
+
+            .cls-5 {
+                fill: #acacacb6;
             }
-            .cls-6{
-                fill:#8a8989b6;
+
+            .cls-6 {
+                fill: #8a8989b6;
             }
-            .cls-7{
-                fill:#777676;
-                stroke:#000000;
+
+            .cls-7 {
+                fill: #777676;
+                stroke: #000000;
             }
-            .cls-8{
-                stroke:#acacacb6;
-            }.cls-9{
-                stroke:#8a8989b6;
-            }.cls-10{
-                stroke:#acacacb6;
+
+            .cls-8 {
+                stroke: #acacacb6;
+            }
+
+            .cls-9 {
+                stroke: #8a8989b6;
+            }
+
+            .cls-10 {
+                stroke: #acacacb6;
             }
         }
     }
 
     svg {
         width: 300px;
-        .cls-2, .cls-4, .cls-5, .cls-6 {
+
+        .cls-2,
+        .cls-4,
+        .cls-5,
+        .cls-6 {
             transition: all .2s ease-in-out;
         }
-        .cls-1,.cls-10,.cls-8,.cls-9{
-            fill:none;
+
+        .cls-1,
+        .cls-10,
+        .cls-8,
+        .cls-9 {
+            fill: none;
         }
-        .cls-2{
-            fill:#f7881f;
-            stroke:#ad0000;
-            stroke-linecap:round;
-            stroke-width:2px;
+
+        .cls-2 {
+            fill: #f7881f;
+            stroke: #ad0000;
+            stroke-linecap: round;
+            stroke-width: 2px;
         }
-        .cls-10,.cls-2,.cls-7,.cls-8,.cls-9{
-            stroke-miterlimit:10;
+
+        .cls-10,
+        .cls-2,
+        .cls-7,
+        .cls-8,
+        .cls-9 {
+            stroke-miterlimit: 10;
         }
-        .cls-3{
-            clip-path:url(#clip-path);
+
+        .cls-3 {
+            clip-path: url(#clip-path);
         }
-        .cls-4{
-            fill:#fdcf08;
+
+        .cls-4 {
+            fill: #fdcf08;
         }
-        .cls-5{
-            fill:#fbbe0e;
+
+        .cls-5 {
+            fill: #fbbe0e;
         }
-        .cls-6{
-            fill:#ffff9d;
+
+        .cls-6 {
+            fill: #ffff9d;
         }
-        .cls-7{
-            fill:#fedd06;
-            stroke:#e20000;
+
+        .cls-7 {
+            fill: #fedd06;
+            stroke: #e20000;
         }
-        .cls-8{
-            stroke:#960404;
-        }.cls-9{
-            stroke:#ffb;
-        }.cls-10{
-            stroke:#fff276;
-            stroke-width:0.7px;
+
+        .cls-8 {
+            stroke: #960404;
+        }
+
+        .cls-9 {
+            stroke: #ffb;
+        }
+
+        .cls-10 {
+            stroke: #fff276;
+            stroke-width: 0.7px;
         }
     }
 
-    &:active, &:hover, &:focus {
+    &:active,
+    &:hover,
+    &:focus {
         svg {
-            .cls-2{
-                fill:#f7641f;
+            .cls-2 {
+                fill: #f7641f;
             }
-            .cls-4{
-                fill:#fd7e08;
+
+            .cls-4 {
+                fill: #fd7e08;
             }
-            .cls-5{
-                fill:#fba80e;
+
+            .cls-5 {
+                fill: #fba80e;
             }
-            .cls-6{
-                fill:#ffe59d;
+
+            .cls-6 {
+                fill: #ffe59d;
             }
-    
+
+        }
+    }
+}
+
+
+@media (max-width: 1536px) {}
+
+@media (max-width: 1200px) {}
+
+@media (max-width: 900px) {}
+
+@media (max-width: 600px) {
+    .playButton {
+        svg {
+            width: 250px;
+        }
+    }
+}
+
+@media (max-width: 390px) {
+    .playButton {
+        svg {
+            width: 150px;
         }
     }
 }

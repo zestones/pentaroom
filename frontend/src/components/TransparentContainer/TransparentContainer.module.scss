@@ -1,0 +1,26 @@
+.transparentContainer {
+    border-radius: 50px;
+    padding: 30px;
+    max-width: 700px;
+}
+
+
+@media (max-width: 1536px) {}
+
+@media (max-width: 1200px) {}
+
+@media (max-width: 900px) {}
+
+@media (max-width: 600px) {
+    .transparentContainer {
+        border-radius: 20px;
+        padding: 20px;
+    }
+}
+
+@media (max-width: 390px) {
+    .transparentContainer {
+        border-radius: 15px;
+        padding: 10px;
+    }
+}

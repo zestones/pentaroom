@@ -1,0 +1,113 @@
+.container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+    .avatarContainer {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .avatar {
+            width: 180px;
+            height: 180px;
+            border: 5px solid black;
+        }
+    }
+
+    .caracteristicPicker {
+        margin-left: 15px;
+        text-align: center;
+        position: relative;
+        user-select: none;
+
+        .caracteristicTitle {
+            font-size: 20px;
+            margin: 10px 0;
+            -webkit-text-stroke-width: 1px;
+            -webkit-text-stroke-color: black;
+        }
+
+        .caracteristicPickerBox {
+            width: 80px;
+            height: 80px;
+            border-radius: 100%;
+            background-color: #ffcc00;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+            user-select: none;
+
+            &.active {
+                z-index: 3;
+            }
+        }
+    }
+
+}
+
+@media (max-width: 1536px) {}
+
+@media (max-width: 1200px) {}
+
+@media (max-width: 900px) {}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 0;
+
+        .avatarContainer .avatar {
+            width: 100px;
+            height: 100px;
+            border: 2px solid black;
+        }
+
+        .caracteristicPicker {
+            margin-left: 5px;
+            margin-top: 10px;
+
+            .caracteristicTitle {
+                font-size: 15px;
+                margin: 10px 0;
+            }
+
+            .caracteristicPickerBox {
+                width: 50px;
+                height: 50px;
+                padding: 5px;
+            }
+        }
+    }
+}
+
+@media (max-width: 390px) {
+    .container {
+        padding: 0;
+
+        .avatarContainer .avatar {
+            width: 80px;
+            height: 80px;
+        }
+
+        .caracteristicPicker {
+            margin-left: 10px;
+            margin-top: 5px;
+
+            .caracteristicTitle {
+                display: none;
+            }
+
+            .caracteristicPickerBox {
+                width: 50px;
+                height: 50px;
+                padding: 5px;
+            }
+        }
+    }
+}

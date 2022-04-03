@@ -12,6 +12,7 @@ export default function Tagline() {
       xmlSpace="preserve"
       width="263.70001220703125"
       height="33.529998779296875"
+      className="tagline"
     >
       <g>
         <path

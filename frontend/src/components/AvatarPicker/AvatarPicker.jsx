@@ -88,7 +88,7 @@ function AvatarPicker({ avatar, setConfig }) {
         <Box key={carac.id} className="caracteristic-picker">
           <h3 className="caracteristic-title">{carac.title}</h3>
           <CaracteristicPicker>
-            {carac.id === 'face' && <Box onClick={handleFaceClick}><Face faceColor={avatar.faceColor} /></Box>}
+            {carac.id === 'face' && (<Box onClick={handleFaceClick}><Face faceColor={avatar.faceColor} /></Box>)}
             {carac.id === 'hair' && <Box onClick={handleHairClick}><Hair hairColor={avatar.hairColor} /></Box>}
             {carac.id === 'eyes' && <Box onClick={handleEyesClick}><Eyes /></Box>}
             {carac.id === 'glasses' && <Box onClick={handleGlassesClick}><Glasses /></Box>}
@@ -99,10 +99,9 @@ function AvatarPicker({ avatar, setConfig }) {
 
       ))}
       <Box>
-        <h2> Flemme ? </h2>
-        <Button variant="contained" onClick={handleRandomClick}> Générer</Button>
+        <h2> Flemme ? Gagne du temps ! </h2>
+        <Button variant="contained" onClick={handleRandomClick}> Générer </Button>
       </Box>
-
     </Container>
   )
 }

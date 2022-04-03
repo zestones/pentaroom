@@ -4,9 +4,10 @@
     align-items: center;
     justify-content: center;
     padding: 0;
-    
+
     .container {
         margin: 20px auto;
+
         .title {
             font-size: 30px;
             margin: 0;
@@ -15,6 +16,7 @@
             -webkit-text-stroke-color: black;
             letter-spacing: 1px;
         }
+
         .inputName {
             border-radius: 50px;
             background-color: #cce3f6;
@@ -31,4 +33,29 @@
     margin: 20px auto;
 }
 
+@media (max-width: 1536px) {}
 
+@media (max-width: 1200px) {}
+
+@media (max-width: 900px) {}
+
+@media (max-width: 600px) {
+    .mainContainer {
+        .container {
+            margin: 10px auto;
+
+            .title {
+                font-size: 25px;
+                margin-bottom: 15px;
+                -webkit-text-stroke-width: 1px;
+            }
+
+            .inputName {
+                padding: 0px 10px;
+                font-size: 20px;
+                height: 50px;
+                ;
+            }
+        }
+    }
+}

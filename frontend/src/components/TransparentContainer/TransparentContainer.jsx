@@ -2,20 +2,11 @@ import React from 'react'
 import Container from '@mui/material/Container'
 import clsx from 'clsx'
 
-import { makeStyles } from '@mui/styles'
-
-const useStyles = makeStyles({
-  transparentContainer: {
-    borderRadius: '50px',
-    padding: '30px',
-    maxWidth: '700px',
-  },
-})
+import styles from './TransparentContainer.module.scss'
 
 function transparentContainer({ backgroundColor, children, className }) {
-  const classes = useStyles()
   return (
-    <Container style={{ backgroundColor: `${backgroundColor}46` }} className={clsx(className, classes.transparentContainer)}>
+    <Container style={{ backgroundColor: `${backgroundColor}46` }} className={clsx(className, styles.transparentContainer)}>
       {children}
     </Container>
   )

@@ -7,12 +7,8 @@ import Box from '@mui/material/Box'
 import './Alert.scss'
 
 function Alert({
-  type, open, setOpen, title, text,
+  type, open, handleClose, title, text,
 }) {
-  const handleClose = () => {
-    setOpen(false)
-  }
-
   const handleKeyPressed = (e) => {
     if (e.key === 'Enter') {
       handleClose()

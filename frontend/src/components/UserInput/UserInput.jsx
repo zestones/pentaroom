@@ -1,24 +1,55 @@
-import React, { useRef, useEffect, useContext } from 'react'
+import React, {
+  useRef, useState, useEffect, useContext,
+} from 'react'
 import './UserInput.scss'
 import Container from '@mui/material/Container'
 import Button from '@mui/material/Button'
 import SendIcon from '@mui/icons-material/Send'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import TransparentContainer from '../TransparentContainer/TransparentContainer'
+
+import ChosenWord from '../temp/ChosenWord/ChosenWord'
+import Alert from '../Alert/Alert'
+
 import { SocketContext } from '../../context/socket'
 
 function UserInput() {
   const socket = useContext(SocketContext)
   const inputRef = useRef('')
 
-  const handleSuccess = () => alert('trouvé !!!!')
-  const handleFailure = () => alert('ce n\'est pas le bon mot')
+  const [alert, setAlert] = useState({
+    open: false,
+    title: '',
+    text: '',
+    type: 'danger',
+  })
+
+  const handleSuccess = () => {
+    setAlert({
+      open: true,
+      title: 'Bravo !',
+      text: 'Vous avez trouvé le bon mot',
+      type: 'success',
+    })
+  }
+  const handleFailure = () => {
+    setAlert({
+      open: true,
+      title: 'Mauvais choix !',
+      text: 'Ce n\'est pas le bon mot...',
+      type: 'danger',
+    })
+  }
+
+  const handleCloseAlert = () => {
+    setAlert({ ...alert, open: false })
+  }
 
   const handleValidation = () => {
     const word = inputRef.current.value
     if (!word) return
-    alert(`Vous avez saisi ${word}`)
     socket.emit('check-word', word)
+    inputRef.current.value = ''
   }
   const handleKeyPressed = (e) => {
     if (e.key === 'Enter') {
@@ -37,25 +68,33 @@ function UserInput() {
   }, [socket])
 
   return (
-    <Container maxWidth="xxl" className="super-container">
-      <Container className="subcontainer" maxWidth="lg">
-        <div className="hidden-word" />
-        <TransparentContainer backgroundColor="#0000A5" className="input-container">
-          <h2 className="title">Entre un mot : </h2>
-          <OutlinedInput
-            inputRef={inputRef}
-            fullWidth
-            placeholder="Tape le mot ici ..."
-            className="input-word"
-            onKeyPress={handleKeyPressed}
-          />
-        </TransparentContainer>
-        <Button className="send-btn" variant="contained" endIcon={<SendIcon />} onClick={handleValidation}>
-          Envoyer
-        </Button>
-
+    <>
+      <Container maxWidth="xxl" className="super-container">
+        <Container className="subcontainer" maxWidth="lg">
+          <ChosenWord />
+          <TransparentContainer backgroundColor="#0000A5" className="input-container">
+            <h2 className="title">Entre un mot : </h2>
+            <OutlinedInput
+              inputRef={inputRef}
+              fullWidth
+              placeholder="Tape le mot ici ..."
+              className="input-word"
+              onKeyPress={handleKeyPressed}
+            />
+          </TransparentContainer>
+          <Button className="send-btn" variant="contained" endIcon={<SendIcon />} onClick={handleValidation}>
+            Envoyer
+          </Button>
+        </Container>
       </Container>
-    </Container>
+      <Alert
+        type={alert.type}
+        open={alert.open}
+        handleClose={handleCloseAlert}
+        title={alert.title}
+        text={alert.text}
+      />
+    </>
   )
 }
 

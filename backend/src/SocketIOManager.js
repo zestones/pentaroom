@@ -2,6 +2,7 @@ const uniqid = require('uniqid')
 
 // set the number of previous drawers to keep in the history
 const NB_SAVED_DRAWERS = 3
+const SCORE_INCREMENT = 5
 
 class SocketIOManager {
   constructor(io, dictionaryManager) {
@@ -116,6 +117,7 @@ class SocketIOManager {
   updateCurrentWord(word) {
     this.currentWord = word
     console.log(`Mot à deviner: ${this.currentWord}`)
+    this.io.emit('temp-chosen-word', word)
   }
 
   /**
@@ -156,6 +158,7 @@ class SocketIOManager {
   updateDrawer() {
     // reinitialize the current word
     this.currentWord = undefined
+    this.io.emit('temp-chosen-word', 'aucun mot')
 
     // get a random user
     const user = this.getRandomDrawer()
@@ -189,6 +192,9 @@ class SocketIOManager {
 
     if (word.toLowerCase() === this.currentWord.toLowerCase()) {
       socket.emit('success-word')
+      const user = this.getUserById(socket.id)
+      user.score += SCORE_INCREMENT
+      this.globalEmitUsers()
       this.updateDrawer()
     } else {
       socket.emit('failure-word')

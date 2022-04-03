@@ -12,7 +12,7 @@ function ServerView() {
     <Box className="server-container">
 
       <div className="list-users-container">
-        <ListUsers title="Joueurs" />
+        <ListUsers title="Joueurs" order />
       </div>
 
       <Canvas userRole="server" />

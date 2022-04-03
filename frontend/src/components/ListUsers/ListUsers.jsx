@@ -4,7 +4,7 @@ import Avatar from 'react-nice-avatar'
 import { SocketContext } from '../../context/socket'
 import styles from './ListUsers.module.scss'
 
-function ListUsers({ title }) {
+function ListUsers({ title, order = false }) {
   const socket = useContext(SocketContext)
   const [users, setUsers] = useState([])
 
@@ -12,9 +12,13 @@ function ListUsers({ title }) {
   const getNumberUser = () => users.filter((user) => user.pseudo !== '').length
 
   const handleUpdateUsers = (listUsers) => {
-    console.log(listUsers)
+    if (order) {
+      listUsers.sort((user1, user2) => user2.score - user1.score)
+    }
     setUsers(listUsers)
   }
+
+  const isRegister = (user) => user.pseudo !== undefined && user.pseudo !== ''
 
   useEffect(() => {
     socket.on('update-users', handleUpdateUsers)
@@ -34,7 +38,7 @@ function ListUsers({ title }) {
 
       <ul className={styles.listUsers}>
         {users.map((user) => (
-          (user.avatar)
+          (isRegister(user))
             && (
               <li key={user.id} className={styles.userContainer}>
                 <Avatar fontSize="medium" className={styles.avatar} {...user.avatar} />

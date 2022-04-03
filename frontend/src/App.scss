@@ -13,16 +13,18 @@
 .app-container {
     height: 100%;
     padding: 1em;
-    background-image: url('../public/cloud.svg'), url('../public/cloud.svg'), url('../public/cloud.svg'), 
-    url('../public/cloud.svg'), url('../public/cloud.svg'), url('../public/cloud.svg'), 
-    url('../public/cloud.svg'), url('../public/cloud.svg'), url('../public/cloud.svg');
+    background-image: url('../public/cloud.svg'), url('../public/cloud.svg'), url('../public/cloud.svg'),
+        url('../public/cloud.svg'), url('../public/cloud.svg'), url('../public/cloud.svg'),
+        url('../public/cloud.svg'), url('../public/cloud.svg'), url('../public/cloud.svg');
     background-size: 320px, 150px, 170px, 150px, 250px, 180px, 130px, 170px, 70px;
     background-position-x: 0%, 10%, 50%, 60%, 75%, 35%, 77%, 98%, 65%;
     background-position-y: 40%, 0%, 25%, 55%, 75%, 90%, 98%, 10%, 35%;
     background-repeat: no-repeat;
     animation: cloud-animation 15s linear infinite alternate;
-    
+    display: flex;
+    flex-direction: column;
 }
+
 @media (max-width: 800px) {
     .app-container {
         animation-duration: 2s;

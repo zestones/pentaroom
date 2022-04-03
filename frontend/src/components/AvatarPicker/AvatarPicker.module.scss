@@ -85,3 +85,30 @@
         }
     }
 }
+
+@media (max-width: 390px) {
+    .container {
+        padding: 0;
+
+        .avatarContainer .avatar {
+            width: 80px;
+            height: 80px;
+        }
+
+        .caracteristicPicker {
+            margin-left: 10px;
+            margin-top: 5px;
+
+            .caracteristicTitle {
+                font-size: 12px;
+                margin: 5px 0;
+            }
+
+            .caracteristicPickerBox {
+                width: 50px;
+                height: 50px;
+                padding: 5px;
+            }
+        }
+    }
+}

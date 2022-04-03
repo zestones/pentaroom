@@ -125,11 +125,11 @@ function AvatarPicker({ avatar, setConfig }) {
         <Box key={carac.id} className={styles.caracteristicPicker}>
           <h3 className={styles.caracteristicTitle}>{carac.title}</h3>
           <CaracteristicPicker>
-            {carac.id === 'face' && <Box className={clsx(styles.caracteristicPickerBox, open.type === carac.id ? 'active' : '')} onClick={handleFaceClick}><Face faceColor={avatar.faceColor} /></Box>}
+            {carac.id === 'face' && <Box className={clsx(styles.caracteristicPickerBox, open.type === carac.id ? styles.active : '')} onClick={handleFaceClick}><Face faceColor={avatar.faceColor} /></Box>}
             {carac.id === 'hair' && (
               <>
                 <Box
-                  className={clsx(styles.caracteristicPickerBox, open.type === carac.id ? 'active' : '')}
+                  className={clsx(styles.caracteristicPickerBox, open.type === carac.id ? styles.active : '')}
                   onClick={() => handleBoxState(carac.id)}
                 >
                   <Hair hairColor={avatar.hairColor} />
@@ -149,7 +149,7 @@ function AvatarPicker({ avatar, setConfig }) {
               carac.id === 'hat' && (
                 <>
                   <Box
-                    className={clsx(styles.caracteristicPickerBox, open.type === carac.id ? 'active' : '')}
+                    className={clsx(styles.caracteristicPickerBox, open.type === carac.id ? styles.active : '')}
                     onClick={() => handleBoxState(carac.id)}
                   >
                     <Hat hatColor={avatar.hatColor} />
@@ -172,7 +172,7 @@ function AvatarPicker({ avatar, setConfig }) {
               carac.id === 'shirt' && (
                 <>
                   <Box
-                    className={clsx(styles.caracteristicPickerBox, open.type === carac.id ? 'active' : '')}
+                    className={clsx(styles.caracteristicPickerBox, open.type === carac.id ? styles.active : '')}
                     onClick={() => handleBoxState(carac.id)}
                   >
                     <Shirt shirtColor={avatar.shirtColor} />
@@ -193,25 +193,25 @@ function AvatarPicker({ avatar, setConfig }) {
             }
 
             {carac.id === 'eyes' && (
-              <Box className={clsx(styles.caracteristicPickerBox, open.type === carac.id ? 'active' : '')} onClick={handleEyesClick}>
+              <Box className={clsx(styles.caracteristicPickerBox, open.type === carac.id ? styles.active : '')} onClick={handleEyesClick}>
                 {' '}
                 <Eyes />
               </Box>
             )}
             {carac.id === 'glasses' && (
-              <Box className={clsx(styles.caracteristicPickerBox, open.type === carac.id ? 'active' : '')} onClick={handleGlassesClick}>
+              <Box className={clsx(styles.caracteristicPickerBox, open.type === carac.id ? styles.active : '')} onClick={handleGlassesClick}>
                 {' '}
                 <Glasses />
               </Box>
             )}
             {carac.id === 'mouth' && (
-              <Box className={clsx(styles.caracteristicPickerBox, open.type === carac.id ? 'active' : '')} onClick={handleMouthClick}>
+              <Box className={clsx(styles.caracteristicPickerBox, open.type === carac.id ? styles.active : '')} onClick={handleMouthClick}>
                 {' '}
                 <Mouth />
               </Box>
             )}
-            {carac.id === 'background' && <Box className={clsx(styles.caracteristicPickerBox, open.type === carac.id ? 'active' : '')} onClick={handlebgColorClick} />}
-            {carac.id === 'random' && <Box className={clsx(styles.caracteristicPickerBox, open.type === carac.id ? 'active' : '')} onClick={handleRandomClick} />}
+            {carac.id === 'background' && <Box className={clsx(styles.caracteristicPickerBox, open.type === carac.id ? styles.active : '')} onClick={handlebgColorClick} />}
+            {carac.id === 'random' && <Box className={clsx(styles.caracteristicPickerBox, open.type === carac.id ? styles.active : '')} onClick={handleRandomClick} />}
           </CaracteristicPicker>
         </Box>
 

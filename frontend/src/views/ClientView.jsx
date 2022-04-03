@@ -11,6 +11,12 @@ import { SocketContext } from '../context/socket'
 function ClientView() {
   const socket = useContext(SocketContext)
 
+  const [user, setUser] = useState({
+    pseudo: '',
+    avatar: undefined,
+    score: 0,
+  })
+
   const [isLogged, setIsLogged] = useState(false)
   const [isChallenged, setIsChallenged] = useState(false)
 
@@ -25,14 +31,18 @@ function ClientView() {
     }
   }
 
+  const handleUpdateUser = (newUser) => { setUser(newUser) }
+
   useEffect(() => {
     console.log(isLogged)
     if (isLogged) {
       socket.on('challenge', handleUpdateDrawer)
+      socket.on('user-updated', handleUpdateUser)
     }
 
     return () => {
       socket.off('challenge', handleUpdateDrawer)
+      socket.off('user-updated', handleUpdateUser)
     }
   }, [socket, isLogged])
 
@@ -51,7 +61,7 @@ function ClientView() {
                     words={words}
                   />
                 )
-                : <UserInput />}
+                : <UserInput user={user} />}
             </>
           )
           : <Login setIsLogged={setIsLogged} />

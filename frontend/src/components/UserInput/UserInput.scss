@@ -10,69 +10,69 @@
 			background-color:rgba(0, 24, 56, 0.89);
 			border: 2px solid rgba(0, 24, 56, 0.89);
 			box-shadow: rgb(0 0 0 / 20%) 0px 11px 15px -7px, rgb(0 0 0 / 14%) 0px 24px 38px 3px, rgb(0 0 0 / 12%) 0px 9px 46px 8px;
-			padding: 20px 32px 32px 32px;
+			padding: 20px 32px;
 			outline: none;
 			display: flex;
-			flex-direction: column;
 			right: 0;
 			margin: 0 auto;
 
 			.avatar-container {
 				display: flex;
-				flex-direction: row;
+				flex-direction: column;
 			
 				.avatar {		
 					height: 90px;
 					min-width: 90px;
 				}
-				.score {
-					margin: 25px;
-					text-align: center;
-				}
+			}
+			.score {
+				flex-grow: 1;
+				justify-content: center;
+				display: flex;
+				align-items: center;
+				
 			}
 			.username {
 				text-align: left;
 				margin: 0px;
 				margin-top: 10px;
-				margin-left: 21px;
+				text-align: center;
 			}
 		}
 		.hidden-word {
 			color: black;
 			text-align: center;
 		}
+		.mini-container {
+			display: flex;
+			flex-direction: column;
 
-		.input-container {
-			margin: 20px auto;
-			
-			.title {
-				font-size: 30px;
-				margin: 0;
-				margin-bottom: 30px;
-				-webkit-text-stroke-width: 2px;
-				-webkit-text-stroke-color: black;
-				letter-spacing: 1px;
+			.input-container {
+				margin: 20px auto;
+				
+				.title {
+					font-size: 30px;
+					margin: 0;
+					margin-bottom: 30px;
+					-webkit-text-stroke-width: 2px;
+					-webkit-text-stroke-color: black;
+					letter-spacing: 1px;
+				}
+				
+				.input-word {
+				border-radius: 50px;
+				background-color: #cce3f6;
+				border: 1px solid black;
+				padding: 0px 15px;
+				font-size: 20px;
+				}
 			}
 			
-			.input-word {
-			border-radius: 50px;
-			background-color: #cce3f6;
-			border: 1px solid black;
-			padding: 0px 15px;
-			font-size: 20px;
+			.send-btn {
+				margin-top: 30px;
+				right: 0;
 			}
-		}
-		
-		.send-btn {
-			margin-top: 30px;
-		}
+	}
 		
 	}
-}
-
-// ? What is it using for ?
-.scores {
-	position: absolute;
-	bottom: 50px;
-	left: 300px;
 }

@@ -18,9 +18,12 @@ function ClientView() {
   const [words, setWords] = useState([])
 
   const handleUpdateDrawer = (userId, randomWords) => {
-    if (userId !== socket.id) return
-    setIsChallenged(true)
-    setWords(randomWords)
+    if (userId !== socket.id) {
+      setIsChallenged(false)
+    } else {
+      setIsChallenged(true)
+      setWords(randomWords)
+    }
   }
 
   useEffect(() => {

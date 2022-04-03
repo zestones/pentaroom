@@ -12,7 +12,8 @@
 
 .app-container {
     height: 100%;
-    padding: 1em;
+    overflow: auto;
+    padding: 0.5em;
     background-image: url('../public/cloud.svg'), url('../public/cloud.svg'), url('../public/cloud.svg'),
         url('../public/cloud.svg'), url('../public/cloud.svg'), url('../public/cloud.svg'),
         url('../public/cloud.svg'), url('../public/cloud.svg'), url('../public/cloud.svg');
@@ -21,8 +22,6 @@
     background-position-y: 40%, 0%, 25%, 55%, 75%, 90%, 98%, 10%, 35%;
     background-repeat: no-repeat;
     animation: cloud-animation 15s linear infinite alternate;
-    display: flex;
-    flex-direction: column;
 }
 
 @media (max-width: 800px) {

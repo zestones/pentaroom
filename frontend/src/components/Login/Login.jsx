@@ -94,6 +94,7 @@ function Login({ setIsLogged }) {
             placeholder="Tape ton pseudo ici ..."
             className={styles.inputName}
             onKeyPress={handleKeyPressed}
+            autoFocus={false}
           />
         </TransparentContainer>
       </Container>

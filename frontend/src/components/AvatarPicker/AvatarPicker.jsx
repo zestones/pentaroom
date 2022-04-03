@@ -6,6 +6,7 @@ import './AvatarPicker.scss'
 import Avatar from 'react-nice-avatar'
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import CaracteristicPicker from './CaracteristicPicker'
 
 import Face from './Face'
@@ -15,12 +16,13 @@ import Glasses from './Glasses'
 import Shirt from './Shirt'
 import Mouth from './Mouth'
 
-const faceColor = ['#f9c9b6', '#e0ac69', '#ac6651', '#8d5524']
+const faceColor = ['#f9c9b6', '#e0ac69', '#ac6651', '#8d5524', '#e8beac']
 const hairStyles = ['normal', 'thick', 'mohawk', 'womanLong', 'womanShort']
 const eyeStyles = ['normal', 'circle', 'oval', 'smile']
 const glassesStyles = ['none', 'round', 'square']
 const shirtStyles = ['short', 'polo', 'hoody']
 const mouthStyles = ['laugh', 'smile', 'peace']
+const hairColor = ['#ebfa64', '#260c01', '#160052', '#bdbdbd', '#d17d00', '#3b2301', '#7a0060']
 
 function AvatarPicker({ avatar, setConfig }) {
   const caracteristics = [
@@ -62,10 +64,24 @@ function AvatarPicker({ avatar, setConfig }) {
     setConfig({ ...avatar, mouthStyle: mouthStyles[index] })
   }
 
+  const handleRandomClick = () => {
+    setConfig({
+      ...avatar,
+      shirtStyle: shirtStyles[Math.floor(Math.random() * shirtStyles.length)],
+      mouthStyle: mouthStyles[Math.floor(Math.random() * mouthStyles.length)],
+      glassesStyle: glassesStyles[Math.floor(Math.random() * glassesStyles.length)],
+      eyeStyle: eyeStyles[Math.floor(Math.random() * eyeStyles.length)],
+      hairStyle: hairStyles[Math.floor(Math.random() * hairStyles.length)],
+      faceColor: faceColor[Math.floor(Math.random() * faceColor.length)],
+      hairColor: hairColor[Math.floor(Math.random() * hairColor.length)],
+    })
+  }
+
   return (
     <Container className="container">
       <Box>
         <Avatar className="avatar" {...avatar} />
+
       </Box>
 
       {caracteristics.map((carac) => (
@@ -80,7 +96,12 @@ function AvatarPicker({ avatar, setConfig }) {
             {carac.id === 'mouth' && <Box onClick={handleMouthClick}><Mouth /></Box>}
           </CaracteristicPicker>
         </Box>
+
       ))}
+      <Box>
+        <h2> Flemme ? </h2>
+        <Button variant="contained" onClick={handleRandomClick}> Générer</Button>
+      </Box>
 
     </Container>
   )

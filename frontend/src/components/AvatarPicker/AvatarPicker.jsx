@@ -53,9 +53,15 @@ function AvatarPicker({ avatar, setConfig }) {
 
   const [open, setOpen] = useState({})
 
+  const handleBoxState = (id) => {
+    if (open.type === id) setOpen({})
+    else setOpen({ type: id })
+  }
+
   const handleFaceClick = () => {
     const index = (faceColor.indexOf(avatar.faceColor) + 1) % faceColor.length
     setConfig({ ...avatar, faceColor: faceColor[index] })
+    if (open.type) handleBoxState()
   }
 
   const handleHairClick = () => {
@@ -71,11 +77,13 @@ function AvatarPicker({ avatar, setConfig }) {
   const handleEyesClick = () => {
     const index = (eyeStyles.indexOf(avatar.eyeStyle) + 1) % eyeStyles.length
     setConfig({ ...avatar, eyeStyle: eyeStyles[index] })
+    if (open.type) handleBoxState()
   }
 
   const handleGlassesClick = () => {
     const index = (glassesStyles.indexOf(avatar.glassesStyle) + 1) % glassesStyles.length
     setConfig({ ...avatar, glassesStyle: glassesStyles[index] })
+    if (open.type) handleBoxState()
   }
 
   const handleShirtClick = () => {
@@ -86,11 +94,13 @@ function AvatarPicker({ avatar, setConfig }) {
   const handleMouthClick = () => {
     const index = (mouthStyles.indexOf(avatar.mouthStyle) + 1) % mouthStyles.length
     setConfig({ ...avatar, mouthStyle: mouthStyles[index] })
+    if (open.type) handleBoxState()
   }
 
   const handlebgColorClick = () => {
     const index = (bgColor.indexOf(avatar.bgColor) + 1) % bgColor.length
     setConfig({ ...avatar, bgColor: bgColor[index] })
+    if (open.type) handleBoxState()
   }
 
   const handleRandomClick = () => {
@@ -108,11 +118,7 @@ function AvatarPicker({ avatar, setConfig }) {
       hatColor: hatColor[Math.floor(Math.random() * hatColor.length)],
       bgColor: bgColor[Math.floor(Math.random() * bgColor.length)],
     })
-  }
-
-  const handleBoxState = (id) => {
-    if (open.type === id) setOpen({})
-    else setOpen({ type: id })
+    if (open.type) handleBoxState()
   }
 
   return (
@@ -211,7 +217,17 @@ function AvatarPicker({ avatar, setConfig }) {
                 <Mouth />
               </Box>
             )}
-            {carac.id === 'background' && <Box className={clsx(styles.caracteristicPickerBox, open.type === carac.id ? styles.active : '')} onClick={handlebgColorClick} />}
+
+            {carac.id === 'background' && (
+              <Box
+                className={clsx(styles.caracteristicPickerBox, open.type === carac.id ? styles.active : '')}
+                style={{
+                  background: avatar.bgColor,
+                }}
+                onClick={handlebgColorClick}
+              />
+            )}
+
             {carac.id === 'random' && (
               <Box className={clsx(styles.caracteristicPickerBox, open.type === carac.id ? styles.active : '')} onClick={handleRandomClick}>
                 <Random />

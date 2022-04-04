@@ -13,6 +13,7 @@ class SocketIOManager {
     this.dictionaryManager = dictionaryManager
     this.previousDrawers = []
     this.currentWord = null
+    this.winnerUsers = []
   }
 
   /**
@@ -170,6 +171,9 @@ class SocketIOManager {
    * @returns
    */
   updateDrawer() {
+    // reinitialise the list of winners
+    this.winnerUsers = []
+
     // reinitialize the current word
     this.currentWord = undefined
     clearInterval(interval)
@@ -201,17 +205,27 @@ class SocketIOManager {
    */
   checkWord(socket, word) {
     if (!this.currentWord) {
-      socket.emit('failure-word')
+      socket.emit('undefined-word')
       return
     }
 
     if (word.toLowerCase() === this.currentWord.toLowerCase()) {
-      socket.emit('success-word')
       const user = this.getUserById(socket.id)
-      user.score += SCORE_INCREMENT
-      socket.emit('user-updated', user)
+
+      if (!this.winnerUsers.some((x) => x.id === user.id)) {
+        socket.emit('success-word')
+
+        user.score += SCORE_INCREMENT
+        this.winnerUsers.push({ id: user.id, pseudo: user.pseudo, avatar: user.avatar })
+
+        socket.emit('user-updated', user)
+      } else (socket.emit('word-already-finded'))
+
+      if (this.users.length - 2 === this.winnerUsers.length) {
+        this.updateDrawer()
+      }
+
       this.globalEmitUsers()
-      this.updateDrawer()
     } else {
       socket.emit('failure-word')
     }

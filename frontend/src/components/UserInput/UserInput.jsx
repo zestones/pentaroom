@@ -61,11 +61,33 @@ function UserInput({ user }) {
     }
   }
 
+  const handleUndefined = () => {
+    setAlert({
+      open: true,
+      title: 'Patience !',
+      text: 'Le PenTeur choisit un mot.',
+      type: 'danger',
+    })
+  }
+
+  const handleAlreadyFinded = () => {
+    setAlert({
+      open: true,
+      title: 'Désoler !',
+      text: 'Vous avez déjà trouver le mot.',
+      type: 'danger',
+    })
+  }
+
   useEffect(() => {
+    socket.on('undefined-word', handleUndefined)
+    socket.on('word-already-finded', handleAlreadyFinded)
     socket.on('success-word', handleSuccess)
     socket.on('failure-word', handleFailure)
 
     return () => {
+      socket.off('word-already-finded', handleAlreadyFinded)
+      socket.off('undefined-word', handleUndefined)
       socket.off('success-word', handleSuccess)
       socket.off('failure-word', handleFailure)
     }

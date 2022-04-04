@@ -1,8 +1,8 @@
 import React, { useState, useRef, useContext } from 'react'
-import './Login.scss'
 import { genConfig } from 'react-nice-avatar'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import Container from '@mui/material/Container'
+import styles from './Login.module.scss'
 import TransparentContainer from '../TransparentContainer/TransparentContainer'
 import AvatarPicker from '../AvatarPicker/AvatarPicker'
 import PlayButton from '../PlayButton/PlayButton'
@@ -81,24 +81,25 @@ function Login({ setIsLogged }) {
 
   return (
     <>
-      <Container maxWidth="xxl" className="mainContainer">
-        <TransparentContainer backgroundColor="#0000A5" className="container">
-          <h2 className="title">1.Personnalise ton avatar :</h2>
+      <Container maxWidth="xxl" className={styles.mainContainer}>
+        <TransparentContainer backgroundColor="#0000A5" className={styles.container}>
+          <h2 className={styles.title}>1.Personnalise ton avatar :</h2>
           <AvatarPicker avatar={avatar} setConfig={setConfig} />
         </TransparentContainer>
-        <TransparentContainer backgroundColor="#0000A5" className="container">
-          <h2 className="title">2.Choisis un pseudo : </h2>
+        <TransparentContainer backgroundColor="#0000A5" className={styles.container}>
+          <h2 className={styles.title}>2.Choisis un pseudo : </h2>
           <OutlinedInput
             inputRef={inputRef}
             fullWidth
             placeholder="Tape ton pseudo ici ..."
-            className="inputName"
+            className={styles.inputName}
             onKeyPress={handleKeyPressed}
+            autoFocus={false}
           />
         </TransparentContainer>
       </Container>
       <PlayButton onClick={handleValidation} />
-      <div className="tagline">
+      <div className={styles.tagline}>
         <Tagline />
       </div>
       <Alert

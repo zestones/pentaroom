@@ -94,6 +94,7 @@ function UserInput({ user }) {
               fullWidth
               placeholder="Tape le mot ici ..."
               className="input-word"
+              autoFocus={false}
               onKeyPress={handleKeyPressed}
             />
           </TransparentContainer>

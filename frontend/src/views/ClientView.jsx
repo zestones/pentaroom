@@ -31,7 +31,7 @@ function ClientView() {
     }
   }
 
-  const handleUpdateUser = (newUser) => { setUser(newUser) }
+  const handleUpdateUser = (newUser) => setUser(newUser)
 
   useEffect(() => {
     console.log(isLogged)
@@ -48,7 +48,7 @@ function ClientView() {
 
   return (
     <>
-      <Header styles={isChallenged ? 'in-line' : 'in-column'} />
+      <Header type={isChallenged ? 'in-line' : 'in-column'} />
       {
         isLogged
           ? (

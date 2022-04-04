@@ -220,11 +220,15 @@ class SocketIOManager {
     if (word.toLowerCase() === this.currentWord.toLowerCase()) {
       const user = this.getUserById(socket.id)
 
-      // check if the users has already finded the word
+      // check if the user has already finded the word
       if (!this.winnerUsers.some((x) => x.id === user.id)) {
         socket.emit('success-word')
 
-        user.score += SCORE_INCREMENT
+        // update the score
+        if (this.winnerUsers.length < 4) {
+          user.score += SCORE_INCREMENT - this.winnerUsers.length
+        } else user.score += 1
+
         this.winnerUsers.push({ id: user.id, pseudo: user.pseudo, avatar: user.avatar })
 
         socket.emit('user-updated', user)

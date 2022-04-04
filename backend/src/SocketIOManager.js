@@ -100,10 +100,18 @@ class SocketIOManager {
     const user = this.getUserById(id)
     if (!user) return
 
-    user.pseudo = newUser.pseudo
-    user.avatar = newUser.avatar
-    socket.emit('user-updated', user)
-    this.globalEmitUsers()
+    // check if the pseudo is already used
+    if (this.users.some((x) => x.pseudo.toLowerCase() === newUser.pseudo.toLowerCase())) {
+      socket.emit('pseudo-taken', true)
+    } else {
+      user.pseudo = newUser.pseudo
+      user.avatar = newUser.avatar
+
+      socket.emit('pseudo-taken', false)
+      socket.emit('user-updated', user)
+
+      this.globalEmitUsers()
+    }
   }
 
   /**
@@ -212,6 +220,7 @@ class SocketIOManager {
     if (word.toLowerCase() === this.currentWord.toLowerCase()) {
       const user = this.getUserById(socket.id)
 
+      // check if the users has already finded the word
       if (!this.winnerUsers.some((x) => x.id === user.id)) {
         socket.emit('success-word')
 

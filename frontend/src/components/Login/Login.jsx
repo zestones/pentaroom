@@ -1,4 +1,7 @@
-import React, { useState, useRef, useContext } from 'react'
+import React, {
+  useState, useRef, useContext, useEffect,
+} from 'react'
+
 import { genConfig } from 'react-nice-avatar'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import Container from '@mui/material/Container'
@@ -70,7 +73,6 @@ function Login({ setIsLogged }) {
       pseudo: value,
       avatar,
     })
-    setIsLogged(true)
   }
 
   const handleKeyPressed = (e) => {
@@ -78,6 +80,26 @@ function Login({ setIsLogged }) {
       handleValidation()
     }
   }
+
+  const handlePseudoTaken = (isTaken) => {
+    if (isTaken) {
+      setAlert({
+        ...alert,
+        open: true,
+        text: 'Ce pseudo est déjà utilisé.',
+        type: 'danger',
+      })
+    }
+    setIsLogged(!isTaken)
+  }
+
+  useEffect(() => {
+    socket.on('pseudo-taken', handlePseudoTaken)
+
+    return () => {
+      socket.off('pseudo-taken', handlePseudoTaken)
+    }
+  }, [socket])
 
   return (
     <>

@@ -221,6 +221,9 @@ function AvatarPicker({ avatar, setConfig }) {
             {carac.id === 'background' && (
               <Box
                 className={clsx(styles.caracteristicPickerBox, open.type === carac.id ? styles.active : '')}
+                style={{
+                  background: avatar.bgColor,
+                }}
                 onClick={handlebgColorClick}
               />
             )}

@@ -43,6 +43,7 @@ function Drawer({ setIsChallenged, words }) {
     setIsOpen(false)
     socket.emit('accept-challenge', word)
     console.log(`Mot choisi: ${word}`)
+    setTimeModal(-1)
   }
 
   const handleUpdateDrawer = () => setIsChallenged(false)

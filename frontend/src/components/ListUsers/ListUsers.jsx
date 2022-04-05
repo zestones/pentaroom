@@ -1,5 +1,8 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useState, useContext, useEffect } from 'react'
+import React, {
+  useState, useContext, useEffect, useMemo,
+} from 'react'
 import Avatar from 'react-nice-avatar'
 import clsx from 'clsx'
 import styles from './ListUsers.module.scss'
@@ -11,8 +14,11 @@ function ListUsers({ title, order = false }) {
   const [users, setUsers] = useState([])
   const [drawerId, setDrawerId] = useState(null)
 
-  // eslint-disable-next-line no-nested-ternary
-  users.sort((x, y) => (x.id === drawerId ? -1 : y.id === drawerId ? 1 : 0))
+  // sort the users when the drawer change
+  useMemo(() => {
+    users.sort((user1, user2) => user2.score - user1.score)
+    users.sort((x, y) => (x.id === drawerId ? -1 : y.id === drawerId ? 1 : 0))
+  })
 
   // get the number of users registered
   const getNumberUser = () => users.filter((user) => user.pseudo !== '').length
@@ -41,6 +47,8 @@ function ListUsers({ title, order = false }) {
   return (
     <div className={styles.listUsersContainer}>
       {title && <h2 className={styles.listUsersTitle}>{title}</h2> }
+      {console.log('rerturn')}
+
       <h3 className={styles.nbUsers}>
         Utilsateurs :
         {getNumberUser()}

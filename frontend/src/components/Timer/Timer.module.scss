@@ -15,8 +15,6 @@
 .timer {
     margin: 0;
     text-align: center;
-   
-   
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -25,6 +23,7 @@
     text-align :center;
     margin-top: 20px;
     font-size: 30px;
+    
     &.danger, &.warning {
         .time {
             animation: zoom 1s infinite linear;

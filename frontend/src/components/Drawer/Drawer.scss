@@ -5,18 +5,37 @@
     transform: translate(-50%, -50%);
     width: 80%;
     height: 20%;
-    background: linear-gradient(180deg, rgb(31, 47, 152) 0%, rgb(0, 81, 202) 36%, rgba(0,243,253,1) 100%);
     padding: 1%;
+    background: linear-gradient(to bottom,  #012459 0%,#001322 100%);    
+
     .words-proposition {
         display: flex;
         flex-Direction: row;
         justify-Content: center;
         align-Items: center;
     }
+
     .reject-proposition {
         position: absolute;
+        right: 10px;
     }
+
     h2{
         text-align:center;
+    }
+
+    .timer-container {
+        border-radius: 50%;
+        border: solid white;
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        bottom: 15px;
+        left: 15px;
+        
+        .timer {
+            white-space: pre-line;
+        }
     }
 }

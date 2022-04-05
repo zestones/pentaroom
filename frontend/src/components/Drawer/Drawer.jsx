@@ -7,6 +7,7 @@ import Fade from '@mui/material/Fade'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
+import Typography from '@mui/material/Typography'
 import Canvas from '../Canvas/Canvas'
 import Timer from '../Timer/Timer'
 import Alert from '../Alert/Alert'
@@ -17,6 +18,7 @@ function Drawer({ setIsChallenged, words }) {
 
   const [open, setIsOpen] = useState(true)
   const [time, setTime] = useState(-1)
+  const [timeModal, setTimeModal] = useState(10)
 
   const [alert, setAlert] = useState({
     open: false,
@@ -64,6 +66,26 @@ function Drawer({ setIsChallenged, words }) {
     }
   }, [socket])
 
+  useEffect(() => {
+    setTimeModal(timeModal)
+  }, [timeModal])
+
+  useEffect(() => {
+    let interval
+    if (timeModal > -1) {
+      interval = setInterval((prevTimeLeft) => {
+        if (prevTimeLeft - 1 < 0) {
+          clearInterval(interval)
+          handleDecline()
+        } else {
+          setTimeModal(prevTimeLeft - 1)
+        }
+      }, 1000, timeModal)
+    }
+
+    return () => clearInterval(interval)
+  }, [timeModal])
+
   return (
     <>
       <Modal
@@ -86,6 +108,11 @@ function Drawer({ setIsChallenged, words }) {
                 </Button>
               ))}
             </Stack>
+            <span className="timer-container">
+              <Typography sx={{ mt: 1 }} className="timer">
+                {timeModal !== undefined && `${timeModal}s`}
+              </Typography>
+            </span>
             <Button className="reject-proposition" variant="contained" color="error" onClick={handleDecline}>
               Refuser
             </Button>

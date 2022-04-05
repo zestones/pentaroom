@@ -52,17 +52,19 @@ function ClientView() {
       {
         isLogged
           ? (
-            <>
-              <ChatInput />
-              {isChallenged
-                ? (
-                  <Drawer
-                    setIsChallenged={setIsChallenged}
-                    words={words}
-                  />
-                )
-                : <UserInput user={user} />}
-            </>
+            isChallenged
+              ? (
+                <Drawer
+                  setIsChallenged={setIsChallenged}
+                  words={words}
+                />
+              )
+              : (
+                <>
+                  <ChatInput />
+                  <UserInput user={user} />
+                </>
+              )
           )
           : <Login setIsLogged={setIsLogged} />
       }

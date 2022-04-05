@@ -42,7 +42,6 @@ function Drawer({ setIsChallenged, words }) {
     const word = button.target.value
     setIsOpen(false)
     socket.emit('accept-challenge', word)
-    console.log(`Mot choisi: ${word}`)
     setTimeModal(-1)
   }
 

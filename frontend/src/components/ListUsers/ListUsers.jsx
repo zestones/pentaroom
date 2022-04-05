@@ -47,7 +47,6 @@ function ListUsers({ title, order = false }) {
   return (
     <div className={styles.listUsersContainer}>
       {title && <h2 className={styles.listUsersTitle}>{title}</h2> }
-      {console.log('rerturn')}
 
       <h3 className={styles.nbUsers}>
         Utilsateurs :

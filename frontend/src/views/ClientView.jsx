@@ -34,7 +34,6 @@ function ClientView() {
   const handleUpdateUser = (newUser) => setUser(newUser)
 
   useEffect(() => {
-    console.log(isLogged)
     if (isLogged) {
       socket.on('challenge', handleUpdateDrawer)
       socket.on('user-updated', handleUpdateUser)

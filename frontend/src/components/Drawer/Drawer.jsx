@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react'
-import './Drawer.scss'
 
 import Backdrop from '@mui/material/Backdrop'
 import Modal from '@mui/material/Modal'
@@ -8,6 +7,7 @@ import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
+import styles from './Drawer.module.scss'
 import Canvas from '../Canvas/Canvas'
 import Timer from '../Timer/Timer'
 import Alert from '../Alert/Alert'
@@ -26,6 +26,7 @@ function Drawer({ setIsChallenged, words }) {
     text: 'Le temps pour dessiner est écoulé... \n Appuyez sur une touche pour relancer une partie',
     type: 'danger',
   })
+
   const handleCloseAlert = () => {
     setAlert({ ...alert, open: false })
     setIsChallenged(false)
@@ -44,15 +45,11 @@ function Drawer({ setIsChallenged, words }) {
     console.log(`Mot choisi: ${word}`)
   }
 
-  const handleUpdateDrawer = () => {
-    setIsChallenged(false)
-  }
+  const handleUpdateDrawer = () => setIsChallenged(false)
 
   const handleTimeLeft = (newTime) => setTime(newTime)
 
-  const handleNoTimeLeft = () => {
-    setAlert({ ...alert, open: true, time: 5 })
-  }
+  const handleNoTimeLeft = () => setAlert({ ...alert, open: true, time: 5 })
 
   useEffect(() => {
     socket.on('update-drawer', handleUpdateDrawer)
@@ -89,8 +86,8 @@ function Drawer({ setIsChallenged, words }) {
   return (
     <>
       <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
+        aria-labelledby={styles.transitionModalTitle}
+        aria-describedby={styles.transitionModalDescription}
         open={open}
         closeAfterTransition
         BackdropComponent={Backdrop}
@@ -99,21 +96,21 @@ function Drawer({ setIsChallenged, words }) {
         }}
       >
         <Fade in={open}>
-          <Box className="modal">
+          <Box className={styles.modal}>
             <h2>Choisis un mot !</h2>
-            <Stack className="words-proposition" direction="row" spacing={2}>
+            <Stack className={styles.wordsProposition} direction="row" spacing={2}>
               {words.map((word) => (
-                <Button key={word} variant="contained" color="success" value={word} onClick={handleAccept}>
+                <Button key={word} variant="contained" className={styles.wordBtn} value={word} onClick={handleAccept}>
                   {word}
                 </Button>
               ))}
             </Stack>
-            <span className="timer-container">
-              <Typography sx={{ mt: 1 }} className="timer">
-                {timeModal !== undefined && `${timeModal}s`}
+            <span className={styles.timerContainer}>
+              <Typography sx={{ mt: 1 }} className={styles.timer}>
+                {timeModal !== undefined && timeModal}
               </Typography>
             </span>
-            <Button className="reject-proposition" variant="contained" color="error" onClick={handleDecline}>
+            <Button className={styles.rejectProposition} variant="contained" color="error" onClick={handleDecline}>
               Refuser
             </Button>
           </Box>

@@ -1,0 +1,74 @@
+@keyframes zoom {
+    0% {
+        font-size: 100%;
+        color: orange;
+        font-weight: bold;
+    }
+    25% {
+        font-size: 120%;
+        color: orangered;
+        font-weight: bolder;
+    }
+    75% {
+        font-size: 100%;
+        color: orange;
+        font-weight: bold;
+    }
+    100% {
+        font-size: 80%;
+        color: rgb(238, 189, 99);
+        font-weight: normal;
+    }
+}
+
+.modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 20%;
+    padding: 1%;
+    background: linear-gradient(to bottom,  #012459 0%,#001322 100%);    
+
+    .wordsProposition {
+        display: flex;
+        flex-Direction: row;
+        justify-Content: center;
+        align-Items: center;
+
+        .wordBtn {
+            background-color: rgb(156, 128, 0);
+            font-weight: bold;
+        }
+        .wordBtn:hover {
+            background-color: rgb(255, 208, 0);
+            color: rgb(128, 128, 128);
+        }
+    }
+
+    .rejectProposition {
+        position: absolute;
+        right: 10px;
+    }
+
+    h2{
+        text-align:center;
+    }
+
+    .timerContainer {
+        border-radius: 50%;
+        border: solid white;
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        bottom: 15px;
+        left: 15px;
+        
+        .timer {
+            white-space: pre-line;         
+            animation: zoom 1s infinite linear;
+        }
+    }
+}

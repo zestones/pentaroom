@@ -34,7 +34,6 @@ function ClientView() {
   const handleUpdateUser = (newUser) => setUser(newUser)
 
   useEffect(() => {
-    console.log(isLogged)
     if (isLogged) {
       socket.on('challenge', handleUpdateDrawer)
       socket.on('user-updated', handleUpdateUser)
@@ -52,17 +51,19 @@ function ClientView() {
       {
         isLogged
           ? (
-            <>
-              <ChatInput />
-              {isChallenged
-                ? (
-                  <Drawer
-                    setIsChallenged={setIsChallenged}
-                    words={words}
-                  />
-                )
-                : <UserInput user={user} />}
-            </>
+            isChallenged
+              ? (
+                <Drawer
+                  setIsChallenged={setIsChallenged}
+                  words={words}
+                />
+              )
+              : (
+                <>
+                  <ChatInput />
+                  <UserInput user={user} />
+                </>
+              )
           )
           : <Login setIsLogged={setIsLogged} />
       }

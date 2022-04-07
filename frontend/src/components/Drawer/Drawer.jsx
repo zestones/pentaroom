@@ -63,7 +63,7 @@ function Drawer({ setIsChallenged, words }) {
 
   useEffect(() => {
     let interval
-    if (timeModal > 0) {
+    if (timeModal > -1) {
       interval = setInterval((prevTimeLeft) => {
         if (prevTimeLeft - 1 < 0) {
           clearInterval(interval)

@@ -1,4 +1,16 @@
-.tools {
-    margin-top: 15px;
-    height: 50px;
+
+.tool-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    
+    .tools {
+        text-align: center;
+
+        .undo-redo-container {
+            display: flex;
+            flex-direction: row;
+        }
+    }
 }

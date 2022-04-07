@@ -58,19 +58,23 @@ function Clean({
   }
 
   return (
-    <>
+    <Box className="tool-container">
       <Chip className={clsx('chip', cleanActive && 'active')} color="primary" icon={<HighlightOffIcon />} label="Nettoyer" onClick={() => { activeClean() }} />
 
-      <Box className="tools">
-        <Zoom in={checked} style={{ transitionDelay: checked ? '500ms' : '0ms' }}>
-          <Box>
-            <IconButton className="chip" color="primary" aria-label="clear all" label="Effacer tout" onClick={() => { activeClear() }}><HighlightOffIcon /></IconButton>
-            <IconButton className="undo" color="primary" aria-label="undo action" component="span" onClick={() => activeUndo()}><UndoIcon /></IconButton>
-            <IconButton className="redo" color="primary" aria-label="redo action" component="span" onClick={() => activeRedo()}><RedoIcon /></IconButton>
-          </Box>
-        </Zoom>
-      </Box>
-    </>
+      {cleanActive && (
+        <Box>
+          <Zoom in={checked} style={{ transitionDelay: checked ? '500ms' : '0ms' }}>
+            <Box className="tools">
+              <IconButton color="primary" aria-label="clear all" label="Effacer tout" onClick={() => { activeClear() }}><HighlightOffIcon /></IconButton>
+              <div className="undo-redo-container">
+                <IconButton className="undo" color="primary" aria-label="undo action" component="span" onClick={() => activeUndo()}><UndoIcon /></IconButton>
+                <IconButton className="redo" color="primary" aria-label="redo action" component="span" onClick={() => activeRedo()}><RedoIcon /></IconButton>
+              </div>
+            </Box>
+          </Zoom>
+        </Box>
+      )}
+    </Box>
   )
 }
 export default Clean

@@ -38,7 +38,7 @@ function Menu(props) {
       onMouseEnter={handlePopoverOpen}
       onMouseLeave={handlePopoverClose}
     >
-      <Box className="chipsContainer">
+      <Box id="scroll" className="chipsContainer">
         {(!toolActive || userDraw.pen.isActive) && (
           <Pen
             userDraw={userDraw}
@@ -86,7 +86,6 @@ function Menu(props) {
           />
         )}
       </Box>
-
     </Container>
   )
 }

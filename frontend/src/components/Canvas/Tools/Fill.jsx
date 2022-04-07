@@ -7,6 +7,8 @@ import FormatColorFillIcon from '@mui/icons-material/FormatColorFill'
 import Zoom from '@mui/material/Zoom'
 import Box from '@mui/material/Box'
 
+import './Tools.scss'
+
 function Fill({
   userDraw, setUserDraw, setIsInAction, checked, setToolState, toolActive,
 }) {
@@ -24,7 +26,7 @@ function Fill({
     setToolState(!toolActive)
   }
   return (
-    <>
+    <Box className="tool-container">
       <Chip className={clsx('chip', userDraw.fill.isActive && 'active')} color="primary" icon={<FormatColorFillIcon />} label="Remplissage" onClick={() => { activeFill() }} />
       {userDraw.fill.isActive && (
         <Box className="tools">
@@ -43,8 +45,7 @@ function Fill({
           </Zoom>
         </Box>
       )}
-
-    </>
+    </Box>
   )
 }
 

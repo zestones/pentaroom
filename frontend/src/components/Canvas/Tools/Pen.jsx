@@ -7,6 +7,8 @@ import BrushIcon from '@mui/icons-material/Brush'
 import Zoom from '@mui/material/Zoom'
 import Box from '@mui/material/Box'
 
+import './Tools.scss'
+
 function Pen({
   userDraw, setUserDraw, setIsInAction, checked, setToolState, toolActive,
 }) {
@@ -24,7 +26,7 @@ function Pen({
     setToolState(!toolActive)
   }
   return (
-    <>
+    <Box className="tool-container">
       <Chip className={clsx('chip', userDraw.pen.isActive && 'active')} color="primary" icon={<BrushIcon />} label="Pinceau" onClick={() => { activePen() }} />
 
       {userDraw.pen.isActive && (
@@ -55,7 +57,7 @@ function Pen({
           </Zoom>
         </Box>
       )}
-    </>
+    </Box>
   )
 }
 

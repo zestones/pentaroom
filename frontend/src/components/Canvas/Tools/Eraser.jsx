@@ -28,7 +28,7 @@ function Eraser({
   }
 
   return (
-    <>
+    <Box className="tool-container">
       <Chip className={clsx('chip', userDraw.eraser.isActive && 'active')} color="primary" icon={<AutoFixNormalIcon />} label="Gomme" onClick={() => { activeEraser() }} />
       {userDraw.eraser.isActive
           && (
@@ -49,7 +49,7 @@ function Eraser({
               </Zoom>
             </Box>
           )}
-    </>
+    </Box>
   )
 }
 

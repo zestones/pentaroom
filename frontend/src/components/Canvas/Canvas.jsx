@@ -63,16 +63,6 @@ function Canvas({ userRole }) {
     return context
   }
 
-  const activeDefaultTool = () => {
-    const context = getContext()
-
-    context.strokeStyle = userDraw.pen.color
-    setUserDraw({
-      ...userDraw,
-      pen: { ...userDraw.pen, isActive: true },
-    })
-  }
-
   /** Draw */
   const draw = (drawObject) => {
     const context = getContext()
@@ -130,7 +120,6 @@ function Canvas({ userRole }) {
     if (socket && socket.id === drawObject.senderId) {
       socket.emit('draw', drawObject)
     }
-    activeDefaultTool()
   }
 
   /** save the canvas */
@@ -187,7 +176,6 @@ function Canvas({ userRole }) {
       socket.emit('draw', drawObject)
     }
     restoreCanvas(drawObject.undo.undoList, drawObject.redo.redoList)
-    activeDefaultTool()
   }
 
   /** get the <next> canvas */
@@ -196,7 +184,6 @@ function Canvas({ userRole }) {
       socket.emit('draw', drawObject)
     }
     restoreCanvas(drawObject.redo.redoList, drawObject.undo.undoList)
-    activeDefaultTool()
   }
 
   useEffect(() => {

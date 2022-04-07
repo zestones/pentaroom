@@ -9,7 +9,6 @@ import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import styles from './Drawer.module.scss'
 import Canvas from '../Canvas/Canvas'
-import Timer from '../Timer/Timer'
 import Alert from '../Alert/Alert'
 import { SocketContext } from '../../context/socket'
 
@@ -17,7 +16,6 @@ function Drawer({ setIsChallenged, words }) {
   const socket = useContext(SocketContext)
 
   const [open, setIsOpen] = useState(true)
-  const [time, setTime] = useState(-1)
   const [timeModal, setTimeModal] = useState(10)
 
   const [alert, setAlert] = useState({
@@ -47,18 +45,14 @@ function Drawer({ setIsChallenged, words }) {
 
   const handleUpdateDrawer = () => setIsChallenged(false)
 
-  const handleTimeLeft = (newTime) => setTime(newTime)
-
   const handleNoTimeLeft = () => setAlert({ ...alert, open: true, time: 5 })
 
   useEffect(() => {
     socket.on('update-drawer', handleUpdateDrawer)
-    socket.on('time-left', handleTimeLeft)
     socket.on('no-time-left', handleNoTimeLeft)
 
     return () => {
       socket.off('update-drawer', handleUpdateDrawer)
-      socket.off('time-left', handleTimeLeft)
       socket.off('no-time-left', handleNoTimeLeft)
     }
   }, [socket])
@@ -124,7 +118,6 @@ function Drawer({ setIsChallenged, words }) {
         text={alert.text}
         time={alert.time}
       />
-      <Timer time={time} />
       <Canvas userRole="client" />
     </>
   )

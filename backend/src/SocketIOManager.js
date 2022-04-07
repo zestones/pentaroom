@@ -125,6 +125,7 @@ class SocketIOManager {
 
   /**
    * Update the current word
+    // ? SOCKET ?
    * @param {string} word
    */
   updateCurrentWord(socket, word) {
@@ -135,10 +136,10 @@ class SocketIOManager {
     interval = setInterval(() => {
       timer -= 1
       if (timer < 0) {
-        socket.emit('no-time-left', timer)
+        this.io.emit('no-time-left', timer)
         clearInterval(interval)
       } else {
-        socket.emit('time-left', timer)
+        this.io.emit('time-left', timer)
       }
     }, 1000)
   }

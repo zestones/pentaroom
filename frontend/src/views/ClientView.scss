@@ -3,5 +3,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    height: 7%;
+    .active {
+        height: 7%;
+    }
 }

@@ -5,6 +5,7 @@ import React, {
 import './Canvas.scss'
 
 import Container from '@mui/material/Container'
+import clsx from 'clsx'
 import { fillCanvas } from './FillCanvas'
 import Menu from './Menu'
 import { SocketContext } from '../../context/socket'
@@ -304,7 +305,7 @@ function Canvas({ userRole }) {
   }
 
   return (
-    <Container maxWidth="xl" className="canvas-container">
+    <Container maxWidth="xl" className={clsx('canvas-container', (userRole === 'server') ? 'server' : '')}>
       <div className="header-container">
         {userRole === 'server' && (
           <>

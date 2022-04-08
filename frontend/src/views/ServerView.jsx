@@ -18,22 +18,20 @@ function ServerView() {
   const [users, setUsers] = useState([])
   const [isInGame, setIsInGame] = useState(false)
 
-  const [music, setMusic] = useState(
-    {
-      home: {
-        src: '/home.mp3',
-        volume: 1,
-        playing: true,
-        loop: true,
-      },
-      challenge: {
-        src: '/penta-challenge.mp3',
-        volume: 0.8,
-        playing: false,
-        loop: false,
-      },
+  const [music, setMusic] = useState({
+    home: {
+      src: '/home.mp3',
+      volume: 1,
+      playing: true,
+      loop: true,
     },
-  )
+    challenge: {
+      src: '/penta-challenge.mp3',
+      volume: 0.8,
+      playing: false,
+      loop: false,
+    },
+  })
 
   const [alert, setAlert] = useState({
     open: false,

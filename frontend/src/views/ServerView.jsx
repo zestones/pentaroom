@@ -9,7 +9,7 @@ import PlayButton from '../components/PlayButton/PlayButton'
 import Alert from '../components/Alert/Alert'
 
 import { SocketContext } from '../context/socket'
-import SoundManager from './SoundManager'
+import Audio from '../components/Audio/Audio'
 
 function ServerView() {
   const NB_MIN_USERS = 1
@@ -20,13 +20,13 @@ function ServerView() {
 
   const [music, setMusic] = useState({
     home: {
-      src: '/home.mp3',
+      src: '/BGM/penta-home.mp3',
       volume: 1,
       playing: true,
       loop: true,
     },
     challenge: {
-      src: '/penta-challenge.mp3',
+      src: '/BGM/penta-challenge.mp3',
       volume: 0.8,
       playing: false,
       loop: false,
@@ -58,9 +58,8 @@ function ServerView() {
     setUsers(newUsers)
   }
 
-  const handleMusic = (word) => {
-    // !! New events needed
-    if (word !== 'aucun mot') {
+  const handleMusic = (active) => {
+    if (active) {
       setMusic({
         ...music,
         home: {
@@ -72,17 +71,15 @@ function ServerView() {
           playing: true,
         },
       })
-    } else {
-      setMusic({ ...music, home: { ...music.home, volume: 0.6 } })
     }
   }
-  // ! Create a new events
+
   useEffect(() => {
     socket.on('update-users', handleUpdateUsers)
-    socket.on('temp-chosen-word', handleMusic)
+    socket.on('music-challenge', handleMusic)
     return () => {
       socket.off('update-users', handleUpdateUsers)
-      socket.off('temp-chosen-word', handleMusic)
+      socket.off('music-challenge', handleMusic)
     }
   }, [socket])
 
@@ -111,13 +108,13 @@ function ServerView() {
         text={alert.text}
         time={alert.time}
       />
-      <SoundManager
+      <Audio
         url={music.home.src}
         vol={music.home.volume}
         play={music.home.playing}
         looping={music.home.loop}
       />
-      <SoundManager
+      <Audio
         url={music.challenge.src}
         vol={music.challenge.volume}
         play={music.challenge.playing}

@@ -132,6 +132,7 @@ class SocketIOManager {
     this.currentWord = word
     console.log(`Mot à deviner: ${this.currentWord}`)
     this.io.emit('temp-chosen-word', word)
+    this.io.emit('music-challenge', true)
     let timer = TIMER_DURATION
     interval = setInterval(() => {
       timer -= 1

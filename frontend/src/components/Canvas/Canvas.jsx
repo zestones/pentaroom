@@ -10,9 +10,17 @@ import Menu from './Menu'
 import { SocketContext } from '../../context/socket'
 import Header from '../Header/Header'
 import Tagline from '../Animation/Tagline'
+import Timer from '../Timer/Timer'
+import Alert from '../Alert/Alert'
 
 function Canvas({ userRole }) {
   const socket = useContext(SocketContext)
+  const [alert, setAlert] = useState({
+    open: false,
+    title: 'Temps écoulé',
+    text: 'Le temps est écoulé... \n Un nouveau penTeur va être choisi',
+    type: 'danger',
+  })
 
   // Canvas
   const canvasRef = useRef(null)
@@ -20,6 +28,9 @@ function Canvas({ userRole }) {
   const [canvasDim, setCanvasDim] = useState({ width: 0, height: 0 })
 
   const [isInAction, setIsInAction] = useState(false)
+  const [time, setTime] = useState(-1)
+
+  const handleTimeLeft = (newTime) => setTime(newTime)
 
   const [userDraw, setUserDraw] = useState({
     x0: 0,
@@ -61,16 +72,6 @@ function Canvas({ userRole }) {
     context.lineCap = 'round'
 
     return context
-  }
-
-  const activeDefaultTool = () => {
-    const context = getContext()
-
-    context.strokeStyle = userDraw.pen.color
-    setUserDraw({
-      ...userDraw,
-      pen: { ...userDraw.pen, isActive: true },
-    })
   }
 
   /** Draw */
@@ -130,7 +131,6 @@ function Canvas({ userRole }) {
     if (socket && socket.id === drawObject.senderId) {
       socket.emit('draw', drawObject)
     }
-    activeDefaultTool()
   }
 
   /** save the canvas */
@@ -187,7 +187,6 @@ function Canvas({ userRole }) {
       socket.emit('draw', drawObject)
     }
     restoreCanvas(drawObject.undo.undoList, drawObject.redo.redoList)
-    activeDefaultTool()
   }
 
   /** get the <next> canvas */
@@ -196,7 +195,6 @@ function Canvas({ userRole }) {
       socket.emit('draw', drawObject)
     }
     restoreCanvas(drawObject.redo.redoList, drawObject.undo.undoList)
-    activeDefaultTool()
   }
 
   useEffect(() => {
@@ -223,13 +221,21 @@ function Canvas({ userRole }) {
       }
     }
   }
+
+  const handleNoTimeLeft = () => setAlert({ ...alert, open: true, time: 4 })
+  const handleCloseAlert = () => setAlert({ ...alert, open: false })
+
   /** Init/Update values */
   useEffect(() => {
     socket.on('challenge', clearCanvas)
     socket.on('draw', handleDraw)
+    socket.on('time-left', handleTimeLeft)
+    socket.on('no-time-left', handleNoTimeLeft)
     return () => {
       socket.off('challenge', clearCanvas)
       socket.off('draw', handleDraw)
+      socket.off('time-left', handleTimeLeft)
+      socket.off('no-time-left', handleNoTimeLeft)
     }
   }, [socket, setCanvasDim])
 
@@ -299,7 +305,14 @@ function Canvas({ userRole }) {
 
   return (
     <Container maxWidth="xl" className="canvas-container">
-      {userRole === 'server' && <Header type="in-line" /> }
+      <div className="header-container">
+        {userRole === 'server' && (
+          <>
+            <Timer time={time} />
+            <Header type="in-line" />
+          </>
+        )}
+      </div>
       <div id="draw" className="draw-area">
         <canvas
           id="myCanvas"
@@ -331,6 +344,14 @@ function Canvas({ userRole }) {
             <Tagline />
           </div>
         )}
+      <Alert
+        type={alert.type}
+        open={alert.open}
+        handleClose={handleCloseAlert}
+        title={alert.title}
+        text={alert.text}
+        time={alert.time}
+      />
     </Container>
   )
 }

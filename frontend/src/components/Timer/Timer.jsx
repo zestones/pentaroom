@@ -18,7 +18,6 @@ function Timer({ time }) {
 
   return (
     <p className={clsx(styles.timer, classes())}>
-      Temps restant
       <span className={styles.time}>{time !== -1 ? `${timeToMin()}` : ''}</span>
     </p>
   )

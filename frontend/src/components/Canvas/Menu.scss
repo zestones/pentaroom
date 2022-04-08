@@ -5,12 +5,13 @@
     border-radius: 5px;
     align-items: center;
     margin: 5px auto 30px auto;
-    
+
     .chipsContainer {
         display: flex;
         justify-content: center;
         align-items: center;
         flex-wrap: wrap;
+        width: 100%;
 
         .chip {
             margin: 5px;
@@ -21,10 +22,5 @@
                 background-color: purple;
             }
         }
-    }
-
-    .tools {
-        margin-top: 15px;
-        height: 50px;
     }
 }

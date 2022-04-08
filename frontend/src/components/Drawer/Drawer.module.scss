@@ -27,7 +27,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     width: 80%;
-    height: 20%;
+    height: 27%;
     padding: 1%;
     background: linear-gradient(to bottom,  #012459 0%,#001322 100%);    
 
@@ -41,6 +41,7 @@
             background-color: rgb(156, 128, 0);
             font-weight: bold;
         }
+
         .wordBtn:hover {
             background-color: rgb(255, 208, 0);
             color: rgb(128, 128, 128);
@@ -50,6 +51,7 @@
     .rejectProposition {
         position: absolute;
         right: 10px;
+        bottom: 10px;
     }
 
     h2{
@@ -63,12 +65,18 @@
         width: 40px;
         height: 40px;
         text-align: center;
-        bottom: 15px;
-        left: 15px;
+        bottom: 5px;
+        left: 5px;
         
         .timer {
             white-space: pre-line;         
             animation: zoom 1s infinite linear;
         }
+    }
+}
+
+@media (max-width: 450px) {
+    .wordBtn, .rejectProposition {
+        font-size: 3vw;
     }
 }

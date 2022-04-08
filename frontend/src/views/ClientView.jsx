@@ -1,11 +1,15 @@
 /* eslint-disable no-nested-ternary */
 import React, { useState, useEffect, useContext } from 'react'
 
+import './ClientView.scss'
+
+import clsx from 'clsx'
 import Header from '../components/Header/Header'
 import Login from '../components/Login/Login'
 import UserInput from '../components/UserInput/UserInput'
 import ChatInput from '../components/ChatInput/ChatInput'
 import Drawer from '../components/Drawer/Drawer'
+import Timer from '../components/Timer/Timer'
 import { SocketContext } from '../context/socket'
 
 function ClientView() {
@@ -18,9 +22,12 @@ function ClientView() {
   })
 
   const [isLogged, setIsLogged] = useState(false)
-  const [isChallenged, setIsChallenged] = useState(false)
 
+  const [isChallenged, setIsChallenged] = useState(false)
   const [words, setWords] = useState([])
+  const [time, setTime] = useState(-1)
+
+  const handleTimeLeft = (newTime) => setTime(newTime)
 
   const handleUpdateDrawer = (userId, randomWords) => {
     if (userId !== socket.id) {
@@ -37,17 +44,22 @@ function ClientView() {
     if (isLogged) {
       socket.on('challenge', handleUpdateDrawer)
       socket.on('user-updated', handleUpdateUser)
+      socket.on('time-left', handleTimeLeft)
     }
 
     return () => {
       socket.off('challenge', handleUpdateDrawer)
       socket.off('user-updated', handleUpdateUser)
+      socket.off('time-left', handleTimeLeft)
     }
   }, [socket, isLogged])
 
   return (
     <>
-      <Header type={isChallenged ? 'in-line' : 'in-column'} />
+      <div className={clsx('header-container', isChallenged ? 'active' : '')}>
+        {isChallenged && <Timer time={time} />}
+        <Header type={isChallenged ? 'in-line' : 'in-column'} />
+      </div>
       {
         isLogged
           ? (

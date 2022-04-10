@@ -13,6 +13,7 @@ import TransparentContainer from '../TransparentContainer/TransparentContainer'
 
 import ChosenWord from '../temp/ChosenWord/ChosenWord'
 import Alert from '../Alert/Alert'
+import Animation from '../Animation/Animation'
 
 import { SocketContext } from '../../context/socket'
 import PlayButton from '../PlayButton/PlayButton'
@@ -29,23 +30,27 @@ function UserInput({ user }) {
     type: 'danger',
   })
 
+  const [animationPath, setAnimationPath] = useState({
+    path: '/SuccessAlert.svg',
+    type: 'danger',
+    open: false,
+  })
+
   const handleSuccess = () => {
-    setAlert({
+    setAnimationPath({
+      ...animationPath,
       open: true,
-      title: 'Bravo !',
-      text: 'Vous avez trouvé le bon mot',
-      type: 'success',
     })
   }
   const handleFailure = () => {
     setAlert({
       open: true,
       title: 'Mauvais choix !',
-      text: 'Ce n\'est pas le bon mot...',
+      text: 'Ce n\'est pas le bon mot... Réessayez !',
       type: 'danger',
     })
   }
-
+  const handleCloseAnimation = () => { setAnimationPath({ ...animationPath, open: false }) }
   const handleCloseAlert = () => { setAlert({ ...alert, open: false }) }
 
   const handleValidation = () => {
@@ -73,7 +78,7 @@ function UserInput({ user }) {
   const handleAlreadyFinded = () => {
     setAlert({
       open: true,
-      title: 'Désoler !',
+      title: 'Désolé !',
       text: 'Vous avez déjà trouver le mot.',
       type: 'danger',
     })
@@ -129,6 +134,12 @@ function UserInput({ user }) {
         handleClose={handleCloseAlert}
         title={alert.title}
         text={alert.text}
+      />
+      <Animation
+        path={animationPath.path}
+        type={animationPath.type}
+        open={animationPath.open}
+        handleClose={handleCloseAnimation}
       />
     </>
   )

@@ -22,7 +22,7 @@ function Animation({
       aria-describedby="modal-alert"
       onKeyPress={handleKeyPressed}
     >
-      <Box className={`alert-box ${type}`}>
+      <Box className={`animation-box ${type}`}>
         <img src={path} alt="pentanimation" className="pentaboy" />
       </Box>
     </Modal>

@@ -1,10 +1,11 @@
-$bg: rgba(200, 224, 255, 0.116);
-.alert-box {
+$bg: rgba(5, 32, 83, 0.555);
+.animation-box {
+    display:flex;
     position: absolute;
     top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
-    width: 100%;
-    height:100%;
+    width:70%;
     background-color: $bg;
     border: 2px solid $bg;
     box-shadow: rgb(0 0 0 / 20%) 0px 11px 15px -7px, rgb(0 0 0 / 14%) 0px 24px 38px 3px, rgb(0 0 0 / 12%) 0px 9px 46px 8px;
@@ -18,7 +19,6 @@ $bg: rgba(200, 224, 255, 0.116);
     }
 
     &.danger {
-        border-color: rgb(255, 208, 0);
         h2 {
             color: rgb(255, 208, 0);
         }

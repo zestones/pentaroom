@@ -64,7 +64,7 @@ function ServerView() {
         ...music,
         home: {
           ...music.home,
-          volume: 0.25,
+          playing: false,
         },
         challenge: {
           ...music.challenge,

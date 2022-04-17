@@ -216,7 +216,7 @@ class SocketIOManager {
       return
     }
 
-    if (word.toLowerCase() !== this.currentWord.toLowerCase()) {
+    if (word.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '') !== this.currentWord.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '')) {
       socket.emit('failure-word')
       return
     }

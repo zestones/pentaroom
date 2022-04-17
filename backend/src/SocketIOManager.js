@@ -4,7 +4,6 @@ const ServersManager = require('./ServersManager')
 
 const TIMER_DURATION = 90
 let interval
-let drawObjectId = 0
 
 const throwError = (message) => {
   console.error(`Error - ${message}`)
@@ -39,11 +38,9 @@ class SocketIOManager {
     socket.on('disconnect', () => this.disconnection(socket))
     socket.on('new-user', (user) => this.newUser(socket, user))
     socket.on('message', (message) => this.postMessage(socket, message))
+    socket.on('reload', () => this.reload())
 
     socket.on('draw', (drawObject) => {
-      console.log(drawObjectId)
-      drawObjectId++
-      console.log(drawObject)
       this.serversManager.serversEmit('draw', drawObject)
     })
 
@@ -54,6 +51,19 @@ class SocketIOManager {
     socket.on('new-drawer', () => this.updateDrawer())
     socket.on('is-server', () => this.serversManager.postServer(socket, this.currentWord, this.usersManager.users))
     socket.on('get-users', () => this.usersManager.getUsers(socket, this.drawer))
+  }
+
+  reload() {
+    console.log('reload')
+    this.winnerUsers = []
+    this.currentWord = null
+    clearInterval(interval)
+    if (this.drawer) {
+      this.drawer.emit('update-drawer', { userId: null, words: [] })
+    }
+    this.drawer = null
+
+    this.updateDrawer()
   }
 
   newUser(socket, user) {
@@ -155,7 +165,7 @@ class SocketIOManager {
     // get a random user
     this.drawer = this.usersManager.getRandomDrawer()
 
-    console.log(`new drawer : ${this.drawer ? this.drawer.pseudo : null}`)
+    console.log(`new drawer : ${this.drawer ? this.drawer.id : null}`)
 
     // if there is no user available
     if (this.drawer === null) {

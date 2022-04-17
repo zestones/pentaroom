@@ -32,12 +32,12 @@ function ListUsers({ title, order = false }) {
 
   const isRegister = (user) => user.pseudo !== undefined && user.pseudo !== ''
 
-  const handleUpdateDrawer = (userId) => setDrawerId(userId)
+  const handleUpdateDrawer = (challenge) => setDrawerId(challenge.userId)
 
   useEffect(() => {
     socket.on('update-users', handleUpdateUsers)
     socket.on('challenge', handleUpdateDrawer)
-
+    socket.emit('get-users')
     return () => {
       socket.off('update-users', handleUpdateUsers)
       socket.off('challenge', handleUpdateDrawer)
@@ -46,7 +46,7 @@ function ListUsers({ title, order = false }) {
 
   return (
     <div className={styles.listUsersContainer}>
-      {title && <h2 className={styles.listUsersTitle}>{title}</h2> }
+      {title && <h2 className={styles.listUsersTitle}>{title}</h2>}
 
       <h3 className={styles.nbUsers}>
         Utilsateurs :
@@ -56,19 +56,19 @@ function ListUsers({ title, order = false }) {
       <ul className={styles.listUsers}>
         {users.map((user) => (
           (isRegister(user))
-            && (
-              <li
-                key={user.id}
-                className={
-                  clsx(styles.userContainer, (drawerId === user.id) && styles.userDrawer)
-                }
-              >
-                <Avatar fontSize="medium" className={styles.avatar} {...user.avatar} />
-                <p className={styles.pseudo} key={user.id}>{user.pseudo}</p>
-                {drawerId === user.id && <img src="/pentaboy.svg" alt="pentaboy" className={styles.pentaboy} />}
-                <p className={styles.score}>{user.score}</p>
-              </li>
-            )
+          && (
+            <li
+              key={user.id}
+              className={
+                clsx(styles.userContainer, (drawerId === user.id) && styles.userDrawer)
+              }
+            >
+              <Avatar fontSize="medium" className={styles.avatar} {...user.avatar} />
+              <p className={styles.pseudo} key={user.id}>{user.pseudo}</p>
+              {drawerId === user.id && <img src="/pentaboy.svg" alt="pentaboy" className={styles.pentaboy} />}
+              <p className={styles.score}>{user.score}</p>
+            </li>
+          )
         ))}
       </ul>
     </div>

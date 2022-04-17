@@ -86,12 +86,12 @@ function UserInput({ user }) {
 
   useEffect(() => {
     socket.on('undefined-word', handleUndefined)
-    socket.on('word-already-finded', handleAlreadyFinded)
+    socket.on('word-already-found', handleAlreadyFinded)
     socket.on('success-word', handleSuccess)
     socket.on('failure-word', handleFailure)
 
     return () => {
-      socket.off('word-already-finded', handleAlreadyFinded)
+      socket.off('word-already-found', handleAlreadyFinded)
       socket.off('undefined-word', handleUndefined)
       socket.off('success-word', handleSuccess)
       socket.off('failure-word', handleFailure)

@@ -29,30 +29,28 @@ function ClientView() {
 
   const handleTimeLeft = (newTime) => setTime(newTime)
 
-  const handleUpdateDrawer = (userId, randomWords) => {
-    if (userId !== socket.id) {
+  const handleUpdateDrawer = (challenge) => {
+    if (challenge.userId !== socket.id) {
       setIsChallenged(false)
     } else {
       setIsChallenged(true)
-      setWords(randomWords)
+      setWords(challenge.words)
     }
   }
 
   const handleUpdateUser = (newUser) => setUser(newUser)
 
   useEffect(() => {
-    if (isLogged) {
-      socket.on('challenge', handleUpdateDrawer)
-      socket.on('user-updated', handleUpdateUser)
-      socket.on('time-left', handleTimeLeft)
-    }
+    socket.on('challenge', handleUpdateDrawer)
+    socket.on('user-updated', handleUpdateUser)
+    socket.on('time-left', handleTimeLeft)
 
     return () => {
       socket.off('challenge', handleUpdateDrawer)
       socket.off('user-updated', handleUpdateUser)
       socket.off('time-left', handleTimeLeft)
     }
-  }, [socket, isLogged])
+  }, [socket])
 
   return (
     <>

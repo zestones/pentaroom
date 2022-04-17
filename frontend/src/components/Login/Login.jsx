@@ -68,7 +68,7 @@ function Login({ setIsLogged }) {
       return
     }
 
-    socket.emit('update-user', {
+    socket.emit('new-user', {
       id: socket.id,
       pseudo: value,
       avatar,

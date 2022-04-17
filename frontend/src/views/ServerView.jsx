@@ -74,12 +74,47 @@ function ServerView() {
     }
   }
 
+  const handleInitServer = (infos) => {
+    setIsInGame(isInGame)
+    setMusic({
+      ...music,
+      home: {
+        ...music.home,
+        playing: !isInGame,
+      },
+      challenge: {
+        ...music.challenge,
+        playing: isInGame,
+      },
+    })
+
+    if (infos.users.length) {
+      setUsers(infos.users)
+    }
+  }
+
+  const handleEndGame = () => {
+    setIsInGame(false)
+  }
+
+  const handleChallenge = (challenge) => {
+    if (!isInGame && challenge.userId) {
+      setIsInGame(true)
+    }
+  }
+
   useEffect(() => {
     socket.on('update-users', handleUpdateUsers)
     socket.on('music-challenge', handleMusic)
+    socket.on('init-server', handleInitServer)
+    socket.on('end-game', handleEndGame)
+    socket.on('challenge', handleChallenge)
+    socket.emit('is-server')
     return () => {
       socket.off('update-users', handleUpdateUsers)
       socket.off('music-challenge', handleMusic)
+      socket.off('end-game', handleEndGame)
+      socket.off('challenge', handleChallenge)
     }
   }, [socket])
 

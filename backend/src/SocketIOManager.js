@@ -1,19 +1,24 @@
 const uniqid = require('uniqid')
+const UsersManager = require('./UsersManager')
+const ServersManager = require('./ServersManager')
 
-// set the number of previous drawers to keep in the history
-const NB_SAVED_DRAWERS = 3
-const SCORE_INCREMENT = 5
 const TIMER_DURATION = 90
 let interval
 
+const throwError = (message) => {
+  console.error(`Error - ${message}`)
+}
+
 class SocketIOManager {
   constructor(io, dictionaryManager) {
-    this.users = []
     this.io = io
     this.dictionaryManager = dictionaryManager
-    this.previousDrawers = []
     this.currentWord = null
     this.winnerUsers = []
+    this.servers = []
+    this.usersManager = new UsersManager()
+    this.serversManager = new ServersManager()
+    this.drawer = null
   }
 
   /**
@@ -30,27 +35,38 @@ class SocketIOManager {
   connection(socket) {
     console.log(`+ : ${socket.id}`)
 
-    this.postUser(socket)
-
     socket.on('disconnect', () => this.disconnection(socket))
-    socket.on('update-user', (user) => this.updateUserById(socket, user.id, user))
+    socket.on('new-user', (user) => this.newUser(socket, user))
     socket.on('message', (message) => this.postMessage(socket, message))
-    socket.on('draw', (drawObject) => this.io.emit('draw', drawObject))
+
+    socket.on('draw', (drawObject) => this.serversManager.serversEmit('draw', drawObject))
+
     socket.on('check-word', (word) => this.checkWord(socket, word))
     socket.on('update-drawer', () => this.updateDrawer())
     socket.on('accept-challenge', (chosenWord) => this.updateCurrentWord(socket, chosenWord))
     socket.on('refuse-challenge', () => this.updateDrawer())
     socket.on('new-drawer', () => this.updateDrawer())
+    socket.on('is-server', () => this.serversManager.postServer(socket, this.currentWord, this.usersManager.users))
+    socket.on('get-users', () => this.usersManager.getUsers(socket, this.drawer))
   }
 
-  postMessage(socket, message) {
-    console.log(this.getUserById(socket.id))
-    this.io.emit('message', {
-      id: uniqid(),
-      body: message,
-      time: new Date(),
-      owner: this.getUserById(socket.id),
-    })
+  newUser(socket, user) {
+    console.log('new user...')
+    console.log(user)
+    const newUser = this.usersManager.postUser(socket, user)
+
+    if (newUser === null) {
+      console.log('...pseudo already used')
+      socket.emit('pseudo-taken', true)
+    } else {
+      console.log('...pseudo available !')
+      socket.emit('pseudo-taken', false)
+      socket.emit('user-updated', user)
+      this.serversManager.serversEmit('update-users', this.usersManager.users)
+      if (this.currentWord) {
+        socket.emit('temp-chosen-word', this.currentWord)
+      }
+    }
   }
 
   /**
@@ -59,68 +75,29 @@ class SocketIOManager {
    */
   disconnection(socket) {
     console.log(`- : ${socket.id}`)
-    this.deleteUserById(socket.id)
-  }
+    this.usersManager.deleteUserById(socket.id)
+    this.serversManager.deleteServerById(socket.id)
 
-  /**
-   * Post a new user in the list of users
-   * @param {*} socket
-   */
-  postUser(socket) {
-    const newUser = {
-      id: socket.id,
-      pseudo: '',
-      avatar: undefined,
-      score: 0,
+    this.serversManager.serversEmit('update-users', this.usersManager.users)
+
+    if (this.usersManager.users.length < 2) {
+      this.currentWord = null
+      this.io.emit('end-game')
     }
-    this.users.push(newUser)
-    this.globalEmitUsers()
-  }
 
-  /**
-   * Return an user with its id
-   * @param {int} id the id of the user to get
-   * @returns the user object or null
-   */
-  getUserById(id) {
-    const index = this.users.map((user) => user.id).indexOf(id)
-
-    if (index === -1) return null
-
-    return this.users[index]
-  }
-
-  /**
-   * Update an user with its id
-   * @param {int} id the id of the user to update
-   * @param {*} newUser the user object to assign to the old user
-   * @returns
-   */
-  updateUserById(socket, id, newUser) {
-    const user = this.getUserById(id)
-    if (!user) return
-
-    // check if the pseudo is already used
-    if (this.users.some((x) => x.pseudo.toLowerCase() === newUser.pseudo.toLowerCase())) {
-      socket.emit('pseudo-taken', true)
-    } else {
-      user.pseudo = newUser.pseudo
-      user.avatar = newUser.avatar
-
-      socket.emit('pseudo-taken', false)
-      socket.emit('user-updated', user)
-
-      this.globalEmitUsers()
+    if (this.drawer && socket.id === this.drawer.id) {
+      this.serversManager.serversEmit('challenge', { userId: null })
+      this.updateDrawer()
     }
   }
 
-  /**
-   * Remove an user with its id
-   * @param {int} id the id uf the user to delete
-   */
-  deleteUserById(id) {
-    this.users = this.users.filter((user) => user.id !== id)
-    this.globalEmitUsers()
+  postMessage(socket, message) {
+    this.serversManager.serversEmit('message', {
+      id: uniqid(),
+      body: message,
+      time: new Date(),
+      owner: this.usersManager.getUserById(socket.id),
+    })
   }
 
   /**
@@ -131,49 +108,22 @@ class SocketIOManager {
   updateCurrentWord(socket, word) {
     this.currentWord = word
     console.log(`Mot à deviner: ${this.currentWord}`)
-    this.io.emit('temp-chosen-word', word)
-    this.io.emit('music-challenge', true)
+    socket.emit('temp-chosen-word', word)
+    this.usersManager.usersEmit('temp-chosen-word', word)
+
+    this.serversManager.serversEmit('music-challenge', true)
     let timer = TIMER_DURATION
     interval = setInterval(() => {
       timer -= 1
       if (timer < 0) {
-        this.io.emit('no-time-left', timer)
+        socket.emit('no-time-left', timer)
+        this.serversManager.serversEmit('no-time-left', timer)
         clearInterval(interval)
       } else {
-        this.io.emit('time-left', timer)
+        socket.emit('time-left', timer)
+        this.serversManager.serversEmit('time-left', timer)
       }
     }, 1000)
-  }
-
-  /**
-   * Return a random user
-   * @returns a random user
-   */
-  getRandomDrawer() {
-    // get all available users in the list of users
-    // an available user is a logged user (with avatar and pseudo)
-    // AND an user not chosen in the past
-
-    // uncomment this line after user loggin validation
-    let availableUsers = this.users.filter((user) => user.pseudo !== '' && user.avatar !== undefined && this.previousDrawers.indexOf(user.id) === -1)
-    if (availableUsers.length === 0) {
-      availableUsers = this.users.filter((user) => user.pseudo !== '' && user.avatar !== undefined)
-      this.previousDrawers = []
-    }
-    // if there is no available user
-    if (availableUsers.length === 0) return null
-
-    // get random user
-    const randomUser = availableUsers[Math.floor(Math.random() * (availableUsers.length))]
-
-    // add the new user to previousDrawers
-    this.previousDrawers.push(randomUser.id)
-
-    // if the limit of previousDrawers is reach, the last one is removed
-    if (this.previousDrawers.length > NB_SAVED_DRAWERS) this.previousDrawers.shift()
-
-    // the random user is returned
-    return randomUser
   }
 
   /**
@@ -181,29 +131,42 @@ class SocketIOManager {
    * @returns
    */
   updateDrawer() {
-    // reinitialise the list of winners
+    // reinitialize the list of winners
     this.winnerUsers = []
+
+    const previousDrawer = this.drawer
+
+    this.drawer = null
 
     // reinitialize the current word
     this.currentWord = undefined
+
+    // clear the timer interval
     clearInterval(interval)
+
     this.io.emit('temp-chosen-word', 'aucun mot')
 
     // get a random user
-    const user = this.getRandomDrawer()
+    this.drawer = this.usersManager.getRandomDrawer()
+
+    console.log(`new drawer : ${this.drawer ? this.drawer.pseudo : null}`)
 
     // if there is no user available
-    if (!user) return
+    if (this.drawer === null) {
+      throwError('(updateDrawer) no random user available')
+      return
+    }
 
     // get random words
     const words = this.dictionaryManager.getRandomWords()
 
-    console.log('random drawer user :')
-    console.log(user)
-    console.log('random words :')
-    console.log(words)
     // send the request
-    this.io.sockets.emit('challenge', user.id, words)
+    this.drawer.emit('challenge', { userId: this.drawer.id, words })
+    this.serversManager.serversEmit('challenge', { userId: this.drawer.id })
+
+    if (previousDrawer && this.drawer.id !== previousDrawer.id) {
+      previousDrawer.emit('challenge', { userId: this.drawer.id, words: [] })
+    }
   }
 
   /**
@@ -219,38 +182,34 @@ class SocketIOManager {
       return
     }
 
-    if (word.toLowerCase() === this.currentWord.toLowerCase()) {
-      const user = this.getUserById(socket.id)
-
-      // check if the user has already finded the word
-      if (!this.winnerUsers.some((x) => x.id === user.id)) {
-        socket.emit('success-word')
-
-        // update the score
-        if (this.winnerUsers.length < 4) {
-          user.score += SCORE_INCREMENT - this.winnerUsers.length
-        } else user.score += 1
-
-        this.winnerUsers.push({ id: user.id, pseudo: user.pseudo, avatar: user.avatar })
-
-        socket.emit('user-updated', user)
-      } else (socket.emit('word-already-finded'))
-
-      if (this.users.length - 2 === this.winnerUsers.length) {
-        this.updateDrawer()
-      }
-
-      this.globalEmitUsers()
-    } else {
+    if (word.toLowerCase() !== this.currentWord.toLowerCase()) {
       socket.emit('failure-word')
+      return
     }
-  }
 
-  /**
-   * Send a message to connected users containing an updated liste of all users
-   */
-  globalEmitUsers() {
-    this.io.emit('update-users', this.users)
+    const user = this.usersManager.getUserById(socket.id)
+
+    if (user === null) {
+      throwError('(checkWord) user not found')
+      return
+    }
+
+    // check if the user has already found the word
+    if (this.winnerUsers.some((userId) => userId === user.id)) {
+      socket.emit('word-already-found')
+      return
+    }
+
+    user.score += this.usersManager.users.length - this.winnerUsers.length
+    this.winnerUsers.push(user.id)
+
+    socket.emit('success-word')
+    socket.emit('user-updated', user)
+    this.serversManager.serversEmit('update-users', this.usersManager.users)
+
+    if (this.usersManager.users.length - 1 === this.winnerUsers.length) {
+      this.updateDrawer()
+    }
   }
 }
 

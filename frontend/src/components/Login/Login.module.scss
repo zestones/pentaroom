@@ -42,19 +42,18 @@
 @media (max-width: 600px) {
     .mainContainer {
         .container {
-            margin: 10px auto;
+            margin: 5px auto;
 
             .title {
-                font-size: 25px;
-                margin-bottom: 15px;
+                font-size: 20px;
+                margin-bottom: 5px;
                 -webkit-text-stroke-width: 1px;
             }
 
             .inputName {
                 padding: 0px 10px;
-                font-size: 20px;
-                height: 50px;
-                ;
+                font-size: 15px;
+                height: 40px;
             }
         }
     }
@@ -72,9 +71,6 @@
 
             .inputName {
                 padding: 0px 5px;
-                font-size: 15px;
-                height: 40px;
-                ;
             }
         }
     }

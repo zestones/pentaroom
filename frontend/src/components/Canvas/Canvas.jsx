@@ -2,10 +2,9 @@ import React, {
   useState, useRef, useEffect, useContext,
 } from 'react'
 
-import './Canvas.scss'
-
 import Container from '@mui/material/Container'
 import clsx from 'clsx'
+import styles from './Canvas.module.scss'
 import { fillCanvas } from './FillCanvas'
 import Menu from './Menu'
 import { SocketContext } from '../../context/socket'
@@ -346,7 +345,7 @@ function Canvas({ userRole }) {
   }
 
   return (
-    <Container maxWidth="xl" className={clsx('canvas-container', (userRole === 'server') ? 'server' : '')}>
+    <Container maxWidth="xl" className={clsx(styles.canvasContainer, (userRole === 'server') ? styles.server : '')}>
       <div className="header-container">
         {userRole === 'server' && (
           <>
@@ -355,7 +354,7 @@ function Canvas({ userRole }) {
           </>
         )}
       </div>
-      <div id="draw" className="draw-area">
+      <div id="draw" className={styles.drawArea}>
         <canvas
           id="myCanvas"
           onTouchStart={handleTouchStart}
@@ -382,7 +381,7 @@ function Canvas({ userRole }) {
           />
         )
         : (
-          <div className="icon">
+          <div className={styles.icon}>
             <Tagline />
           </div>
         )}

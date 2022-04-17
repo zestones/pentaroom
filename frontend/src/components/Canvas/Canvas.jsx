@@ -67,6 +67,10 @@ function Canvas({ userRole }) {
   const getCanvasDimensions = () => ({ height: document.getElementById('draw').offsetHeight, width: document.getElementById('draw').offsetWidth })
   const getContext = () => {
     const canvas = canvasRef.current
+
+    if (!canvas) {
+      socket.emit('update-drawer')
+    }
     const context = canvas.getContext('2d')
 
     context.lineJoin = 'round'

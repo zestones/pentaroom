@@ -7,7 +7,7 @@ import Box from '@mui/material/Box'
 
 import Pen from './Tools/Pen'
 import Eraser from './Tools/Eraser'
-import Fill from './Tools/Fill'
+// import Fill from './Tools/Fill'
 import Clean from './Tools/Clean'
 
 function Menu(props) {
@@ -28,7 +28,7 @@ function Menu(props) {
   const open = Boolean(anchorEl)
 
   const checked = userDraw.pen.isActive || userDraw.eraser.isActive
-   || userDraw.fill.isActive || cleanActive
+    || userDraw.fill.isActive || cleanActive
 
   return (
     <Container
@@ -60,7 +60,7 @@ function Menu(props) {
             toolActive={toolActive}
           />
         )}
-        {(!toolActive || userDraw.fill.isActive) && (
+        {/* {(!toolActive || userDraw.fill.isActive) && (
           <Fill
             userDraw={userDraw}
             setUserDraw={setUserDraw}
@@ -69,7 +69,7 @@ function Menu(props) {
             setToolState={setToolState}
             toolActive={toolActive}
           />
-        )}
+        )} */}
         {(!toolActive || cleanActive) && (
           <Clean
             userDraw={userDraw}

@@ -7,6 +7,7 @@ import ListUsers from '../components/ListUsers/ListUsers'
 import ListMessages from '../components/ListMessages/ListMessages'
 import PlayButton from '../components/PlayButton/PlayButton'
 import Alert from '../components/Alert/Alert'
+import ListScores from '../components/ListScores/ListScores'
 
 import { SocketContext } from '../context/socket'
 import Audio from '../components/Audio/Audio'
@@ -17,6 +18,8 @@ function ServerView() {
   const socket = useContext(SocketContext)
   const [users, setUsers] = useState([])
   const [isInGame, setIsInGame] = useState(false)
+
+  const [isEndGame, setIsEndGame] = useState(false)
 
   const [music, setMusic] = useState({
     home: {
@@ -49,6 +52,8 @@ function ServerView() {
     if (availableUsers.length < NB_MIN_USERS) {
       setAlert({ ...alert, open: true, text: `Il est nécessaire d'avoir au moins ${NB_MIN_USERS} joueurs pour lancer la partie.` })
     } else {
+      const nbGames = prompt('Nombre de run ?')
+      socket.emit('run-left', nbGames)
       setIsInGame(true)
       socket.emit('update-drawer')
     }
@@ -95,6 +100,7 @@ function ServerView() {
 
   const handleEndGame = () => {
     setIsInGame(false)
+    setIsEndGame(true)
   }
 
   const handleChallenge = (challenge) => {
@@ -119,7 +125,12 @@ function ServerView() {
   }, [socket])
 
   const handleReload = () => {
-    socket.emit('reload')
+    const nbGames = prompt('Nombre de run ?')
+    socket.emit('reload', nbGames)
+  }
+
+  const handleClose = () => {
+    setIsEndGame(false)
   }
 
   return (
@@ -152,6 +163,9 @@ function ServerView() {
         text={alert.text}
         time={alert.time}
       />
+
+      {isEndGame && <ListScores handleClose={handleClose} />}
+
       <Audio
         url={music.home.src}
         vol={music.home.volume}

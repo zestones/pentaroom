@@ -38,12 +38,17 @@ function ClientView() {
     }
   }
 
+  const handleEndGame = () => {
+    setIsChallenged(false)
+  }
+
   const handleUpdateUser = (newUser) => setUser(newUser)
 
   useEffect(() => {
     socket.on('challenge', handleUpdateDrawer)
     socket.on('user-updated', handleUpdateUser)
     socket.on('time-left', handleTimeLeft)
+    socket.on('end-game', handleEndGame)
 
     return () => {
       socket.off('challenge', handleUpdateDrawer)

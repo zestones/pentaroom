@@ -19,6 +19,8 @@ class SocketIOManager {
     this.usersManager = new UsersManager()
     this.serversManager = new ServersManager()
     this.drawer = null
+    this.runLeft = 5
+    this.lastRun = false
   }
 
   /**
@@ -38,7 +40,9 @@ class SocketIOManager {
     socket.on('disconnect', () => this.disconnection(socket))
     socket.on('new-user', (user) => this.newUser(socket, user))
     socket.on('message', (message) => this.postMessage(socket, message))
-    socket.on('reload', () => this.reload())
+    socket.on('reload', (runLeft) => this.reload(runLeft))
+    socket.on('run-left', (runLeft) => { this.runLeft = runLeft; this.lastRun = false })
+    socket.on('scores', () => { socket.emit('scores', this.usersManager.users) })
 
     socket.on('draw', (drawObject) => {
       this.serversManager.serversEmit('draw', drawObject)
@@ -53,7 +57,7 @@ class SocketIOManager {
     socket.on('get-users', () => this.usersManager.getUsers(socket, this.drawer))
   }
 
-  reload() {
+  reload(runLeft) {
     console.log('reload')
     this.winnerUsers = []
     this.currentWord = null
@@ -62,6 +66,9 @@ class SocketIOManager {
       this.drawer.emit('update-drawer', { userId: null, words: [] })
     }
     this.drawer = null
+
+    this.runLeft = runLeft
+    this.lastRun = false
 
     this.updateDrawer()
   }
@@ -98,6 +105,7 @@ class SocketIOManager {
 
     if (this.usersManager.users.length < 2) {
       this.currentWord = null
+      clearInterval(interval)
       this.io.emit('end-game')
     }
 
@@ -122,6 +130,11 @@ class SocketIOManager {
    * @param {string} word
    */
   updateCurrentWord(socket, word) {
+    this.runLeft -= 1
+    if (this.runLeft <= 0) {
+      this.lastRun = true
+    }
+
     this.currentWord = word
     console.log(`Mot à deviner: ${this.currentWord}`)
     socket.emit('temp-chosen-word', word)
@@ -147,6 +160,11 @@ class SocketIOManager {
    * @returns
    */
   updateDrawer() {
+    if (this.lastRun) {
+      clearInterval(interval)
+      this.io.emit('end-game')
+      return
+    }
     // reinitialize the list of winners
     this.winnerUsers = []
 

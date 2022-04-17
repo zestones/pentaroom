@@ -95,8 +95,6 @@ class UsersManager {
     // get random user
     const randomUser = availableUsers[Math.floor(Math.random() * (availableUsers.length))]
 
-    console.log(randomUser)
-
     // add the new user to previousDrawers
     this.previousDrawers.push(randomUser.id)
 

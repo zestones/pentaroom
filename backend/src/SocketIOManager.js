@@ -3,6 +3,7 @@ const UsersManager = require('./UsersManager')
 const ServersManager = require('./ServersManager')
 
 const TIMER_DURATION = 90
+const TIME_BEFORE_DISCOVER = 10
 let interval
 
 const throwError = (message) => {
@@ -21,6 +22,8 @@ class SocketIOManager {
     this.drawer = null
     this.runLeft = 5
     this.lastRun = false
+    this.letterDiscovered = []
+    this.timeLeftBeforeDiscover = TIME_BEFORE_DISCOVER
   }
 
   /**
@@ -130,6 +133,8 @@ class SocketIOManager {
    * @param {string} word
    */
   updateCurrentWord(socket, word) {
+    this.letterDiscovered = []
+
     this.runLeft -= 1
     if (this.runLeft <= 0) {
       this.lastRun = true
@@ -144,6 +149,27 @@ class SocketIOManager {
     let timer = TIMER_DURATION
     interval = setInterval(() => {
       timer -= 1
+
+      this.timeLeftBeforeDiscover -= 1
+      if (this.timeLeftBeforeDiscover <= 0) {
+        this.timeLeftBeforeDiscover = TIME_BEFORE_DISCOVER
+        if (this.letterDiscovered.length < this.currentWord.length) {
+          let availableLetters = []
+          for (let i = 0; i < this.currentWord.length; i += 1) {
+            availableLetters.push(i)
+          }
+          availableLetters = availableLetters.filter(
+            (indexLetter) => this.letterDiscovered.indexOf(indexLetter) === -1,
+          )
+          const randomIndexLetter = availableLetters[
+            Math.floor(
+              Math.random() * (availableLetters.length),
+            )]
+          this.letterDiscovered.push(randomIndexLetter)
+          this.io.emit('discover-letter', randomIndexLetter)
+        }
+      }
+
       if (timer < 0) {
         socket.emit('no-time-left', timer)
         this.serversManager.serversEmit('no-time-left', timer)

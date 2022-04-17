@@ -2,10 +2,9 @@ import React, {
   useState, useRef, useEffect, useContext,
 } from 'react'
 
-import './Canvas.scss'
-
 import Container from '@mui/material/Container'
 import clsx from 'clsx'
+import styles from './Canvas.module.scss'
 import { fillCanvas } from './FillCanvas'
 import Menu from './Menu'
 import { SocketContext } from '../../context/socket'
@@ -34,6 +33,8 @@ function Canvas({ userRole }) {
   const handleTimeLeft = (newTime) => setTime(newTime)
 
   const [userDraw, setUserDraw] = useState({
+    width: 0,
+    height: 0,
     x0: 0,
     y0: 0,
     x1: 0,
@@ -54,14 +55,14 @@ function Canvas({ userRole }) {
     clear: {
       isActive: false,
     },
-    undo: {
-      undoList: [],
-      isActive: false,
-    },
-    redo: {
-      redoList: [],
-      isActive: false,
-    },
+    // undo: {
+    //   undoList: [],
+    //   isActive: false,
+    // },
+    // redo: {
+    //   redoList: [],
+    //   isActive: false,
+    // },
   })
 
   const getCanvasDimensions = () => ({ height: document.getElementById('draw').offsetHeight, width: document.getElementById('draw').offsetWidth })
@@ -85,20 +86,34 @@ function Canvas({ userRole }) {
 
     context.beginPath()
 
-    context.moveTo(drawObject.x0, drawObject.y0)
-    context.lineTo(drawObject.x1, drawObject.y1)
-
     context.strokeStyle = drawObject.pen.color
     context.lineWidth = drawObject.pen.width
     context.lineJoin = 'round'
     context.lineCap = 'round'
 
-    context.stroke()
-    context.closePath()
-
     if (socket && socket.id === drawObject.senderId) {
+      context.moveTo(drawObject.x0, drawObject.y0)
+      context.lineTo(drawObject.x1, drawObject.y1)
+
       socket.emit('draw', drawObject)
+    } else {
+      console.log('receive')
+      const CD = getCanvasDimensions()
+      const factor = (CD.width / drawObject.width < CD.height / drawObject.height)
+        ? CD.width / drawObject.width
+        : CD.height / drawObject.height
+
+      const margin = {
+        top: (CD.height - drawObject.height * factor) / 2,
+        left: (CD.width - drawObject.width * factor) / 2,
+      }
+
+      context.moveTo(drawObject.x0 * factor + margin.left, drawObject.y0 * factor + margin.top)
+      context.lineTo(drawObject.x1 * factor + margin.left, drawObject.y1 * factor + margin.top)
     }
+    context.stroke()
+
+    context.closePath()
   }
 
   /** Clean the screen with the eraser */
@@ -107,20 +122,34 @@ function Canvas({ userRole }) {
 
     context.beginPath()
 
-    context.moveTo(drawObject.x0, drawObject.y0)
-    context.lineTo(drawObject.x1, drawObject.y1)
+    context.lineJoin = 'round'
+    context.lineCap = 'round'
 
     context.strokeStyle = 'white'
     context.lineWidth = drawObject.eraser.width
 
-    context.lineJoin = 'round'
-    context.lineCap = 'round'
+    if (socket && socket.id === drawObject.senderId) {
+      context.moveTo(drawObject.x0, drawObject.y0)
+      context.lineTo(drawObject.x1, drawObject.y1)
+      socket.emit('draw', drawObject)
+    } else {
+      console.log('receive')
+      const CD = getCanvasDimensions()
+      const factor = (CD.width / drawObject.width < CD.height / drawObject.height)
+        ? CD.width / drawObject.width
+        : CD.height / drawObject.height
+
+      const margin = {
+        top: (CD.height - drawObject.height * factor) / 2,
+        left: (CD.width - drawObject.width * factor) / 2,
+      }
+
+      context.moveTo(drawObject.x0 * factor + margin.left, drawObject.y0 * factor + margin.top)
+      context.lineTo(drawObject.x1 * factor + margin.left, drawObject.y1 * factor + margin.top)
+    }
+
     context.stroke()
     context.closePath()
-
-    if (socket && socket.id === drawObject.senderId) {
-      socket.emit('draw', drawObject)
-    }
   }
 
   const clearCanvas = () => {
@@ -139,68 +168,68 @@ function Canvas({ userRole }) {
   }
 
   /** save the canvas */
-  const saveCanvas = (keepRedoList, list) => {
-    const myCanvas = document.getElementById('myCanvas')
+  // const saveCanvas = (keepRedoList, list) => {
+  //   const myCanvas = document.getElementById('myCanvas')
 
-    if (!keepRedoList) {
-      userDraw.redo.redoList = []
-    }
-    (list || userDraw.undo.undoList).push(myCanvas.toDataURL())
-  }
+  //   if (!keepRedoList) {
+  //     userDraw.redo.redoList = []
+  //   }
+  //   (list || userDraw.undo.undoList).push(myCanvas.toDataURL())
+  // }
 
   /** restore the canvas */
   // pop is the array which the img will be restored
   // push is the array which a new img will be added
-  const restoreCanvas = (pop, push) => {
-    if (pop.length) {
-      // get the context
-      const context = getContext()
-      const canvasDimensions = getCanvasDimensions()
+  // const restoreCanvas = (pop, push) => {
+  //   if (pop.length) {
+  //     // get the context
+  //     const context = getContext()
+  //     const canvasDimensions = getCanvasDimensions()
 
-      // get the last image saved
-      const restore = pop.pop()
-      // save a new image
-      saveCanvas(true, push)
+  //     // get the last image saved
+  //     const restore = pop.pop()
+  //     // save a new image
+  //     saveCanvas(true, push)
 
-      // Create img with the data in pop
-      const img = new Image()
-      img.src = restore
+  //     // Create img with the data in pop
+  //     const img = new Image()
+  //     img.src = restore
 
-      // clear the canvas
-      context.clearRect(0, 0, canvasDimensions.width, canvasDimensions.height)
+  //     // clear the canvas
+  //     context.clearRect(0, 0, canvasDimensions.width, canvasDimensions.height)
 
-      // draw the previous canvas
-      img.onload = function reDraw() {
-        context.drawImage(
-          img,
-          0,
-          0,
-          canvasDimensions.width,
-          canvasDimensions.height,
-          0,
-          0,
-          canvasDimensions.width,
-          canvasDimensions.height,
-        )
-      }
-    }
-  }
+  //     // draw the previous canvas
+  //     img.onload = function reDraw() {
+  //       context.drawImage(
+  //         img,
+  //         0,
+  //         0,
+  //         canvasDimensions.width,
+  //         canvasDimensions.height,
+  //         0,
+  //         0,
+  //         canvasDimensions.width,
+  //         canvasDimensions.height,
+  //       )
+  //     }
+  //   }
+  // }
 
   /** get the previous canvas */
-  const undoCanvas = (drawObject) => {
-    if (socket && socket.id === drawObject.senderId) {
-      socket.emit('draw', drawObject)
-    }
-    restoreCanvas(drawObject.undo.undoList, drawObject.redo.redoList)
-  }
+  // const undoCanvas = (drawObject) => {
+  //   if (socket && socket.id === drawObject.senderId) {
+  //     socket.emit('draw', drawObject)
+  //   }
+  //   restoreCanvas(drawObject.undo.undoList, drawObject.redo.redoList)
+  // }
 
   /** get the <next> canvas */
-  const redoCanvas = (drawObject) => {
-    if (socket && socket.id === drawObject.senderId) {
-      socket.emit('draw', drawObject)
-    }
-    restoreCanvas(drawObject.redo.redoList, drawObject.undo.undoList)
-  }
+  // const redoCanvas = (drawObject) => {
+  //   if (socket && socket.id === drawObject.senderId) {
+  //     socket.emit('draw', drawObject)
+  //   }
+  //   restoreCanvas(drawObject.redo.redoList, drawObject.undo.undoList)
+  // }
 
   useEffect(() => {
     setCanvasDim({ width: document.getElementById('draw').offsetWidth, height: document.getElementById('draw').offsetHeight })
@@ -219,11 +248,12 @@ function Canvas({ userRole }) {
         fillCanvas(drawObject, context, canvasDimensions, socket)
       } else if (drawObject.clear.isActive) {
         clear(drawObject)
-      } else if (drawObject.undo.isActive) {
-        undoCanvas(drawObject)
-      } else if (drawObject.redo.isActive) {
-        redoCanvas(drawObject)
       }
+      // else if (drawObject.undo.isActive) {
+      //   undoCanvas(drawObject)
+      // } else if (drawObject.redo.isActive) {
+      //   redoCanvas(drawObject)
+      // }
     }
   }
 
@@ -267,11 +297,17 @@ function Canvas({ userRole }) {
     const context = getContext()
     setIsInAction(true)
 
-    saveCanvas(false)
+    // saveCanvas(false)
 
     const pos = getPositionOnEvent(e)
     setUserDraw({
-      ...userDraw, x0: pos.X, x1: pos.X, y0: pos.Y, y1: pos.Y,
+      ...userDraw,
+      width: canvasDim.width,
+      height: canvasDim.height,
+      x0: pos.X,
+      x1: pos.X,
+      y0: pos.Y,
+      y1: pos.Y,
     })
     if (userDraw.fill.isActive) {
       setUserDraw({
@@ -309,7 +345,7 @@ function Canvas({ userRole }) {
   }
 
   return (
-    <Container maxWidth="xl" className={clsx('canvas-container', (userRole === 'server') ? 'server' : '')}>
+    <Container maxWidth="xl" className={clsx(styles.canvasContainer, (userRole === 'server') ? styles.server : '')}>
       <div className="header-container">
         {userRole === 'server' && (
           <>
@@ -318,7 +354,7 @@ function Canvas({ userRole }) {
           </>
         )}
       </div>
-      <div id="draw" className="draw-area">
+      <div id="draw" className={styles.drawArea}>
         <canvas
           id="myCanvas"
           onTouchStart={handleTouchStart}
@@ -340,12 +376,12 @@ function Canvas({ userRole }) {
             setIsInAction={setIsInAction}
             clear={clear}
             socket={socket}
-            undoCanvas={undoCanvas}
-            redoCanvas={redoCanvas}
+          // undoCanvas={undoCanvas}
+          // redoCanvas={redoCanvas}
           />
         )
         : (
-          <div className="icon">
+          <div className={styles.icon}>
             <Tagline />
           </div>
         )}

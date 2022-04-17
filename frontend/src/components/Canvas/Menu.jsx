@@ -12,7 +12,7 @@ import Clean from './Tools/Clean'
 
 function Menu(props) {
   const {
-    userDraw, setUserDraw, setIsInAction, clear, socket, undoCanvas, redoCanvas,
+    userDraw, setUserDraw, setIsInAction, clear, socket,
   } = props
 
   const [anchorEl, setAnchorEl] = useState(null)
@@ -78,8 +78,8 @@ function Menu(props) {
             setToolState={setToolState}
             toolActive={toolActive}
             clear={clear}
-            undoCanvas={undoCanvas}
-            redoCanvas={redoCanvas}
+            // undoCanvas={undoCanvas}
+            // redoCanvas={redoCanvas}
             userId={socket.id}
             setCleanActive={setCleanActive}
             cleanActive={cleanActive}

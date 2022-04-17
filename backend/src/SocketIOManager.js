@@ -4,6 +4,7 @@ const ServersManager = require('./ServersManager')
 
 const TIMER_DURATION = 90
 let interval
+let drawObjectId = 0
 
 const throwError = (message) => {
   console.error(`Error - ${message}`)
@@ -39,7 +40,12 @@ class SocketIOManager {
     socket.on('new-user', (user) => this.newUser(socket, user))
     socket.on('message', (message) => this.postMessage(socket, message))
 
-    socket.on('draw', (drawObject) => this.serversManager.serversEmit('draw', drawObject))
+    socket.on('draw', (drawObject) => {
+      console.log(drawObjectId)
+      drawObjectId++
+      console.log(drawObject)
+      this.serversManager.serversEmit('draw', drawObject)
+    })
 
     socket.on('check-word', (word) => this.checkWord(socket, word))
     socket.on('update-drawer', () => this.updateDrawer())

@@ -83,6 +83,7 @@ class UsersManager {
       (socket) => this.previousDrawers.indexOf(socket.id) === -1,
     )
 
+    console.log(availableUsers)
     if (availableUsers.length === 0) {
       availableUsers = this.userSockets
       this.previousDrawers = []

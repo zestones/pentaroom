@@ -5,7 +5,6 @@ import React, {
 import Container from '@mui/material/Container'
 import clsx from 'clsx'
 import styles from './Canvas.module.scss'
-import { fillCanvas } from './FillCanvas'
 import Menu from './Menu'
 import { SocketContext } from '../../context/socket'
 import Header from '../Header/Header'
@@ -172,16 +171,11 @@ function Canvas({ userRole }) {
   }, [setCanvasDim, socket])
 
   const handleDraw = (drawObject) => {
-    const context = getContext()
-    const canvasDimensions = getCanvasDimensions()
-
     if (drawObject.senderId !== socket.id) {
       if (drawObject.pen.isActive) {
         draw(drawObject)
       } else if (drawObject.eraser.isActive) {
         erase(drawObject)
-      } else if (drawObject.fill.isActive) {
-        fillCanvas(drawObject, context, canvasDimensions, socket)
       } else if (drawObject.clear.isActive) {
         clear(drawObject)
       }
@@ -230,7 +224,6 @@ function Canvas({ userRole }) {
    */
   const handleTouchStart = (e) => {
     if (userRole === 'server') return
-    const context = getContext()
     setIsInAction(true)
 
     // saveCanvas(false)
@@ -245,17 +238,6 @@ function Canvas({ userRole }) {
       y0: pos.Y,
       y1: pos.Y,
     })
-    if (userDraw.fill.isActive) {
-      setUserDraw({
-        ...userDraw, color: context.strokeStyle,
-      })
-      fillCanvas({
-        ...userDraw,
-        x0: pos.X,
-        y0: pos.Y,
-        senderId: socket.id,
-      }, context, canvasDim, socket)
-    }
   }
 
   /**

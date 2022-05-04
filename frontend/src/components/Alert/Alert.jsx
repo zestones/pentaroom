@@ -12,6 +12,10 @@ function Alert({
 }) {
   const [timeLeft, setTimeLeft] = useState(-1)
 
+  /**
+   * handle key pressed event
+   * @param {Event} e
+   */
   const handleKeyPressed = (e) => {
     if (e.key === 'Enter') {
       handleClose()

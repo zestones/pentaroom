@@ -18,38 +18,23 @@ function Clean({
   userDraw, setIsInAction,
   checked, setToolState, toolActive, clear, userId, setCleanActive, cleanActive,
 }) {
+  // desactive tools
   const desactiveTool = () => {
     userDraw.pen.isActive = false
     userDraw.fill.isActive = false
     userDraw.eraser.isActive = false
     userDraw.clear.isActive = false
-    // userDraw.undo.isActive = false
-    // userDraw.redo.isActive = false
   }
 
+  // active clear tool
   const activeClear = () => {
     desactiveTool()
     userDraw.clear.isActive = true
-    // userDraw.redo.redoList = []
-    // userDraw.undo.undoList = []
     clear({ ...userDraw, senderId: userId })
     setIsInAction(false)
   }
 
-  // const activeUndo = () => {
-  //   desactiveTool()
-  //   userDraw.undo.isActive = true
-
-  //   undoCanvas({ ...userDraw, senderId: userId })
-  // }
-
-  // const activeRedo = () => {
-  //   desactiveTool()
-  //   userDraw.redo.isActive = true
-
-  //   redoCanvas({ ...userDraw, senderId: userId })
-  // }
-
+  // active clean tool
   const activeClean = () => {
     setCleanActive(!cleanActive)
     setToolState(!toolActive)
@@ -65,18 +50,6 @@ function Clean({
           <Zoom in={checked} style={{ transitionDelay: checked ? '500ms' : '0ms' }}>
             <Box className="tools">
               <IconButton color="primary" aria-label="clear all" label="Effacer tout" onClick={() => { activeClear() }}><HighlightOffIcon /></IconButton>
-              {/* <div className="undo-redo-container">
-                <IconButton
-                className="undo"
-                color="primary"
-                aria-label="undo
-                action" component="span" onClick={() => activeUndo()}><UndoIcon /></IconButton>
-                <IconButton
-                className="redo"
-                color="primary"
-                aria-label="redo
-                action" component="span" onClick={() => activeRedo()}><RedoIcon /></IconButton>
-              </div> */}
             </Box>
           </Zoom>
         </Box>

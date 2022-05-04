@@ -21,12 +21,16 @@ function ChatInput() {
     inputRef?.current?.focus()
   }, [inputRef])
 
+  // handle the click on the button
   const handleClick = () => setOpen(true)
+
+  // close the modal
   const handleClose = () => {
     setOpen(false)
     setIsSend(false)
   }
 
+  // handle the message validation
   const handleValidation = () => {
     const message = inputRef.current.value
     if (!message) return
@@ -37,6 +41,7 @@ function ChatInput() {
     inputRef.current.value = ''
   }
 
+  // handle the enter click
   const handleKeyPressed = (e) => {
     setIsSend(false)
 

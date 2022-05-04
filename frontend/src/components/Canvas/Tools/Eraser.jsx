@@ -13,6 +13,7 @@ import './Tools.scss'
 function Eraser({
   userDraw, setUserDraw, setIsInAction, checked, setToolState, toolActive,
 }) {
+  // active the eraser tool
   const activeEraser = () => {
     setUserDraw({
       ...userDraw,

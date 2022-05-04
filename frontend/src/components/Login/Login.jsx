@@ -24,6 +24,7 @@ function Login({ setIsLogged }) {
     type: 'danger',
   })
 
+  // handle event when the alert is close
   const handleCloseAlert = () => {
     setAlert({ ...alert, open: false })
   }
@@ -49,6 +50,7 @@ function Login({ setIsLogged }) {
   ))
   const inputRef = useRef('')
 
+  // handle the validation of the user
   const handleValidation = () => {
     const { value } = inputRef.current
 
@@ -75,12 +77,14 @@ function Login({ setIsLogged }) {
     })
   }
 
+  // handle enter key click
   const handleKeyPressed = (e) => {
     if (e.key === 'Enter') {
       handleValidation()
     }
   }
 
+  // display alert if the pseudo is already used
   const handlePseudoTaken = (isTaken) => {
     if (isTaken) {
       setAlert({

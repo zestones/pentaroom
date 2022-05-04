@@ -7,7 +7,6 @@ import Box from '@mui/material/Box'
 
 import Pen from './Tools/Pen'
 import Eraser from './Tools/Eraser'
-// import Fill from './Tools/Fill'
 import Clean from './Tools/Clean'
 
 function Menu(props) {
@@ -18,10 +17,12 @@ function Menu(props) {
   const [anchorEl, setAnchorEl] = useState(null)
   const [toolActive, setToolState] = useState(true)
   const [cleanActive, setCleanActive] = useState(false)
+
+  // handle popover state
   const handlePopoverOpen = (event) => {
     setAnchorEl(event.currentTarget)
   }
-
+  // close popover
   const handlePopoverClose = () => {
     setAnchorEl(null)
   }
@@ -60,16 +61,6 @@ function Menu(props) {
             toolActive={toolActive}
           />
         )}
-        {/* {(!toolActive || userDraw.fill.isActive) && (
-          <Fill
-            userDraw={userDraw}
-            setUserDraw={setUserDraw}
-            setIsInAction={setIsInAction}
-            checked={checked}
-            setToolState={setToolState}
-            toolActive={toolActive}
-          />
-        )} */}
         {(!toolActive || cleanActive) && (
           <Clean
             userDraw={userDraw}
@@ -78,8 +69,6 @@ function Menu(props) {
             setToolState={setToolState}
             toolActive={toolActive}
             clear={clear}
-            // undoCanvas={undoCanvas}
-            // redoCanvas={redoCanvas}
             userId={socket.id}
             setCleanActive={setCleanActive}
             cleanActive={cleanActive}

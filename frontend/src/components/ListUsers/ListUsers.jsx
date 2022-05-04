@@ -14,15 +14,24 @@ function ListUsers({ title, order = false }) {
   const [users, setUsers] = useState([])
   const [drawerId, setDrawerId] = useState(null)
 
-  // sort the users when the drawer change
+  /**
+   * sort the users when the drawer change
+   */
   useMemo(() => {
     users.sort((user1, user2) => user2.score - user1.score)
     users.sort((x, y) => (x.id === drawerId ? -1 : y.id === drawerId ? 1 : 0))
   })
 
-  // get the number of users registered
+  /**
+   *
+   * @returns the number of users registered
+   */
   const getNumberUser = () => users.filter((user) => user.pseudo !== '').length
 
+  /**
+   * update the users when update-users is emited
+   * @param {*} listUsers
+   */
   const handleUpdateUsers = (listUsers) => {
     if (order) {
       listUsers.sort((user1, user2) => user2.score - user1.score)
@@ -30,8 +39,18 @@ function ListUsers({ title, order = false }) {
     setUsers(listUsers)
   }
 
+  /**
+   * check if user is fully registered
+   * @param {*} user
+   * @returns
+   */
   const isRegister = (user) => user.pseudo !== undefined && user.pseudo !== ''
 
+  /**
+   * update the current drawer
+   * @param {*} challenge
+   * @returns
+   */
   const handleUpdateDrawer = (challenge) => setDrawerId(challenge.userId)
 
   useEffect(() => {

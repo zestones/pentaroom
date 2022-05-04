@@ -12,6 +12,7 @@ import './Tools.scss'
 function Pen({
   userDraw, setUserDraw, setIsInAction, checked, setToolState, toolActive,
 }) {
+  // active the pen
   const activePen = () => {
     setUserDraw({
       ...userDraw,
@@ -25,6 +26,7 @@ function Pen({
     setIsInAction(false)
     setToolState(!toolActive)
   }
+
   return (
     <Box className="tool-container">
       <Chip className={clsx('chip', userDraw.pen.isActive && 'active')} color="primary" icon={<BrushIcon />} label="Pinceau" onClick={() => { activePen() }} />

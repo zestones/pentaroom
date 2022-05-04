@@ -10,6 +10,7 @@ function ListMessages({ title }) {
   const [messages, setMessages] = useState([])
   const messageRef = useRef()
 
+  // handle new messages
   const handleNewMessages = (newReceivedMessage) => {
     setMessages([...messages, newReceivedMessage])
   }

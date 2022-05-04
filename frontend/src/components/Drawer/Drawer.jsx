@@ -25,17 +25,20 @@ function Drawer({ setIsChallenged, words }) {
     type: 'danger',
   })
 
+  // close the alert
   const handleCloseAlert = () => {
     setAlert({ ...alert, open: false })
     setIsChallenged(false)
     socket.emit('new-drawer')
   }
 
+  // decline the challenge
   const handleDecline = () => {
     setIsChallenged(false)
     socket.emit('refuse-challenge')
   }
 
+  // accept the challenge
   const handleAccept = (button) => {
     const word = button.target.value
     setIsOpen(false)
@@ -43,8 +46,10 @@ function Drawer({ setIsChallenged, words }) {
     setTimeModal(-1)
   }
 
+  // update the drawer
   const handleUpdateDrawer = () => setIsChallenged(false)
 
+  // handle the timer when no time is left
   const handleNoTimeLeft = () => setAlert({ ...alert, open: true, time: 5 })
 
   useEffect(() => {

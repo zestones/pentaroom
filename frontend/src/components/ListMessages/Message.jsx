@@ -8,6 +8,9 @@ function Message({ message }) {
     const date = new Date(message.time)
     return `${date.getHours()}:${date.getMinutes()}`
   }
+
+  if (message.owner === null) return null
+
   return (
     <div className={styles.message}>
       <Avatar fontSize="medium" className={styles.avatar} {...message.owner.avatar} />

@@ -25,6 +25,8 @@ function ListScores({ handleClose }) {
   const socket = useContext(SocketContext)
 
   const [users, setUsers] = useState([])
+
+  // handle the users score
   const handleScores = (newUsers) => {
     newUsers.sort((user1, user2) => user2.score - user1.score)
     setUsers(newUsers)

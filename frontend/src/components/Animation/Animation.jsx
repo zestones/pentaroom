@@ -7,12 +7,15 @@ import './Animation.scss'
 function Animation({
   path, type, open, handleClose,
 }) {
+  /**
+   * handle the key pressed
+   * @param {Event} e
+   */
   const handleKeyPressed = (e) => {
     if (e.key === 'Enter') {
       handleClose()
     }
   }
-  console.log(path)
 
   return (
     <Modal

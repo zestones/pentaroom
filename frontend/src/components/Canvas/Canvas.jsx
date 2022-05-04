@@ -55,23 +55,15 @@ function Canvas({ userRole }) {
     clear: {
       isActive: false,
     },
-    // undo: {
-    //   undoList: [],
-    //   isActive: false,
-    // },
-    // redo: {
-    //   redoList: [],
-    //   isActive: false,
-    // },
   })
 
   const getCanvasDimensions = () => ({ height: document.getElementById('draw').offsetHeight, width: document.getElementById('draw').offsetWidth })
   const getContext = () => {
     const canvas = canvasRef.current
 
-    if (!canvas) {
-      socket.emit('update-drawer')
-    }
+    // if (!canvas) {
+    //   socket.emit('update-drawer')
+    // }
     const context = canvas.getContext('2d')
 
     context.lineJoin = 'round'
@@ -80,7 +72,10 @@ function Canvas({ userRole }) {
     return context
   }
 
-  /** Draw */
+  /**
+   * Draw on the canvas
+   * @param {*} drawObject
+   */
   const draw = (drawObject) => {
     const context = getContext()
 
@@ -116,7 +111,10 @@ function Canvas({ userRole }) {
     context.closePath()
   }
 
-  /** Clean the screen with the eraser */
+  /**
+   * Clean the screen with the eraser
+   * @param {*} drawObject
+   */
   const erase = (drawObject) => {
     const context = getContext()
 
@@ -152,6 +150,7 @@ function Canvas({ userRole }) {
     context.closePath()
   }
 
+  // Clear the whole canvas
   const clearCanvas = () => {
     const context = getContext()
     const canvasDimensions = getCanvasDimensions()
@@ -159,6 +158,7 @@ function Canvas({ userRole }) {
     context.clearRect(0, 0, canvasDimensions.width, canvasDimensions.height)
   }
 
+  // clear the server & client canvas
   const clear = (drawObject) => {
     clearCanvas()
 
@@ -166,70 +166,6 @@ function Canvas({ userRole }) {
       socket.emit('draw', drawObject)
     }
   }
-
-  /** save the canvas */
-  // const saveCanvas = (keepRedoList, list) => {
-  //   const myCanvas = document.getElementById('myCanvas')
-
-  //   if (!keepRedoList) {
-  //     userDraw.redo.redoList = []
-  //   }
-  //   (list || userDraw.undo.undoList).push(myCanvas.toDataURL())
-  // }
-
-  /** restore the canvas */
-  // pop is the array which the img will be restored
-  // push is the array which a new img will be added
-  // const restoreCanvas = (pop, push) => {
-  //   if (pop.length) {
-  //     // get the context
-  //     const context = getContext()
-  //     const canvasDimensions = getCanvasDimensions()
-
-  //     // get the last image saved
-  //     const restore = pop.pop()
-  //     // save a new image
-  //     saveCanvas(true, push)
-
-  //     // Create img with the data in pop
-  //     const img = new Image()
-  //     img.src = restore
-
-  //     // clear the canvas
-  //     context.clearRect(0, 0, canvasDimensions.width, canvasDimensions.height)
-
-  //     // draw the previous canvas
-  //     img.onload = function reDraw() {
-  //       context.drawImage(
-  //         img,
-  //         0,
-  //         0,
-  //         canvasDimensions.width,
-  //         canvasDimensions.height,
-  //         0,
-  //         0,
-  //         canvasDimensions.width,
-  //         canvasDimensions.height,
-  //       )
-  //     }
-  //   }
-  // }
-
-  /** get the previous canvas */
-  // const undoCanvas = (drawObject) => {
-  //   if (socket && socket.id === drawObject.senderId) {
-  //     socket.emit('draw', drawObject)
-  //   }
-  //   restoreCanvas(drawObject.undo.undoList, drawObject.redo.redoList)
-  // }
-
-  /** get the <next> canvas */
-  // const redoCanvas = (drawObject) => {
-  //   if (socket && socket.id === drawObject.senderId) {
-  //     socket.emit('draw', drawObject)
-  //   }
-  //   restoreCanvas(drawObject.redo.redoList, drawObject.undo.undoList)
-  // }
 
   useEffect(() => {
     setCanvasDim({ width: document.getElementById('draw').offsetWidth, height: document.getElementById('draw').offsetHeight })
@@ -249,18 +185,14 @@ function Canvas({ userRole }) {
       } else if (drawObject.clear.isActive) {
         clear(drawObject)
       }
-      // else if (drawObject.undo.isActive) {
-      //   undoCanvas(drawObject)
-      // } else if (drawObject.redo.isActive) {
-      //   redoCanvas(drawObject)
-      // }
     }
   }
-
+  // handle the timer events
   const handleNoTimeLeft = () => setAlert({ ...alert, open: true, time: 4 })
+  // close the alert
   const handleCloseAlert = () => setAlert({ ...alert, open: false })
 
-  /** Init/Update values */
+  // Init/Update values
   useEffect(() => {
     socket.on('challenge', clearCanvas)
     socket.on('draw', handleDraw)
@@ -274,7 +206,7 @@ function Canvas({ userRole }) {
     }
   }, [socket, setCanvasDim])
 
-  /** get current position on the screen */
+  // get current position on the screen
   const getPositionOnEvent = (e) => {
     let X
     let Y
@@ -291,7 +223,11 @@ function Canvas({ userRole }) {
     return { X, Y }
   }
 
-  /** Start the drawing */
+  /**
+   * Start the drawing
+   * @param {Event} e
+   * @returns
+   */
   const handleTouchStart = (e) => {
     if (userRole === 'server') return
     const context = getContext()
@@ -322,7 +258,11 @@ function Canvas({ userRole }) {
     }
   }
 
-  /** handle the mouse mouvement */
+  /**
+   * handle the mouse mouvement
+   * @param {Event} e
+   * @returns
+   */
   const handleTouchMove = (e) => {
     if (!isInAction) return
     if (userDraw.pen.isActive) {
@@ -340,6 +280,7 @@ function Canvas({ userRole }) {
     }
   }
 
+  // Stop the drawing
   const handleTouchEnd = () => {
     setIsInAction(false)
   }
@@ -376,8 +317,6 @@ function Canvas({ userRole }) {
             setIsInAction={setIsInAction}
             clear={clear}
             socket={socket}
-          // undoCanvas={undoCanvas}
-          // redoCanvas={redoCanvas}
           />
         )
         : (

@@ -53,56 +53,69 @@ function AvatarPicker({ avatar, setConfig }) {
 
   const [open, setOpen] = useState({})
 
+  /**
+   * handle the box state open/closed
+   * @param {*} id
+   */
   const handleBoxState = (id) => {
     if (open.type === id) setOpen({})
     else setOpen({ type: id })
   }
 
+  // handle the click on the face icon
   const handleFaceClick = () => {
     const index = (faceColor.indexOf(avatar.faceColor) + 1) % faceColor.length
     setConfig({ ...avatar, faceColor: faceColor[index] })
     if (open.type) handleBoxState()
   }
 
+  // handle the click on the hair icon
   const handleHairClick = () => {
     const index = (hairStyles.indexOf(avatar.hairStyle) + 1) % hairStyles.length
     setConfig({ ...avatar, hairStyle: hairStyles[index] })
   }
 
+  // handle the click on the hat icon
   const handleHatClick = () => {
     const index = (hatStyles.indexOf(avatar.hatStyle) + 1) % hatStyles.length
     setConfig({ ...avatar, hatStyle: hatStyles[index] })
   }
 
+  // handle the click on the eyes icon
   const handleEyesClick = () => {
     const index = (eyeStyles.indexOf(avatar.eyeStyle) + 1) % eyeStyles.length
     setConfig({ ...avatar, eyeStyle: eyeStyles[index] })
     if (open.type) handleBoxState()
   }
 
+  // handle the click on the glass icon
   const handleGlassesClick = () => {
     const index = (glassesStyles.indexOf(avatar.glassesStyle) + 1) % glassesStyles.length
     setConfig({ ...avatar, glassesStyle: glassesStyles[index] })
     if (open.type) handleBoxState()
   }
 
+  // handle the click on the shirt icon
   const handleShirtClick = () => {
     const index = (shirtStyles.indexOf(avatar.shirtStyle) + 1) % shirtStyles.length
     setConfig({ ...avatar, shirtStyle: shirtStyles[index] })
   }
 
+  // handle the click on the mouth icon
   const handleMouthClick = () => {
     const index = (mouthStyles.indexOf(avatar.mouthStyle) + 1) % mouthStyles.length
     setConfig({ ...avatar, mouthStyle: mouthStyles[index] })
     if (open.type) handleBoxState()
   }
 
+  // handle the click on the background color icon
   const handlebgColorClick = () => {
     const index = (bgColor.indexOf(avatar.bgColor) + 1) % bgColor.length
     setConfig({ ...avatar, bgColor: bgColor[index] })
     if (open.type) handleBoxState()
   }
 
+  // handle the click on the random icon
   const handleRandomClick = () => {
     setConfig({
       ...avatar,

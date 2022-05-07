@@ -15,6 +15,8 @@ import { SocketContext } from '../../context/socket'
 function Drawer({ setIsChallenged, words }) {
   const socket = useContext(SocketContext)
 
+  const [canvasActive, setCanvasActive] = useState(false)
+
   const [open, setIsOpen] = useState(true)
   const [timeModal, setTimeModal] = useState(10)
 
@@ -43,6 +45,7 @@ function Drawer({ setIsChallenged, words }) {
     const word = button.target.value
     setIsOpen(false)
     socket.emit('accept-challenge', word)
+    setCanvasActive(true)
     setTimeModal(-1)
   }
 
@@ -123,7 +126,8 @@ function Drawer({ setIsChallenged, words }) {
         text={alert.text}
         time={alert.time}
       />
-      <Canvas userRole="client" />
+      {canvasActive && <Canvas userRole="client" />}
+
     </>
   )
 }

@@ -109,6 +109,5 @@ Back-End Deploy:
     refs:
       - main
   script:
-    - heroku login
     - git remote add heroku https://heroku:${HEROKU_API_KEY}@git.heroku.com/pentaroom.git
     - git subtree push --prefix backend heroku main

@@ -13,7 +13,7 @@ import { SocketContext } from '../context/socket'
 import Audio from '../components/Audio/Audio'
 
 function ServerView() {
-  const NB_MIN_USERS = 1
+  const NB_MIN_USERS = 2
 
   const socket = useContext(SocketContext)
   const [users, setUsers] = useState([])

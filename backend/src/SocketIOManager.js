@@ -79,7 +79,6 @@ class SocketIOManager {
 
   newUser(socket, user) {
     console.log('new user...')
-    console.log(user)
     const newUser = this.usersManager.postUser(socket, user)
 
     if (newUser === null) {

@@ -91,7 +91,6 @@ function Canvas({ userRole }) {
 
       socket.emit('draw', drawObject)
     } else {
-      console.log('receive')
       const CD = getCanvasDimensions()
       const factor = (CD.width / drawObject.width < CD.height / drawObject.height)
         ? CD.width / drawObject.width
@@ -130,7 +129,6 @@ function Canvas({ userRole }) {
       context.lineTo(drawObject.x1, drawObject.y1)
       socket.emit('draw', drawObject)
     } else {
-      console.log('receive')
       const CD = getCanvasDimensions()
       const factor = (CD.width / drawObject.width < CD.height / drawObject.height)
         ? CD.width / drawObject.width

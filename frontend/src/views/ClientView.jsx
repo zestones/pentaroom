@@ -30,10 +30,10 @@ function ClientView() {
   const handleTimeLeft = (newTime) => setTime(newTime)
 
   const handleUpdateDrawer = (challenge) => {
-    console.log('im chh')
     if (challenge.userId !== socket.id) {
       setIsChallenged(false)
     } else {
+      document.activeElement.blur()
       setIsChallenged(true)
       setWords(challenge.words)
     }

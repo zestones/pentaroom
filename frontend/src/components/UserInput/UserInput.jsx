@@ -79,7 +79,7 @@ function UserInput({ user }) {
     setAlert({
       open: true,
       title: 'Désolé !',
-      text: 'Vous avez déjà trouver le mot.',
+      text: 'Vous avez déjà trouvé le mot.',
       type: 'danger',
     })
   }

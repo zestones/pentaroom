@@ -7,7 +7,7 @@ import clsx from 'clsx'
 import Header from '../components/Header/Header'
 import Login from '../components/Login/Login'
 import UserInput from '../components/UserInput/UserInput'
-import ChatInput from '../components/ChatInput/ChatInput'
+// import ChatInput from '../components/ChatInput/ChatInput'
 import Drawer from '../components/Drawer/Drawer'
 import Timer from '../components/Timer/Timer'
 import { SocketContext } from '../context/socket'
@@ -30,6 +30,7 @@ function ClientView() {
   const handleTimeLeft = (newTime) => setTime(newTime)
 
   const handleUpdateDrawer = (challenge) => {
+    console.log('im chh')
     if (challenge.userId !== socket.id) {
       setIsChallenged(false)
     } else {
@@ -75,7 +76,7 @@ function ClientView() {
               )
               : (
                 <>
-                  <ChatInput />
+                  {/* <ChatInput /> */}
                   <UserInput user={user} />
                 </>
               )

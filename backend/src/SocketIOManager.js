@@ -2,8 +2,9 @@ const uniqid = require('uniqid')
 const UsersManager = require('./UsersManager')
 const ServersManager = require('./ServersManager')
 
-const TIMER_DURATION = 90
+const TIMER_DURATION = 45
 const TIME_BEFORE_DISCOVER = 10
+const PERCENT_WINNERS_BEFORE_END = 10 / 100
 let interval
 
 const throwError = (message) => {
@@ -27,16 +28,16 @@ class SocketIOManager {
   }
 
   /**
-   * Initialize the socket connection, allow new users
-   */
+     * Initialize the socket connection, allow new users
+     */
   init() {
     this.io.on('connection', (socket) => this.connection(socket))
   }
 
   /**
-   * Call on every first connection from an external device
-   * @param {*} socket : the socket object symbolizing the user
-   */
+     * Call on every first connection from an external device
+     * @param {*} socket : the socket object symbolizing the user
+     */
   connection(socket) {
     console.log(`+ : ${socket.id}`)
 
@@ -96,9 +97,9 @@ class SocketIOManager {
   }
 
   /**
-   * Call on every disconnection from an external device already connected
-   * @param {*} socket : the socket object symbolizing the user
-   */
+     * Call on every disconnection from an external device already connected
+     * @param {*} socket : the socket object symbolizing the user
+     */
   disconnection(socket) {
     console.log(`- : ${socket.id}`)
     this.usersManager.deleteUserById(socket.id)
@@ -128,10 +129,10 @@ class SocketIOManager {
   }
 
   /**
-   * Update the current word
-    // ? SOCKET ?
-   * @param {string} word
-   */
+     * Update the current word
+      // ? SOCKET ?
+     * @param {string} word
+     */
   updateCurrentWord(socket, word) {
     this.letterDiscovered = []
 
@@ -182,9 +183,9 @@ class SocketIOManager {
   }
 
   /**
-   * Select a new drawer and send him the challenge request
-   * @returns
-   */
+     * Select a new drawer and send him the challenge request
+     * @returns
+     */
   updateDrawer() {
     if (this.lastRun) {
       clearInterval(interval)
@@ -230,19 +231,20 @@ class SocketIOManager {
   }
 
   /**
-   * Compare the current word and the proposed word
-   * @param {string} word the proposed word
-   * @param {function} success the success callback
-   * @param {function} failure the failure callback
-   * @returns
-   */
+     * Compare the current word and the proposed word
+     * @param {string} word the proposed word
+     * @param {function} success the success callback
+     * @param {function} failure the failure callback
+     * @returns
+     */
   checkWord(socket, word) {
     if (!this.currentWord) {
       socket.emit('undefined-word')
       return
     }
 
-    if (word.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '') !== this.currentWord.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '')) {
+    if (word.trim().toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '') !== this.currentWord.trim().toLowerCase().normalize('NFD')
+      .replace(/\p{Diacritic}/gu, '')) {
       socket.emit('failure-word')
       return
     }
@@ -267,7 +269,9 @@ class SocketIOManager {
     socket.emit('user-updated', user)
     this.serversManager.serversEmit('update-users', this.usersManager.users)
 
-    if (this.usersManager.users.length - 1 === this.winnerUsers.length) {
+    if (
+      (this.usersManager.users.length - 1) * PERCENT_WINNERS_BEFORE_END <= this.winnerUsers.length
+    ) {
       this.updateDrawer()
     }
   }

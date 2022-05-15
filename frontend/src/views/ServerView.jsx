@@ -28,12 +28,12 @@ function ServerView() {
       playing: true,
       loop: true,
     },
-    challenge: {
-      src: '/BGM/penta-challenge.mp3',
-      volume: 0.8,
-      playing: false,
-      loop: false,
-    },
+    // challenge: {
+    //   src: '/BGM/penta-challenge.mp3',
+    //   volume: 0.8,
+    //   playing: false,
+    //   loop: false,
+    // },
   })
 
   const [alert, setAlert] = useState({
@@ -63,21 +63,21 @@ function ServerView() {
     setUsers(newUsers)
   }
 
-  const handleMusic = (active) => {
-    if (active) {
-      setMusic({
-        ...music,
-        home: {
-          ...music.home,
-          playing: false,
-        },
-        challenge: {
-          ...music.challenge,
-          playing: true,
-        },
-      })
-    }
-  }
+  // const handleMusic = (active) => {
+  //   if (active) {
+  //     setMusic({
+  //       ...music,
+  //       home: {
+  //         ...music.home,
+  //         playing: false,
+  //       },
+  //       challenge: {
+  //         ...music.challenge,
+  //         playing: true,
+  //       },
+  //     })
+  //   }
+  // }
 
   const handleInitServer = (infos) => {
     setIsInGame(isInGame)
@@ -111,14 +111,14 @@ function ServerView() {
 
   useEffect(() => {
     socket.on('update-users', handleUpdateUsers)
-    socket.on('music-challenge', handleMusic)
+    // socket.on('music-challenge', handleMusic)
     socket.on('init-server', handleInitServer)
     socket.on('end-game', handleEndGame)
     socket.on('challenge', handleChallenge)
     socket.emit('is-server')
     return () => {
       socket.off('update-users', handleUpdateUsers)
-      socket.off('music-challenge', handleMusic)
+      // socket.off('music-challenge', handleMusic)
       socket.off('end-game', handleEndGame)
       socket.off('challenge', handleChallenge)
     }
@@ -172,12 +172,12 @@ function ServerView() {
         play={music.home.playing}
         looping={music.home.loop}
       />
-      <Audio
+      {/* <Audio
         url={music.challenge.src}
         vol={music.challenge.volume}
         play={music.challenge.playing}
         looping={music.challenge.loop}
-      />
+      /> */}
     </>
   )
 }

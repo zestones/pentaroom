@@ -300,18 +300,20 @@ function Canvas({ userRole }) {
           />
         )
         : (
-          <div className={styles.icon}>
-            <Tagline />
-          </div>
+          <>
+            <Alert
+              type={alert.type}
+              open={alert.open}
+              handleClose={handleCloseAlert}
+              title={alert.title}
+              text={alert.text}
+              time={alert.time}
+            />
+            <div className={styles.icon}>
+              <Tagline />
+            </div>
+          </>
         )}
-      <Alert
-        type={alert.type}
-        open={alert.open}
-        handleClose={handleCloseAlert}
-        title={alert.title}
-        text={alert.text}
-        time={alert.time}
-      />
     </Container>
   )
 }
